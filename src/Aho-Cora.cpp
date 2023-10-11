@@ -1,10 +1,10 @@
 #include "../include/Aho-Cora.h"
-
+#include "../include/trace.h"
 using namespace std;
 
 AhoNode::AhoNode(int p, char ch) : p(p), pch(ch) {
-    fill(begin(next), end(next), -1);
-    fill(begin(go), end(go), -1);
+    next.resize(alphabet, -1);
+    go.resize(alphabet, -1);
 }
 
 

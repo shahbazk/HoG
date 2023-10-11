@@ -13,6 +13,7 @@ int main() {
         aut.add_string(s[i]);
     }
     assert(aut.t.size() == 9);
-    trace(aut.t.size());
+    //verify more stuff like links and transitions
+    cout<<"All tests passed";
     return 0;
 }

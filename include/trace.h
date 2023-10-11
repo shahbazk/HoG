@@ -58,7 +58,6 @@ void __f(const char *name, Arg1 &&arg1) {
 }
 template<typename Arg1, typename ... Args>
 void __f(const char *names, Arg1 &&arg1, Args &&... args) {
-	std::cout<<"CLA\n";
 	int bracket=0,i=0;
 	for(;; i++) //for handling function calls
 		if(names[i]==','&&bracket==0)

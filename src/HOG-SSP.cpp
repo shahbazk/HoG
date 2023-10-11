@@ -1,4 +1,4 @@
-#include "include/HOG-SSP.h"
+#include "../include/HOG-SSP.h"
 using namespace std;
 
 void HOG::add_string(string s) {
@@ -28,8 +28,8 @@ void HOG::construct() {
     down.resize(trie.t.size(), 0);
     subTreeCnt.resize(trie.t.size(), 0);
     marked.resize(trie.t.size(), false);
-    int root = 1;
-    calculateSplitNodes(1, 1);
+    int root = 0;
+    calculateSplitNodes(root, root);
 
     vector<int> subTreeLeft = subTreeCnt;
     marked[root] = true;
@@ -46,7 +46,7 @@ void HOG::construct() {
                 while(true) {
                     subTreeLeft[u]--;
                     modified.push(u);
-                    if(u!=root && subTreeLeft[u] != 0) break;
+                    if((u==root) || (subTreeLeft[u] != 0)) break;
                     u = up[u];
                 }
             }
