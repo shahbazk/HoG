@@ -1,7 +1,14 @@
 #include "../include/HOG-SSP.h"
 using namespace std;
 
-void HOG::add_string(string s) {
+HOG::HOG() {}
+
+HOG::HOG(const vector<string>& v) {
+    for(const string &s:v) add_string(s);
+    construct();
+}
+
+void HOG::add_string(const string& s) {
     trie.add_string(s);
 }
 

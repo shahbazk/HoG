@@ -8,9 +8,10 @@ struct HOG {
     std::vector<bool> marked;
     AhoCorasick trie;
 
-    void add_string(std::string s);
+    HOG();
+    HOG(const std::vector<std::string>& v);
 
+    void add_string(const std::string& s);
     void calculateSplitNodes(int node, int upHere);
-
     void construct();
 };
