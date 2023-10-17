@@ -3,7 +3,7 @@
 
 #include <bits/stdc++.h>
 
-const int alphabet = 26;
+const int alphabet = 4;
 
 struct AhoNode {
     std::vector<int> next; // direct transition from this node using a character
