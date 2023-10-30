@@ -18,10 +18,11 @@ void HOG_SSP::calculateSplitNodes(int node, int upHere) {
     for(int i=0;i<alphabet;i++) {
         if(trie.t[node].next[i]!=-1) {
             children.push_back(trie.t[node].next[i]);
+            if(trie.t[trie.t[node].next[i]].output) subTreeCnt[node]++;
         }
     }
-    subTreeCnt[node] = children.size() + trie.t[node].output;
-    if(children.size() == 1 && !trie.t[node].output) {
+    subTreeCnt[node] += children.size();
+    if(subTreeCnt[node] == 1) {
         calculateSplitNodes(children[0], upHere);
         down[node] = down[children[0]];
     } else {
@@ -41,13 +42,14 @@ void HOG_SSP::construct() {
     calculateSplitNodes(root, root);
 
     vector<int> subTreeLeft = subTreeCnt;
-    marked[root] = true;
+    marked[root] = true; //root is implicitly marked
     stack<int> modified;
-    for(int i=1;i<trie.t.size();i++) {
+    for(int i=1;i<(int)trie.t.size();i++) {
         if(!trie.t[i].output) continue;
-        int v = i;
+        marked[i] = true; //leaves are implicitly marked
+        int v = trie.get_link(i); // iterate over proper suffixes of i, that are prefix (may not be proper) of some string
         while(v!=root) {
-            if(subTreeLeft[down[v]] != 0) {
+            if(subTreeLeft[down[v]] != 0) { //if the subtree of v (including v) contains a split node having subtrees left
                 marked[v] = true;
                 subTreeLeft[down[v]] = 0;
                 modified.push(down[v]);
