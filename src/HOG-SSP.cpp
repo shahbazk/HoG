@@ -1,18 +1,18 @@
 #include "../include/HOG-SSP.h"
 using namespace std;
 
-HOG::HOG() {}
+HOG_SSP::HOG_SSP() {}
 
-HOG::HOG(const vector<string>& v) {
+HOG_SSP::HOG_SSP(const vector<string>& v) {
     for(const string &s:v) add_string(s);
     construct();
 }
 
-void HOG::add_string(const string& s) {
+void HOG_SSP::add_string(const string& s) {
     trie.add_string(s);
 }
 
-void HOG::calculateSplitNodes(int node, int upHere) {
+void HOG_SSP::calculateSplitNodes(int node, int upHere) {
     up[node] = upHere;
     vector<int> children;
     for(int i=0;i<alphabet;i++) {
@@ -30,7 +30,9 @@ void HOG::calculateSplitNodes(int node, int upHere) {
     }
 }
 
-void HOG::construct() {
+//need to fix issue: overlaps should be proper suffix and proper prefix
+
+void HOG_SSP::construct() {
     up.resize(trie.t.size(), 0);
     down.resize(trie.t.size(), 0);
     subTreeCnt.resize(trie.t.size(), 0);

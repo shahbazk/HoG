@@ -5,7 +5,15 @@ using namespace std;
 
 // #define SSP
 #ifdef SSP
+
 #include "../include/HOG-SSP.h"
+typedef HOG_SSP HOG;
+
+#else
+
+#include "../include/HOG-SK.h"
+typedef HOG_SK HOG;
+
 #endif
 
 void test_validity() {
@@ -71,8 +79,9 @@ void random_string_reads_stress_test(int n, int p, int rep, int seed) {
 }
 
 int main() {
+    int seed = now.time_since_epoch().count();
     test_validity();
-    random_strings_stress_test(1000, 1e6, now.time_since_epoch().count());
-    random_string_reads_stress_test(1000, 1e6, 20, now.time_since_epoch().count());
+    random_strings_stress_test(1000, 1e6, seed);
+    random_string_reads_stress_test(1000, 1e6, 20, seed);
     return 0;
 }
