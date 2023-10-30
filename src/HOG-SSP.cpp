@@ -15,14 +15,14 @@ void HOG_SSP::add_string(const string& s) {
 void HOG_SSP::calculateSplitNodes(int node, int upHere) {
     up[node] = upHere;
     vector<int> children;
-    for(int i=0;i<alphabet;i++) {
-        if(trie.t[node].next[i]!=-1) {
-            children.push_back(trie.t[node].next[i]);
-            if(trie.t[trie.t[node].next[i]].output) subTreeCnt[node]++;
+    for(int child:trie.t[node].next) {
+        if(child!=-1) {
+            children.push_back(child);
+            subTreeCnt[node]++;
+            if(trie.t[child].output) subTreeCnt[node]++; //treat leaves as being an extra subtree
         }
     }
-    subTreeCnt[node] += children.size();
-    if(subTreeCnt[node] == 1) {
+    if(subTreeCnt[node] == 1) { // node has exactly one child and that child is not a leaf
         calculateSplitNodes(children[0], upHere);
         down[node] = down[children[0]];
     } else {
@@ -31,7 +31,6 @@ void HOG_SSP::calculateSplitNodes(int node, int upHere) {
     }
 }
 
-//need to fix issue: overlaps should be proper suffix and proper prefix
 
 void HOG_SSP::construct() {
     up.resize(trie.t.size(), 0);
@@ -43,7 +42,7 @@ void HOG_SSP::construct() {
 
     vector<int> subTreeLeft = subTreeCnt;
     marked[root] = true; //root is implicitly marked
-    stack<int> modified;
+    vector<int> modified;
     for(int i=1;i<(int)trie.t.size();i++) {
         if(!trie.t[i].output) continue;
         marked[i] = true; //leaves are implicitly marked
@@ -52,20 +51,18 @@ void HOG_SSP::construct() {
             if(subTreeLeft[down[v]] != 0) { //if the subtree of v (including v) contains a split node having subtrees left
                 marked[v] = true;
                 subTreeLeft[down[v]] = 0;
-                modified.push(down[v]);
+                modified.push_back(down[v]);
                 int u = up[v];
                 while(true) {
-                    subTreeLeft[u]--;
-                    modified.push(u);
-                    if((u==root) || (subTreeLeft[u] != 0)) break;
+                    subTreeLeft[u]--; //remove subtree of u containing v
+                    modified.push_back(u);
+                    if((u==root) || (subTreeLeft[u] != 0)) break; // break if u is root or subtree of u has not been completely removed
                     u = up[u];
                 }
             }
             v = trie.get_link(v);
         }
-        while(!modified.empty()) {
-            subTreeLeft[modified.top()] = subTreeCnt[modified.top()];
-            modified.pop();
-        }
+        for(int x:modified) subTreeLeft[x] = subTreeCnt[x];
+        modified.clear();
     }
 }
