@@ -1,9 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define now chrono::system_clock::now()
+#include "../include/timer.h"
 
-// #define SSP
 #ifdef SSP
 
 #include "../include/HOG-SSP.h"
@@ -17,17 +16,29 @@ typedef HOG_SK HOG;
 #endif
 
 void test_validity() {
-    cout << "Testing validity of algorithm\n";
+    cout << "\nTesting validity of algorithm\n";
     vector<string> v = {"aabaa", "aadbd", "dbdaa"};
     HOG hog(v);
     assert((hog.marked == vector<bool>({1,0,1,0,0,1,0,0,1,0,0,1,0,1})));
-    cout<<"All tests passed\n\n";
+    cout<<"All tests passed\n";
+}
+
+void stress_test_with(vector<string>& v) {
+    timer t;
+    HOG stress_hog(v);
+    t.end();
+
+    int cnt = 0;
+    for(auto b:stress_hog.marked) cnt+=b;
+    cout << "Size of Aho-Corasick trie: " << stress_hog.marked.size() << ", Size of HOG: " << cnt
+         << ", Compression factor: "<< (double)cnt/stress_hog.marked.size() << '\n';
 }
 
 void random_strings_stress_test(int n, int p, int seed) {
     assert(p>=n);
     int len = p/n;
-    cout << "Testing on randomly generated strings...\n" << "Number of strings = " << n << ", Sum of lengths of all strings = " << p << '\n'; 
+    cout << "\nTesting on randomly generated strings...\n" 
+        << "Number of strings = " << n << ", Sum of lengths of all strings = " << p << '\n'; 
     srand(seed);
     vector<string> v;
     for(int i=0;i<n;i++) {
@@ -37,15 +48,8 @@ void random_strings_stress_test(int n, int p, int seed) {
         }
         v.push_back(s);
     }
-    auto start_time = now;
-    HOG stress_hog(v);
-    auto end_time = now;
-    chrono::duration<double> elapsed_time = end_time - start_time;
 
-    cout << "Elapsed time: " << elapsed_time.count() << "s\n";
-    int cnt = 0;
-    for(auto b:stress_hog.marked) cnt+=b;
-    cout << "Compression factor: "<< (double)cnt/stress_hog.marked.size() << '\n';
+    stress_test_with(v);
 }
 
 void random_string_reads_stress_test(int n, int p, int rep, int seed) {
@@ -55,7 +59,7 @@ void random_string_reads_stress_test(int n, int p, int rep, int seed) {
     int len = p/n;
     int total_len = p/rep + len - len/rep;
     double overlap = 1.0 - 1.0/rep;
-    cout << "Testing on randomly generated reads on a randomly generated string...\n" 
+    cout << "\nTesting on randomly generated reads on a randomly generated string...\n" 
     << "Number of strings = " << n << ", Sum of lengths of all strings = " << p 
     << ", Expected overlap = " << overlap << '\n';
     
@@ -67,19 +71,17 @@ void random_string_reads_stress_test(int n, int p, int rep, int seed) {
     for(double i=0;(int)i<=total_len-len;i+=(double)len/rep) {
         v.push_back(complete_string.substr((int)i,len));
     }
-    auto start_time = now;
-    HOG stress_hog(v);
-    auto end_time = now;
-    chrono::duration<double> elapsed_time = end_time - start_time;
 
-    cout << "Elapsed time: " << elapsed_time.count() << "s\n";
-    int cnt = 0;
-    for(auto b:stress_hog.marked) cnt+=b;
-    cout << "Compression factor: "<< (double)cnt/stress_hog.marked.size() << '\n';
+    stress_test_with(v);
 }
 
 int main() {
-    int seed = now.time_since_epoch().count();
+    int seed = chrono::system_clock::now().time_since_epoch().count();
+    #ifdef SSP
+        cout<<"\nUsing algo by SSP...\n";
+    #else 
+        cout<<"\nUsing algo by SK...\n";
+    #endif
     test_validity();
     random_strings_stress_test(1000, 1e6, seed);
     random_string_reads_stress_test(1000, 1e6, 20, seed);

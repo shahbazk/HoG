@@ -22,7 +22,7 @@ void HOG_SK::construct() {
     int leaf_index = 0; //number of leaves found
     int root = 0;
     l.resize(trie.t.size()); //initialise l with empty lists
-    for(int i=1;i<trie.t.size();i++) {
+    for(int i=1;i<(int)trie.t.size();i++) {
         if(trie.t[i].output) { // if i is a leaf
             int curr = trie.get_link(i);
             while(curr != root) { // add to the list of each node on suffix path, except the leaf itself
