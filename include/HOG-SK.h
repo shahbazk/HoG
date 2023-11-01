@@ -1,3 +1,6 @@
+#ifndef HOG_SK_H
+#define HOG_SK_H
+
 #include <bits/stdc++.h>
 
 #include "Aho-Cora.h"
@@ -17,3 +20,5 @@ struct HOG_SK {
     void construct();
     void dfs(int node);
 };
+
+#endif

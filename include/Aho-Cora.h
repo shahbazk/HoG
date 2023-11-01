@@ -1,5 +1,5 @@
-#ifndef AHOCORA
-#define AHOCORA
+#ifndef AHO_CORA_H
+#define AHO_CORA_H
 
 #include <bits/stdc++.h>
 

@@ -1,5 +1,5 @@
-#ifndef TRACE
-#define TRACE
+#ifndef TRACE_H
+#define TRACE_H
 
 #ifdef DEBUG
 

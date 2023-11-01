@@ -1,3 +1,6 @@
+#ifndef HOG_SSP_H
+#define HOG_SSP_H
+
 #include <bits/stdc++.h>
 
 #include "../include/Aho-Cora.h"
@@ -14,3 +17,5 @@ struct HOG_SSP {
     void calculateSplitNodes(int node, int upHere);
     void construct();
 };
+
+#endif
