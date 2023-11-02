@@ -19,7 +19,7 @@ void HOG_SSP::calculateSplitNodes(int node, int upHere) {
         if(child!=-1) {
             children.push_back(child);
             subTreeCnt[node]++;
-            if(trie.t[child].output) subTreeCnt[node]++; //treat leaves as being an extra subtree
+            if(trie.t[child].is_leaf()) subTreeCnt[node]++; //treat leaves as being an extra subtree
         }
     }
     if(subTreeCnt[node] == 1) { // node has exactly one child and that child is not a leaf
@@ -44,7 +44,7 @@ void HOG_SSP::construct() {
     marked[root] = true; //root is implicitly marked
     vector<int> modified;
     for(int i=1;i<(int)trie.t.size();i++) {
-        if(!trie.t[i].output) continue;
+        if(!trie.t[i].is_leaf()) continue;
         marked[i] = true; //leaves are implicitly marked
         int v = trie.get_link(i); // iterate over proper suffixes of i, that are prefix (may not be proper) of some string
         while(v!=root) {

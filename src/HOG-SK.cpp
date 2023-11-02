@@ -23,7 +23,7 @@ void HOG_SK::construct() {
     int root = 0;
     l.resize(trie.t.size()); //initialise l with empty lists
     for(int i=1;i<(int)trie.t.size();i++) {
-        if(trie.t[i].output) { // if i is a leaf
+        if(trie.t[i].is_leaf()) { // if i is a leaf
             int curr = trie.get_link(i);
             while(curr != root) { // add to the list of each node on suffix path, except the leaf itself
                 l[curr].push_back(leaf_index);
@@ -40,7 +40,7 @@ void HOG_SK::construct() {
 }
 
 void HOG_SK::dfs(int node) {
-    if(trie.t[node].output) {
+    if(trie.t[node].is_leaf()) {
         marked[node] = true; // leaves are implicitly in HOG
         for(int x:unmarked) { // iterate over all stacks with unmarked tops
             if(is_unmarked[x]) {

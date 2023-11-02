@@ -14,6 +14,7 @@ struct AhoNode {
     std::vector<int> go; // transition from this node
 
     AhoNode(int p, char ch);
+    bool is_leaf();
 };
 
 struct AhoCorasick {
@@ -22,9 +23,7 @@ struct AhoCorasick {
     AhoCorasick();
 
     void add_string(std::string const& s);
-
     int go(int v, char ch);
-
     int get_link(int v);
 };
 

@@ -7,6 +7,9 @@ AhoNode::AhoNode(int p, char ch) : p(p), pch(ch) {
     go.resize(alphabet, -1);
 }
 
+bool AhoNode::is_leaf() {
+    return output;
+}
 
 
 AhoCorasick::AhoCorasick() {
