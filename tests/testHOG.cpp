@@ -15,6 +15,7 @@ typedef HOG_SK HOG;
 
 #endif
 
+//TODO : write bigger validity test comparing dumps from both algos
 void test_validity() {
     cout << "\nTesting validity of algorithm\n";
     vector<string> v = {"aabaa", "aadbd", "dbdaa"};
@@ -75,36 +76,24 @@ void random_string_reads_stress_test(int n, int p, int rep, int seed) {
     stress_test_with(v);
 }
 
-string transform_genome(const string &s) {
-    string res = "";
-    for(int i=0;i<(int)s.length();i++) {
-        if(s[i] == 'A') res+='a';
-        else if(s[i] == 'C') res += 'b';
-        else if(s[i] == 'G') res += 'c';
-        else if(s[i] == 'T') res += 'd';
-    }
-    return res;
-}
-
 void real_data_test() {
     cout<<"\nRunning on real datasets...\n";
     string data_path = "data/";
     vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
     for(string fname:filenames) {
         cout<<'\n'<<fname<<":\n";
-        fstream f;
-        f.open(data_path+fname, ios::in);
-        if(!f) {
+        fstream fin;
+        fin.open(data_path+fname, ios::in);
+        if(!fin) {
             cout<<"couldn't open file: "<<fname<<endl;
             continue;
         }
-        long long total_length = 0;
-        vector<string> v;
-        string s;
-        while(f>>s) {
-            s = transform_genome(s);
-            total_length += s.length();
-            v.push_back(s);
+        long long n, total_length = 0;
+        fin>>n;
+        vector<string> v(n);
+        for(int i=0;i<n;i++) {
+            fin>>v[i];
+            total_length += v[i].length();
         }
         cout<<"Number of strings = "<<v.size()<<'\n'<<"Sum of lengths = "<<total_length<<'\n';
 
@@ -113,12 +102,12 @@ void real_data_test() {
 }
 
 int main() {
-    int seed = chrono::system_clock::now().time_since_epoch().count();
     #ifdef SSP
         cout<<"\nUsing algo by SSP...\n";
     #else 
         cout<<"\nUsing algo by SK...\n";
     #endif
+    int seed = chrono::system_clock::now().time_since_epoch().count();
     test_validity();
     random_strings_stress_test(1000, 1e6, seed);
     random_string_reads_stress_test(1000, 1e6, 20, seed);
