@@ -7,7 +7,7 @@ using namespace std;
 HOG_SK::HOG_SK() {}
 
 HOG_SK::HOG_SK(const vector<string>& v) {
-    for(auto &s:v) trie.add_string(s);
+    for(auto &s:v) add_string(s);
     construct();
 }
 
