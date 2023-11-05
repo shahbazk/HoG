@@ -25,9 +25,17 @@ void test_validity() {
 }
 
 void stress_test_with(const vector<string>& v) {
-    timer t;
-    HOG stress_hog(v);
-    t.end();
+    timer ahocora_t;
+    HOG stress_hog;
+    cout<<"Building Aho-Corasick automaton..."; cout.flush();
+    for(auto &s:v) stress_hog.add_string(s);
+    cout<<"Done"<<endl;
+    ahocora_t.end();
+    timer hog_t;
+    cout<<"Constructing HOG..."; cout.flush();
+    stress_hog.construct();
+    cout<<"Done"<<endl;
+    hog_t.end();
 
     int cnt = 0;
     for(auto b:stress_hog.marked) cnt+=b;
@@ -79,7 +87,8 @@ void random_string_reads_stress_test(int n, int p, int rep, int seed) {
 void real_data_test() {
     cout<<"\nRunning on real datasets...\n";
     string data_path = "data/";
-    vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
+    // vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
+    vector<string> filenames = {"trifoliata"};
     for(string fname:filenames) {
         cout<<'\n'<<fname<<":\n";
         fstream fin;

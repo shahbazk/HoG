@@ -3,8 +3,8 @@
 using namespace std;
 
 AhoNode::AhoNode(int p, char ch) : p(p), pch(ch) {
-    next.resize(alphabet, -1);
-    go.resize(alphabet, -1);
+    fill(next, next+alphabet, -1);
+    fill(go, go+alphabet, -1);
 }
 
 bool AhoNode::is_leaf() {

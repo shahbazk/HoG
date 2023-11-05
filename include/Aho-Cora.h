@@ -6,12 +6,12 @@
 const int alphabet = 4;
 
 struct AhoNode {
-    std::vector<int> next; // direct transition from this node using a character
-    bool output = false; // is this node an exact match
-    int p = -1; // index of parent
-    char pch; // character of parent edge
+    int p; // index of parent
     int link = -1; // index of suffix link
-    std::vector<int> go; // transition from this node
+    char pch; // character of parent edge
+    bool output = false; // is this node an exact match
+    int next[alphabet]; // direct transition from this node using a character
+    int go[alphabet]; // best possible transition from this node
 
     AhoNode(int p, char ch);
     bool is_leaf();
