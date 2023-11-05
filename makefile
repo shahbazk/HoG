@@ -8,7 +8,8 @@ BIN_DIR = bin
 SRC_DIR = src
 TEST_DIR = tests
 TARGET = $(BIN_DIR)/testHOG
-OBJECTS = $(BIN_DIR)/HOG-SSP.o $(BIN_DIR)/HOG-SK.o $(BIN_DIR)/timer.o $(BIN_DIR)/Aho-Cora.o
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BIN_DIR)/%.o, $(SRC_FILES))
 
 all : sk run
 
