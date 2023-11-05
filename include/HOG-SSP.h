@@ -3,7 +3,7 @@
 
 #include <bits/stdc++.h>
 
-#include "../include/Aho-Cora.h"
+#include "Aho-Cora.h"
 
 struct HOG_SSP {
     std::vector<bool> marked;

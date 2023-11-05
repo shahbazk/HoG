@@ -1,5 +1,5 @@
-#include "../include/Aho-Cora.h"
-#include "../include/trace.h"
+#include "Aho-Cora.h"
+
 using namespace std;
 
 AhoNode::AhoNode(int p, char ch) : p(p), pch(ch) {
@@ -16,7 +16,6 @@ AhoCorasick::AhoCorasick() {
     t.emplace_back(-1, '$');
 }
 
-
 void AhoCorasick::add_string(string const& s) {
     int v = 0;
     for (char ch : s) {
@@ -30,7 +29,6 @@ void AhoCorasick::add_string(string const& s) {
     t[v].output = true;
 }
 
-
 int AhoCorasick::get_link(int v) {
     if (t[v].link == -1) {
         if (v == 0 || t[v].p == 0)
@@ -40,7 +38,6 @@ int AhoCorasick::get_link(int v) {
     }
     return t[v].link;
 }
-
 
 int AhoCorasick::go(int v, char ch) {
     int c = ch - 'a';

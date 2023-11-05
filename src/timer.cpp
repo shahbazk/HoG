@@ -1,4 +1,5 @@
-#include "../include/timer.h"
+#include "timer.h"
+
 using namespace std;
 
 timer::timer() {

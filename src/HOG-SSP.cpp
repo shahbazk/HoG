@@ -1,4 +1,5 @@
-#include "../include/HOG-SSP.h"
+#include "HOG-SSP.h"
+
 using namespace std;
 
 HOG_SSP::HOG_SSP() {}
@@ -30,7 +31,6 @@ void HOG_SSP::calculateSplitNodes(int node, int upHere) {
         for(int child:children) calculateSplitNodes(child, node);
     }
 }
-
 
 void HOG_SSP::construct() {
     up.resize(trie.t.size(), 0);

@@ -1,6 +1,4 @@
-#include "../include/HOG-SK.h"
-
-#include "../include/trace.h"
+#include "HOG-SK.h"
 
 using namespace std;
 
@@ -14,8 +12,6 @@ HOG_SK::HOG_SK(const vector<string>& v) {
 void HOG_SK::add_string(const std::string& s) {
     trie.add_string(s);
 }
-
-
 
 void HOG_SK::construct() {
     //construct l
