@@ -21,6 +21,9 @@ sk : $(OBJECTS) $(TEST_DIR)/testHOG.cpp
 ssp : $(OBJECTS) $(TEST_DIR)/testHOG.cpp
 	$(CC) $(CPPFLAGS) $(LDFLAGS) $(MODE_FLAG) $^ -DSSP -o $(TARGET)
 
+aho : $(OBJECTS) $(TEST_DIR)/testAho-Cora.cpp
+	$(CC) $(CPPFLAGS) $(LDFLAGS) $(MODE_FLAG) $^ -DSSP -o $(BIN_DIR)/testAho-Cora
+
 $(BIN_DIR)/%.o : $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
 	$(CC) $(CPPFLAGS) $(CXXFLAGS) $(MODE_FLAG) $< -o $@
 
@@ -30,4 +33,4 @@ run : $(TARGET)
 clean :
 	rm -rf $(BIN_DIR)/*
 
-.PHONY : clean sk ssp
+.PHONY : clean sk ssp aho run
