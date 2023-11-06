@@ -55,6 +55,7 @@ void HOG_SK::dfs(int node) {
                 is_unmarked[x] = false;
             }
         }
+        unmarked.clear();
     }
 
     // node visited for the first time
