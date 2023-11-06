@@ -13,8 +13,8 @@ struct AhoNode {
     int next[alphabet]= {0}; // direct transition from this node using a character
     int go[alphabet] = {0}; // best possible transition from this node
 
-    AhoNode(int p, char ch);
-    bool is_leaf();
+    inline AhoNode(int par, char ch) : p(par), pch(ch) {}
+    inline bool is_leaf() {return output;}
 };
 
 struct AhoCorasick {

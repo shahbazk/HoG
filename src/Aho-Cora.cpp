@@ -2,13 +2,6 @@
 
 using namespace std;
 
-AhoNode::AhoNode(int p, char ch) : p(p), pch(ch) {}
-
-bool AhoNode::is_leaf() {
-    return output;
-}
-
-
 AhoCorasick::AhoCorasick() {
     t.emplace_back(-1, -1); //garbage node
     t.emplace_back(0, '$'); //root node
