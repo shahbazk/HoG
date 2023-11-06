@@ -26,17 +26,7 @@ void test_validity() {
 }
 
 void stress_test_with(const vector<string>& v) {
-    timer ahocora_t;
-    HOG stress_hog;
-    cout<<"Building Aho-Corasick automaton..."; cout.flush();
-    for(auto &s:v) stress_hog.add_string(s);
-    cout<<"Done"<<endl;
-    ahocora_t.end();
-    timer hog_t;
-    cout<<"Constructing HOG..."; cout.flush();
-    stress_hog.construct();
-    cout<<"Done"<<endl;
-    hog_t.end();
+    HOG stress_hog(v);
 
     int cnt = 0;
     for(auto b:stress_hog.marked) cnt+=b;

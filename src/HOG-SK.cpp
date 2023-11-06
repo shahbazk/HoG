@@ -1,12 +1,23 @@
 #include "HOG-SK.h"
+#include "timer.h"
 
 using namespace std;
 
 HOG_SK::HOG_SK() {}
 
 HOG_SK::HOG_SK(const vector<string>& v) {
+    cout<<"Building Aho-Corasick automaton..."; cout.flush();
+    timer ahocora_t;
+    int p = 0;
+    for(auto &s:v) p += s.length();
+    trie.t.reserve(p);
     for(auto &s:v) add_string(s);
+    ahocora_t.end();
+    
+    cout<<"Constructing HOG..."; cout.flush();
+    timer hog_t;
     construct();
+    hog_t.end();
 }
 
 void HOG_SK::add_string(const std::string& s) {
