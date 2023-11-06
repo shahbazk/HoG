@@ -16,9 +16,9 @@ void HOG_SK::add_string(const std::string& s) {
 void HOG_SK::construct() {
     //construct l
     int leaf_index = 0; //number of leaves found
-    int root = 0;
+    int root = 1;
     l.resize(trie.t.size()); //initialise l with empty lists
-    for(int i=1;i<(int)trie.t.size();i++) {
+    for(int i=root+1;i<(int)trie.t.size();i++) {
         if(trie.t[i].is_leaf()) { // if i is a leaf
             int curr = trie.get_link(i);
             while(curr != root) { // add to the list of each node on suffix path, except the leaf itself
@@ -55,7 +55,7 @@ void HOG_SK::dfs(int node) {
         }
     }
     for(int i=0;i<alphabet;i++) {
-        if(trie.t[node].next[i] != -1) {
+        if(trie.t[node].next[i] != 0) {
             dfs(trie.t[node].next[i]);
         }
     }

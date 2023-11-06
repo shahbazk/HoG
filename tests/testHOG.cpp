@@ -1,16 +1,17 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#include "../include/timer.h"
+#include "timer.h"
+#include "trace.h"
 
 #ifdef SSP
 
-#include "../include/HOG-SSP.h"
+#include "HOG-SSP.h"
 typedef HOG_SSP HOG;
 
 #else
 
-#include "../include/HOG-SK.h"
+#include "HOG-SK.h"
 typedef HOG_SK HOG;
 
 #endif
@@ -20,7 +21,7 @@ void test_validity() {
     cout << "\nTesting validity of algorithm\n";
     vector<string> v = {"aabaa", "aadbd", "dbdaa"};
     HOG hog(v);
-    assert((hog.marked == vector<bool>({1,0,1,0,0,1,0,0,1,0,0,1,0,1})));
+    assert(hog.marked == vector<bool>({0,1,0,1,0,0,1,0,0,1,0,0,1,0,1}));
     cout<<"All tests passed\n";
 }
 
@@ -39,8 +40,8 @@ void stress_test_with(const vector<string>& v) {
 
     int cnt = 0;
     for(auto b:stress_hog.marked) cnt+=b;
-    cout << "Size of Aho-Corasick trie: " << stress_hog.marked.size() << ", Size of HOG: " << cnt
-         << ", Compression factor: "<< (double)cnt/stress_hog.marked.size() << '\n';
+    cout << "Size of Aho-Corasick trie: " << stress_hog.marked.size()-1 << ", Size of HOG: " << cnt
+         << ", Compression factor: "<< (double)cnt/(stress_hog.marked.size()-1) << '\n';
 }
 
 void random_strings_stress_test(int n, int p, int seed) {

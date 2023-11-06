@@ -17,7 +17,7 @@ void HOG_SSP::calculateSplitNodes(int node, int upHere) {
     up[node] = upHere;
     vector<int> children;
     for(int child:trie.t[node].next) {
-        if(child!=-1) {
+        if(child != 0) {
             children.push_back(child);
             subTreeCnt[node]++;
             if(trie.t[child].is_leaf()) subTreeCnt[node]++; //treat leaves as being an extra subtree
@@ -37,13 +37,13 @@ void HOG_SSP::construct() {
     down.resize(trie.t.size(), 0);
     subTreeCnt.resize(trie.t.size(), 0);
     marked.resize(trie.t.size(), false);
-    int root = 0;
+    int root = 1;
     calculateSplitNodes(root, root);
 
     vector<int> subTreeLeft = subTreeCnt;
     marked[root] = true; //root is implicitly marked
     vector<int> modified;
-    for(int i=1;i<(int)trie.t.size();i++) {
+    for(int i=root+1;i<(int)trie.t.size();i++) {
         if(!trie.t[i].is_leaf()) continue;
         marked[i] = true; //leaves are implicitly marked
         int v = trie.get_link(i); // iterate over proper suffixes of i, that are prefix (may not be proper) of some string

@@ -7,11 +7,11 @@ const int alphabet = 4;
 
 struct AhoNode {
     int p; // index of parent
-    int link = -1; // index of suffix link
+    int link = 0; // index of suffix link
     char pch; // character of parent edge
     bool output = false; // is this node an exact match
-    int next[alphabet]; // direct transition from this node using a character
-    int go[alphabet]; // best possible transition from this node
+    int next[alphabet]= {0}; // direct transition from this node using a character
+    int go[alphabet] = {0}; // best possible transition from this node
 
     AhoNode(int p, char ch);
     bool is_leaf();

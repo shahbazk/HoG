@@ -1,7 +1,9 @@
 CC = g++
-CFLAGS = -c -Iinclude
+CPPFLAGS = -Iinclude -DSSP # general flags related to c++
+CXXFLAGS = -c # compilation and assembly flags
+LDFLAGS =   # linker flags
 MODE_FLAG = -g -Wall -DDEBUG
-# MODE_FLAG = -03
+# MODE_FLAG = -O3
 .DEFAULT_GOAL := all
 INCLUDE_DIR = include
 BIN_DIR = bin
@@ -14,13 +16,13 @@ OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BIN_DIR)/%.o, $(SRC_FILES))
 all : sk run
 
 sk : $(OBJECTS) $(TEST_DIR)/testHOG.cpp
-	$(CC) $(MODE_FLAG) $^ -o $(TARGET)
+	$(CC) $(CPPFLAGS) $(LDFLAGS) $(MODE_FLAG) $^ -o $(TARGET)
 
 ssp : $(OBJECTS) $(TEST_DIR)/testHOG.cpp
-	$(CC) $(MODE_FLAG) $^ -DSSP -o $(TARGET)
+	$(CC) $(CPPFLAGS) $(LDFLAGS) $(MODE_FLAG) $^ -DSSP -o $(TARGET)
 
 $(BIN_DIR)/%.o : $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
-	$(CC) $(CFLAGS) $(MODE_FLAG) $< -o $@
+	$(CC) $(CPPFLAGS) $(CXXFLAGS) $(MODE_FLAG) $< -o $@
 
 run : $(TARGET)
 	./$(TARGET)
