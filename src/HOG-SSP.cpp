@@ -16,6 +16,7 @@ void HOG_SSP::add_string(const string& s) {
 void HOG_SSP::add_strings(const vector<string>& v) {
     int p = 0;
     for(auto &s:v) p += s.length();
+    trie.leaves.reserve(v.size());
     trie.t.reserve(p);
     for(auto &s:v) add_string(s);
 }
@@ -50,8 +51,7 @@ void HOG_SSP::construct() {
     vector<int> subTreeLeft = subTreeCnt;
     marked[root] = true; //root is implicitly marked
     vector<int> modified;
-    for(int i=root+1;i<(int)trie.t.size();i++) {
-        if(!trie.t[i].is_leaf()) continue;
+    for(int i:trie.leaves) {
         marked[i] = true; //leaves are implicitly marked
         int v = trie.get_link(i); // iterate over proper suffixes of i, that are prefix (may not be proper) of some string
         while(v!=root) {

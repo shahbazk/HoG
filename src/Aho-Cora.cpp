@@ -19,6 +19,7 @@ void AhoCorasick::add_string(string const& s) {
         v = t[v].next[c];
     }
     t[v].output = true;
+    leaves.push_back(v);
 }
 
 int AhoCorasick::get_link(int v) {

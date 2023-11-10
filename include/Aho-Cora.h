@@ -19,6 +19,7 @@ struct AhoNode {
 
 struct AhoCorasick {
     std::vector<AhoNode> t; // the nodes in the automaton
+    std::vector<int> leaves;
 
     AhoCorasick();
 

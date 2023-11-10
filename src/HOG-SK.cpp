@@ -16,29 +16,26 @@ void HOG_SK::add_string(const std::string& s) {
 void HOG_SK::add_strings(const vector<string>& v) {
     int p = 0;
     for(auto &s:v) p += s.length();
+    trie.leaves.reserve(v.size());
     trie.t.reserve(p);
     for(auto &s:v) add_string(s);
 }
 
 void HOG_SK::construct() {
     //construct l
-    int leaf_index = 0; //number of leaves found
     int root = 1;
     l.resize(trie.t.size()); //initialise l with empty lists
-    for(int i=root+1;i<(int)trie.t.size();i++) {
-        if(trie.t[i].is_leaf()) { // if i is a leaf
-            int curr = trie.get_link(i);
-            while(curr != root) { // add to the list of each node on suffix path, except the leaf itself
-                l[curr].push_back(leaf_index);
-                curr = trie.get_link(curr);
-            }
-            leaf_index++; // increment number of leaves found
+    for(int i=0;i<(int)trie.leaves.size();i++) {
+        int curr = trie.get_link(trie.leaves[i]);
+        while(curr != root) { // add to the list of each node on suffix path, except the leaf itself
+            l[curr].push_back(i);
+            curr = trie.get_link(curr);
         }
     }
     marked.resize(trie.t.size(), false); // inH
     marked[root] = true; //root is in HOG
-    s.resize(leaf_index);
-    is_unmarked.resize(leaf_index, false);
+    s.resize(trie.leaves.size());
+    is_unmarked.resize(trie.leaves.size(), false);
     dfs(root);
 }
 
