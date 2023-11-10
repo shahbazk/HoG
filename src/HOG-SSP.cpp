@@ -1,27 +1,23 @@
 #include "HOG-SSP.h"
 
-#include "timer.h"
 using namespace std;
 
 HOG_SSP::HOG_SSP() {}
 
 HOG_SSP::HOG_SSP(const vector<string>& v) {
-    cout<<"Building Aho-Corasick automaton..."; cout.flush();
-    timer ahocora_t;
-    int p = 0;
-    for(auto &s:v) p += s.length();
-    trie.t.reserve(p);
-    for(auto &s:v) add_string(s);
-    ahocora_t.end();
-    
-    cout<<"Constructing HOG..."; cout.flush();
-    timer hog_t;
+    add_strings(v);
     construct();
-    hog_t.end();
 }
 
 void HOG_SSP::add_string(const string& s) {
     trie.add_string(s);
+}
+
+void HOG_SSP::add_strings(const vector<string>& v) {
+    int p = 0;
+    for(auto &s:v) p += s.length();
+    trie.t.reserve(p);
+    for(auto &s:v) add_string(s);
 }
 
 void HOG_SSP::calculateSplitNodes(int node, int upHere) {

@@ -26,12 +26,21 @@ void test_validity() {
 }
 
 void stress_test_with(const vector<string>& v) {
-    HOG stress_hog(v);
+    HOG hog;
+    cout<<"Building Aho-Corasick automaton..."; cout.flush();
+    timer ahocora_t;
+    hog.add_strings(v);
+    ahocora_t.end();
+    
+    cout<<"Constructing HOG..."; cout.flush();
+    timer hog_t;
+    hog.construct();
+    hog_t.end();
 
     int cnt = 0;
-    for(auto b:stress_hog.marked) cnt+=b;
-    cout << "Size of Aho-Corasick trie: " << stress_hog.marked.size()-1 << ", Size of HOG: " << cnt
-         << ", Compression factor: "<< (double)cnt/(stress_hog.marked.size()-1) << '\n';
+    for(auto b:hog.marked) cnt+=b;
+    cout << "Size of Aho-Corasick trie: " << hog.marked.size()-1 << ", Size of HOG: " << cnt
+         << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1) << '\n';
 }
 
 void random_strings_stress_test(int n, int p, int seed) {
