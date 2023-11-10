@@ -16,6 +16,8 @@ typedef HOG_SK HOG;
 
 #endif
 
+const int TRIALS = 10;
+
 //TODO : write bigger validity test comparing dumps from both algos
 void test_validity() {
     cout << "\nTesting validity of algorithm\n";
@@ -25,22 +27,41 @@ void test_validity() {
     cout<<"All tests passed\n";
 }
 
-void stress_test_with(const vector<string>& v) {
+void test_with(const vector<string>& v) {
     HOG hog;
     cout<<"Building Aho-Corasick automaton..."; cout.flush();
     timer ahocora_t;
     hog.add_strings(v);
-    ahocora_t.end();
+    cout<<"Elapsed time: " << ahocora_t.end() << "s\n";
     
     cout<<"Constructing HOG..."; cout.flush();
     timer hog_t;
     hog.construct();
-    hog_t.end();
+    cout<<"Elapsed time: " << hog_t.end() << "s\n";
 
     int cnt = 0;
     for(auto b:hog.marked) cnt+=b;
     cout << "Size of Aho-Corasick trie: " << hog.marked.size()-1 << ", Size of HOG: " << cnt
          << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1) << '\n';
+}
+
+void stress_test_with(const vector<string>& v) {
+    cout<<"Number of trials: " << TRIALS << endl;
+    vector<double> aho_times(TRIALS), hog_times(TRIALS);
+    for(int i=0;i<TRIALS;i++) {
+        HOG hog;
+        timer ahocora_t;
+        hog.add_strings(v);
+        aho_times[i] = ahocora_t.end();
+        
+        timer hog_t;
+        hog.construct();
+        hog_times[i] = hog_t.end();
+    }
+    sort(aho_times.begin(), aho_times.end());
+    sort(hog_times.begin(), hog_times.end());
+    cout<<"Time taken by Aho-Corasick algorithm: " << aho_times[TRIALS/2] << "s\n";
+    cout<<"Time taken by HOG algorithm: " << hog_times[TRIALS/2] << "s\n";
 }
 
 void random_strings_stress_test(int n, int p, int seed) {
