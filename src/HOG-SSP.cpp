@@ -21,34 +21,25 @@ void HOG_SSP::add_strings(const vector<string>& v) {
     for(auto &s:v) add_string(s);
 }
 
-void HOG_SSP::calculateSplitNodes(int node, int upHere) {
-    up[node] = upHere;
-    vector<int> children;
-    for(int child:trie.t[node].next) {
-        if(child != 0) {
-            children.push_back(child);
-            subTreeCnt[node]++;
-            if(trie.t[child].is_leaf()) subTreeCnt[node]++; //treat leaves as being an extra subtree
-        }
-    }
-    if(subTreeCnt[node] == 1) { // node has exactly one child and that child is not a leaf
-        calculateSplitNodes(children[0], upHere);
-        down[node] = down[children[0]];
-    } else {
-        down[node] = node;
-        for(int child:children) calculateSplitNodes(child, node);
-    }
-}
-
 void HOG_SSP::construct() {
-    up.resize(trie.t.size(), 0);
-    down.resize(trie.t.size(), 0);
-    subTreeCnt.resize(trie.t.size(), 0);
-    marked.resize(trie.t.size(), false);
-    int root = 1;
-    calculateSplitNodes(root, root);
+    const int root = 1, p = (int)trie.t.size();
+    marked.resize(p, false);
 
-    vector<int> subTreeLeft = subTreeCnt;
+    vector<int> up(p), down(p), subTreeCnt(p, 0), oneChild(p);
+    for(int i:trie.leaves) subTreeCnt[trie.t[i].p] = 1;
+    for(int i=p-1;i>=root;i--) {
+        if(subTreeCnt[i] == 1) down[i] = down[oneChild[i]];
+        else down[i] = i;
+        subTreeCnt[trie.t[i].p]++;
+        oneChild[trie.t[i].p] = i;
+    }
+    up[root] = root;
+    for(int i=root+1;i<p;i++) {
+        if(subTreeCnt[trie.t[i].p] == 1) up[i] = up[trie.t[i].p];
+        else up[i] = trie.t[i].p;
+    }
+
+    vector<int> subTreeLeft(subTreeCnt);
     marked[root] = true; //root is implicitly marked
     vector<int> modified;
     for(int i:trie.leaves) {

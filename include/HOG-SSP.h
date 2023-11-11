@@ -17,10 +17,6 @@ struct HOG_SSP {
 
     private:
     AhoCorasick trie;
-    // can convert subTreeCnt to char array to save 3*p bytes, but int array is probably faster on modern machines
-    std::vector<int> up, down, subTreeCnt;
-    
-    void calculateSplitNodes(int node, int upHere);
 };
 
 #endif
