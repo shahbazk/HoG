@@ -45,9 +45,20 @@ void test_with(const vector<string>& v) {
          << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1) << '\n';
 }
 
+pair<double, double> get_mean_and_sd(vector<double> &a) {
+    sort(a.begin(), a.end());
+    double sum = 0, sq_sum = 0, cnt=0;
+    for(int i=a.size()/10;i<(9*a.size()/10);i++) {
+        sum += a[i];
+        sq_sum += a[i]*a[i];
+        cnt++;
+    }
+    double avg = sum/cnt, sd = sqrt(sq_sum/cnt - avg*avg);
+    return {avg, sd};
+}
+
 void stress_test_with(const vector<string>& v) {
-    cout<<"Number of trials: " << TRIALS << endl;
-    vector<double> aho_times(TRIALS), hog_times(TRIALS);
+    vector<double> aho_times(TRIALS), hog_times(TRIALS), tot_times(TRIALS);
     for(int i=0;i<TRIALS;i++) {
         HOG hog;
         timer ahocora_t;
@@ -57,18 +68,23 @@ void stress_test_with(const vector<string>& v) {
         timer hog_t;
         hog.construct();
         hog_times[i] = hog_t.end();
+
+        tot_times[i] = aho_times[i] + hog_times[i];
     }
-    sort(aho_times.begin(), aho_times.end());
-    sort(hog_times.begin(), hog_times.end());
-    cout<<"Time taken by Aho-Corasick algorithm: " << aho_times[TRIALS/2] << "s\n";
-    cout<<"Time taken by HOG algorithm: " << hog_times[TRIALS/2] << "s\n";
+    auto aho_data = get_mean_and_sd(aho_times);
+    auto hog_data = get_mean_and_sd(hog_times);
+    auto tot_data = get_mean_and_sd(tot_times);
+    cout<<fixed<<setprecision(6);
+    cout<<"Aho: "<<aho_data.first<<' '<<aho_data.second<<'\n';
+    cout<<"HOG: "<<hog_data.first<<' '<<hog_data.second<<'\n';
+    // cout<<tot_data.first<<' '<<tot_data.second<<' ';
 }
 
 void random_strings_stress_test(int n, int p, int seed) {
     assert(p>=n);
     int len = p/n;
-    cout << "\nTesting on randomly generated strings...\n" 
-        << "Number of strings = " << n << ", Sum of lengths of all strings = " << p << '\n'; 
+    // cout << "\nTesting on randomly generated strings...\n" << "N = " << n << ", P = " << p << '\n';
+    cout << n << ' ' << p << ' ';
     srand(seed);
     vector<string> v;
     for(int i=0;i<n;i++) {
@@ -82,23 +98,20 @@ void random_strings_stress_test(int n, int p, int seed) {
     stress_test_with(v);
 }
 
-void random_string_reads_stress_test(int n, int p, int rep, int seed) {
+void random_string_reads_stress_test(int n, int p, double overlap, int seed) {
     assert(p>=n);
-    assert(n>=rep);
-    assert(rep>1);
+    assert(0.0<overlap);
+    assert(overlap<1.0);
     int len = p/n;
-    int total_len = p/rep + len - len/rep;
-    double overlap = 1.0 - 1.0/rep;
-    cout << "\nTesting on randomly generated reads on a randomly generated string...\n" 
-    << "Number of strings = " << n << ", Sum of lengths of all strings = " << p 
-    << ", Expected overlap = " << overlap << '\n';
-    
+    int total_len = p*(1.0-overlap) + len*overlap;
+    // cout << "\nTesting on randomly generated reads on a randomly generated string...\n" << "N = " << n << ", P = " << p << ", o = " << overlap << '\n';
+    cout << n << ' ' << p << ' ' << overlap << ' ';
     srand(seed);
     string complete_string = "";
     for(int i=0;i<total_len;i++) complete_string += ('a' + rand()%alphabet);
     vector<string> v;
     // might miss a few ending characters
-    for(double i=0;(int)i<=total_len-len;i+=(double)len/rep) {
+    for(double i=0;(int)i<=total_len-len;i+=(double)len*(1.0-overlap)) {
         v.push_back(complete_string.substr((int)i,len));
     }
 
@@ -106,7 +119,6 @@ void random_string_reads_stress_test(int n, int p, int rep, int seed) {
 }
 
 void real_data_test() {
-    cout<<"\nRunning on real datasets...\n";
     string data_path = "data/";
     // vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
     vector<string> filenames = {"trifoliata"};
@@ -131,16 +143,18 @@ void real_data_test() {
     }
 }
 
-int main() {
+int main(int argc, char **argv) {
     #ifdef SSP
-        cout<<"\nUsing algo by SSP...\n";
+        // cout<<"\nUsing algo by SSP...\n";
     #else 
-        cout<<"\nUsing algo by SK...\n";
+        // cout<<"\nUsing algo by SK...\n";
     #endif
-    int seed = chrono::system_clock::now().time_since_epoch().count();
-    test_validity();
-    random_strings_stress_test(1000, 1e6, seed);
-    random_string_reads_stress_test(1000, 1e6, 20, seed);
+    // int seed = chrono::system_clock::now().time_since_epoch().count();
+    // int n = pow(10, stod(argv[1])/10), p = pow(10, stod(argv[2])/10),seed = 42;
+    // double o = stod(argv[3]);
+    // test_validity();
+    // random_strings_stress_test(n, p, seed);
+    // random_string_reads_stress_test(n, p, o, seed);
     real_data_test();
     return 0;
 }

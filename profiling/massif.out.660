@@ -1,0 +1,962 @@
+desc: (none)
+cmd: bin/testHOG
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=261136789
+mem_heap_B=1633629785
+mem_heap_extra_B=774391
+mem_stacks_B=0
+heap_tree=detailed
+n3: 1633629785 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1594803012 0x10C8D9: __gnu_cxx::new_allocator<AhoNode>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 1594803012 0x10C73D: std::allocator_traits<std::allocator<AhoNode> >::allocate(std::allocator<AhoNode>&, unsigned long) (alloc_traits.h:443)
+   n2: 1594803012 0x10C4EB: std::_Vector_base<AhoNode, std::allocator<AhoNode> >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 1594802924 0x10E6E0: std::vector<AhoNode, std::allocator<AhoNode> >::reserve(unsigned long) (vector.tcc:78)
+     n1: 1594802924 0x10CF40: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:13)
+      n1: 1594802924 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+       n1: 1594802924 0x1184B3: real_data_test() (testHOG.cpp:100)
+        n0: 1594802924 0x1186A1: main (testHOG.cpp:114)
+    n0: 88 in 2 places, all below massif's threshold (1.00%)
+ n1: 37169693 0x498E35D: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+  n1: 37169693 0x498FB52: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+   n1: 37169693 0x490F026: std::basic_istream<char, std::char_traits<char> >& std::operator>><char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+    n1: 37169693 0x1183F6: real_data_test() (testHOG.cpp:95)
+     n0: 37169693 0x1186A1: main (testHOG.cpp:114)
+ n0: 1657080 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=2
+#-----------
+time=12826002988
+mem_heap_B=2444496097
+mem_heap_extra_B=776655
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=16511639132
+mem_heap_B=2444496101
+mem_heap_extra_B=776675
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=17213181561
+mem_heap_B=2444579053
+mem_heap_extra_B=855371
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=17770922459
+mem_heap_B=2444659681
+mem_heap_extra_B=901087
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=18459132765
+mem_heap_B=2444783589
+mem_heap_extra_B=946507
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=18988770275
+mem_heap_B=2444859733
+mem_heap_extra_B=974843
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=19543628214
+mem_heap_B=2444995025
+mem_heap_extra_B=1002839
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=19923806287
+mem_heap_B=2445060761
+mem_heap_extra_B=1018719
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=20513629605
+mem_heap_B=2445136741
+mem_heap_extra_B=1043715
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=20876332986
+mem_heap_B=2445191337
+mem_heap_extra_B=1058559
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=21448588581
+mem_heap_B=2445334125
+mem_heap_extra_B=1076731
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=22018194216
+mem_heap_B=2445490109
+mem_heap_extra_B=1095051
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=22743232768
+mem_heap_B=2445629265
+mem_heap_extra_B=1114815
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=23308689454
+mem_heap_B=2445702553
+mem_heap_extra_B=1155871
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=23867678181
+mem_heap_B=2445803689
+mem_heap_extra_B=1205295
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=24429143796
+mem_heap_B=2445887841
+mem_heap_extra_B=1248479
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=24851801275
+mem_heap_B=2445999445
+mem_heap_extra_B=1278627
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=25277670582
+mem_heap_B=2446147809
+mem_heap_extra_B=1303415
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=25852515584
+mem_heap_B=2446362489
+mem_heap_extra_B=1336847
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=26422701599
+mem_heap_B=2446524621
+mem_heap_extra_B=1367259
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=26982895917
+mem_heap_B=2446618357
+mem_heap_extra_B=1406555
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=27547318743
+mem_heap_B=2446719469
+mem_heap_extra_B=1438699
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=28143456238
+mem_heap_B=2446269161
+mem_heap_extra_B=1467575
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=28825321892
+mem_heap_B=2446215141
+mem_heap_extra_B=1482171
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=29215348002
+mem_heap_B=2446198889
+mem_heap_extra_B=1487335
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=29616271885
+mem_heap_B=2446186625
+mem_heap_extra_B=1491135
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=30015842669
+mem_heap_B=2446181353
+mem_heap_extra_B=1494279
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=30455710282
+mem_heap_B=2446169761
+mem_heap_extra_B=1497791
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=30872008493
+mem_heap_B=2446164461
+mem_heap_extra_B=1500899
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=31403392823
+mem_heap_B=2446147153
+mem_heap_extra_B=1508447
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=32159637655
+mem_heap_B=2446131557
+mem_heap_extra_B=1514587
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=32535379294
+mem_heap_B=2446127861
+mem_heap_extra_B=1517403
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=32930261596
+mem_heap_B=2446124929
+mem_heap_extra_B=1519647
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=33411345547
+mem_heap_B=2446121813
+mem_heap_extra_B=1521627
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=33913009709
+mem_heap_B=2482054481
+mem_heap_extra_B=2300655
+mem_stacks_B=0
+heap_tree=peak
+n5: 2482054481 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1594802924 0x10C8D9: __gnu_cxx::new_allocator<AhoNode>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 1594802924 0x10C73D: std::allocator_traits<std::allocator<AhoNode> >::allocate(std::allocator<AhoNode>&, unsigned long) (alloc_traits.h:443)
+   n2: 1594802924 0x10C4EB: std::_Vector_base<AhoNode, std::allocator<AhoNode> >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 1594802924 0x10E6E0: std::vector<AhoNode, std::allocator<AhoNode> >::reserve(unsigned long) (vector.tcc:78)
+     n1: 1594802924 0x10CF40: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:13)
+      n1: 1594802924 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+       n1: 1594802924 0x1184B3: real_data_test() (testHOG.cpp:100)
+        n0: 1594802924 0x1186A1: main (testHOG.cpp:114)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 810866400 0x1123A8: __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 810866400 0x11186C: std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) (alloc_traits.h:443)
+   n1: 810866400 0x110833: std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 810866400 0x10F3F8: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 810866400 0x10E870: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::resize(unsigned long) (stl_vector.h:937)
+      n1: 810866400 0x10D15E: HOG_SK::construct() (HOG-SK.cpp:31)
+       n1: 810866400 0x10CFF3: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:19)
+        n1: 810866400 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+         n1: 810866400 0x1184B3: real_data_test() (testHOG.cpp:100)
+          n0: 810866400 0x1186A1: main (testHOG.cpp:114)
+ n1: 37169693 0x498E35D: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+  n1: 37169693 0x498FB52: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+   n1: 37169693 0x490F026: std::basic_istream<char, std::char_traits<char> >& std::operator>><char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+    n1: 37169693 0x1183F6: real_data_test() (testHOG.cpp:95)
+     n0: 37169693 0x1186A1: main (testHOG.cpp:114)
+ n1: 26369120 0x112523: __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 26369120 0x111977: std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) (alloc_traits.h:443)
+   n0: 26369120 in 2 places, all below massif's threshold (1.00%)
+ n0: 12846344 in 8 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=37
+#-----------
+time=33917699743
+mem_heap_B=2482152773
+mem_heap_extra_B=2300635
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=44241170960
+mem_heap_B=2482251077
+mem_heap_extra_B=2300635
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=55764769475
+mem_heap_B=2482179493
+mem_heap_extra_B=2300619
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=56139689465
+mem_heap_B=2449232209
+mem_heap_extra_B=1447487
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=56649307939
+mem_heap_B=2449088537
+mem_heap_extra_B=1374567
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=57169711686
+mem_heap_B=2449026665
+mem_heap_extra_B=1320127
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=57708374497
+mem_heap_B=2448978349
+mem_heap_extra_B=1268163
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=58234088785
+mem_heap_B=2448937373
+mem_heap_extra_B=1225747
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=58751379760
+mem_heap_B=2448903697
+mem_heap_extra_B=1175351
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=59233607363
+mem_heap_B=2448841641
+mem_heap_extra_B=1071687
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=59723594050
+mem_heap_B=2448795261
+mem_heap_extra_B=989163
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=60455153297
+mem_heap_B=2448748873
+mem_heap_extra_B=855463
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=60948047432
+mem_heap_B=2448726853
+mem_heap_extra_B=795299
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=60953209012
+mem_heap_B=2448724921
+mem_heap_extra_B=794927
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=60958004231
+mem_heap_B=2448724841
+mem_heap_extra_B=794679
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=60962827610
+mem_heap_B=2448724733
+mem_heap_extra_B=794427
+mem_stacks_B=0
+heap_tree=detailed
+n4: 2448724733 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1594802924 0x10C8D9: __gnu_cxx::new_allocator<AhoNode>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 1594802924 0x10C73D: std::allocator_traits<std::allocator<AhoNode> >::allocate(std::allocator<AhoNode>&, unsigned long) (alloc_traits.h:443)
+   n2: 1594802924 0x10C4EB: std::_Vector_base<AhoNode, std::allocator<AhoNode> >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 1594802924 0x10E6E0: std::vector<AhoNode, std::allocator<AhoNode> >::reserve(unsigned long) (vector.tcc:78)
+     n1: 1594802924 0x10CF40: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:13)
+      n1: 1594802924 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+       n1: 1594802924 0x1184B3: real_data_test() (testHOG.cpp:100)
+        n0: 1594802924 0x1186A1: main (testHOG.cpp:114)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 810866400 0x1123A8: __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 810866400 0x11186C: std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) (alloc_traits.h:443)
+   n1: 810866400 0x110833: std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 810866400 0x10F3F8: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 810866400 0x10E870: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::resize(unsigned long) (stl_vector.h:937)
+      n1: 810866400 0x10D15E: HOG_SK::construct() (HOG-SK.cpp:31)
+       n1: 810866400 0x10CFF3: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:19)
+        n1: 810866400 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+         n1: 810866400 0x1184B3: real_data_test() (testHOG.cpp:100)
+          n0: 810866400 0x1186A1: main (testHOG.cpp:114)
+ n1: 37169693 0x498E35D: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+  n1: 37169693 0x498FB52: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+   n1: 37169693 0x490F026: std::basic_istream<char, std::char_traits<char> >& std::operator>><char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+    n1: 37169693 0x1183F6: real_data_test() (testHOG.cpp:95)
+     n0: 37169693 0x1186A1: main (testHOG.cpp:114)
+ n0: 5885716 in 9 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=53
+#-----------
+time=60968027372
+mem_heap_B=2448724633
+mem_heap_extra_B=794159
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=60973463236
+mem_heap_B=2448724581
+mem_heap_extra_B=794019
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=60978779313
+mem_heap_B=2448724389
+mem_heap_extra_B=793659
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=60983628520
+mem_heap_B=2448724345
+mem_heap_extra_B=793471
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=60988626333
+mem_heap_B=2448724293
+mem_heap_extra_B=793259
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=60993994609
+mem_heap_B=2448724201
+mem_heap_extra_B=793031
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=60998759627
+mem_heap_B=2448724173
+mem_heap_extra_B=792883
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=61004558337
+mem_heap_B=2448724097
+mem_heap_extra_B=792719
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=61013004092
+mem_heap_B=2448724025
+mem_heap_extra_B=792639
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=61017695602
+mem_heap_B=2448723949
+mem_heap_extra_B=792459
+mem_stacks_B=0
+heap_tree=detailed
+n4: 2448723949 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1594802924 0x10C8D9: __gnu_cxx::new_allocator<AhoNode>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 1594802924 0x10C73D: std::allocator_traits<std::allocator<AhoNode> >::allocate(std::allocator<AhoNode>&, unsigned long) (alloc_traits.h:443)
+   n2: 1594802924 0x10C4EB: std::_Vector_base<AhoNode, std::allocator<AhoNode> >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 1594802924 0x10E6E0: std::vector<AhoNode, std::allocator<AhoNode> >::reserve(unsigned long) (vector.tcc:78)
+     n1: 1594802924 0x10CF40: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:13)
+      n1: 1594802924 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+       n1: 1594802924 0x1184B3: real_data_test() (testHOG.cpp:100)
+        n0: 1594802924 0x1186A1: main (testHOG.cpp:114)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 810866400 0x1123A8: __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 810866400 0x11186C: std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) (alloc_traits.h:443)
+   n1: 810866400 0x110833: std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 810866400 0x10F3F8: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 810866400 0x10E870: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::resize(unsigned long) (stl_vector.h:937)
+      n1: 810866400 0x10D15E: HOG_SK::construct() (HOG-SK.cpp:31)
+       n1: 810866400 0x10CFF3: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:19)
+        n1: 810866400 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+         n1: 810866400 0x1184B3: real_data_test() (testHOG.cpp:100)
+          n0: 810866400 0x1186A1: main (testHOG.cpp:114)
+ n1: 37169693 0x498E35D: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+  n1: 37169693 0x498FB52: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+   n1: 37169693 0x490F026: std::basic_istream<char, std::char_traits<char> >& std::operator>><char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+    n1: 37169693 0x1183F6: real_data_test() (testHOG.cpp:95)
+     n0: 37169693 0x1186A1: main (testHOG.cpp:114)
+ n0: 5884932 in 9 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=63
+#-----------
+time=61022704969
+mem_heap_B=2448723861
+mem_heap_extra_B=792267
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=61028140547
+mem_heap_B=2448723793
+mem_heap_extra_B=792159
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=61032930898
+mem_heap_B=2448723541
+mem_heap_extra_B=791843
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=61037791402
+mem_heap_B=2448723493
+mem_heap_extra_B=791699
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=61043527261
+mem_heap_B=2448723421
+mem_heap_extra_B=791427
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=61048934834
+mem_heap_B=2448723293
+mem_heap_extra_B=791195
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=61054256298
+mem_heap_B=2448723217
+mem_heap_extra_B=791063
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=61061465801
+mem_heap_B=2448723209
+mem_heap_extra_B=791047
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=61066315071
+mem_heap_B=2448722973
+mem_heap_extra_B=790803
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=61071313068
+mem_heap_B=2448722861
+mem_heap_extra_B=790443
+mem_stacks_B=0
+heap_tree=detailed
+n4: 2448722861 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1594802924 0x10C8D9: __gnu_cxx::new_allocator<AhoNode>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 1594802924 0x10C73D: std::allocator_traits<std::allocator<AhoNode> >::allocate(std::allocator<AhoNode>&, unsigned long) (alloc_traits.h:443)
+   n2: 1594802924 0x10C4EB: std::_Vector_base<AhoNode, std::allocator<AhoNode> >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 1594802924 0x10E6E0: std::vector<AhoNode, std::allocator<AhoNode> >::reserve(unsigned long) (vector.tcc:78)
+     n1: 1594802924 0x10CF40: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:13)
+      n1: 1594802924 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+       n1: 1594802924 0x1184B3: real_data_test() (testHOG.cpp:100)
+        n0: 1594802924 0x1186A1: main (testHOG.cpp:114)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 810866400 0x1123A8: __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 810866400 0x11186C: std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) (alloc_traits.h:443)
+   n1: 810866400 0x110833: std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 810866400 0x10F3F8: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 810866400 0x10E870: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::resize(unsigned long) (stl_vector.h:937)
+      n1: 810866400 0x10D15E: HOG_SK::construct() (HOG-SK.cpp:31)
+       n1: 810866400 0x10CFF3: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:19)
+        n1: 810866400 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+         n1: 810866400 0x1184B3: real_data_test() (testHOG.cpp:100)
+          n0: 810866400 0x1186A1: main (testHOG.cpp:114)
+ n1: 37169693 0x498E35D: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+  n1: 37169693 0x498FB52: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+   n1: 37169693 0x490F026: std::basic_istream<char, std::char_traits<char> >& std::operator>><char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+    n1: 37169693 0x1183F6: real_data_test() (testHOG.cpp:95)
+     n0: 37169693 0x1186A1: main (testHOG.cpp:114)
+ n0: 5883844 in 9 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=73
+#-----------
+time=61076615647
+mem_heap_B=2448722797
+mem_heap_extra_B=790163
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=74
+#-----------
+time=61081583409
+mem_heap_B=2448722681
+mem_heap_extra_B=789927
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=75
+#-----------
+time=61087255399
+mem_heap_B=2448722581
+mem_heap_extra_B=789755
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=61092368674
+mem_heap_B=2448722553
+mem_heap_extra_B=789663
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=77
+#-----------
+time=61097540562
+mem_heap_B=2448722465
+mem_heap_extra_B=789319
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=78
+#-----------
+time=61102626835
+mem_heap_B=2448722185
+mem_heap_extra_B=788695
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=61107405283
+mem_heap_B=2448722077
+mem_heap_extra_B=788371
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=80
+#-----------
+time=61112418363
+mem_heap_B=2448721809
+mem_heap_extra_B=787567
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=81
+#-----------
+time=61117284437
+mem_heap_B=2448721577
+mem_heap_extra_B=786775
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=82
+#-----------
+time=61122137580
+mem_heap_B=2448721349
+mem_heap_extra_B=785907
+mem_stacks_B=0
+heap_tree=detailed
+n4: 2448721349 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1594802924 0x10C8D9: __gnu_cxx::new_allocator<AhoNode>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 1594802924 0x10C73D: std::allocator_traits<std::allocator<AhoNode> >::allocate(std::allocator<AhoNode>&, unsigned long) (alloc_traits.h:443)
+   n2: 1594802924 0x10C4EB: std::_Vector_base<AhoNode, std::allocator<AhoNode> >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 1594802924 0x10E6E0: std::vector<AhoNode, std::allocator<AhoNode> >::reserve(unsigned long) (vector.tcc:78)
+     n1: 1594802924 0x10CF40: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:13)
+      n1: 1594802924 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+       n1: 1594802924 0x1184B3: real_data_test() (testHOG.cpp:100)
+        n0: 1594802924 0x1186A1: main (testHOG.cpp:114)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 810866400 0x1123A8: __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 810866400 0x11186C: std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) (alloc_traits.h:443)
+   n1: 810866400 0x110833: std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 810866400 0x10F3F8: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 810866400 0x10E870: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::resize(unsigned long) (stl_vector.h:937)
+      n1: 810866400 0x10D15E: HOG_SK::construct() (HOG-SK.cpp:31)
+       n1: 810866400 0x10CFF3: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:19)
+        n1: 810866400 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+         n1: 810866400 0x1184B3: real_data_test() (testHOG.cpp:100)
+          n0: 810866400 0x1186A1: main (testHOG.cpp:114)
+ n1: 37169693 0x498E35D: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+  n1: 37169693 0x498FB52: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+   n1: 37169693 0x490F026: std::basic_istream<char, std::char_traits<char> >& std::operator>><char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+    n1: 37169693 0x1183F6: real_data_test() (testHOG.cpp:95)
+     n0: 37169693 0x1186A1: main (testHOG.cpp:114)
+ n0: 5882332 in 9 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=83
+#-----------
+time=61127862418
+mem_heap_B=2448721209
+mem_heap_extra_B=785407
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=84
+#-----------
+time=61132838941
+mem_heap_B=2448721065
+mem_heap_extra_B=784935
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=85
+#-----------
+time=61138228482
+mem_heap_B=2448720925
+mem_heap_extra_B=784379
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=86
+#-----------
+time=61142955250
+mem_heap_B=2448720785
+mem_heap_extra_B=784055
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=87
+#-----------
+time=61148074813
+mem_heap_B=2448720609
+mem_heap_extra_B=783679
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=88
+#-----------
+time=61153367181
+mem_heap_B=2448720465
+mem_heap_extra_B=783359
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=89
+#-----------
+time=61158239263
+mem_heap_B=2448720381
+mem_heap_extra_B=783091
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=90
+#-----------
+time=61163059752
+mem_heap_B=2448720221
+mem_heap_extra_B=782619
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=91
+#-----------
+time=61167948081
+mem_heap_B=2448720085
+mem_heap_extra_B=782171
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=92
+#-----------
+time=61173491828
+mem_heap_B=2448719885
+mem_heap_extra_B=781627
+mem_stacks_B=0
+heap_tree=detailed
+n4: 2448719885 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1594802924 0x10C8D9: __gnu_cxx::new_allocator<AhoNode>::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 1594802924 0x10C73D: std::allocator_traits<std::allocator<AhoNode> >::allocate(std::allocator<AhoNode>&, unsigned long) (alloc_traits.h:443)
+   n2: 1594802924 0x10C4EB: std::_Vector_base<AhoNode, std::allocator<AhoNode> >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 1594802924 0x10E6E0: std::vector<AhoNode, std::allocator<AhoNode> >::reserve(unsigned long) (vector.tcc:78)
+     n1: 1594802924 0x10CF40: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:13)
+      n1: 1594802924 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+       n1: 1594802924 0x1184B3: real_data_test() (testHOG.cpp:100)
+        n0: 1594802924 0x1186A1: main (testHOG.cpp:114)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 810866400 0x1123A8: __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) (new_allocator.h:114)
+  n1: 810866400 0x11186C: std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) (alloc_traits.h:443)
+   n1: 810866400 0x110833: std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) (stl_vector.h:343)
+    n1: 810866400 0x10F3F8: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_default_append(unsigned long) (vector.tcc:635)
+     n1: 810866400 0x10E870: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::resize(unsigned long) (stl_vector.h:937)
+      n1: 810866400 0x10D15E: HOG_SK::construct() (HOG-SK.cpp:31)
+       n1: 810866400 0x10CFF3: HOG_SK::HOG_SK(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (HOG-SK.cpp:19)
+        n1: 810866400 0x117961: stress_test_with(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (testHOG.cpp:29)
+         n1: 810866400 0x1184B3: real_data_test() (testHOG.cpp:100)
+          n0: 810866400 0x1186A1: main (testHOG.cpp:114)
+ n1: 37169693 0x498E35D: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+  n1: 37169693 0x498FB52: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+   n1: 37169693 0x490F026: std::basic_istream<char, std::char_traits<char> >& std::operator>><char, std::char_traits<char>, std::allocator<char> >(std::basic_istream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+    n1: 37169693 0x1183F6: real_data_test() (testHOG.cpp:95)
+     n0: 37169693 0x1186A1: main (testHOG.cpp:114)
+ n0: 5880868 in 9 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=93
+#-----------
+time=61178395008
+mem_heap_B=2448719773
+mem_heap_extra_B=781227
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=94
+#-----------
+time=61183396821
+mem_heap_B=2448719653
+mem_heap_extra_B=781019
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=95
+#-----------
+time=61188975977
+mem_heap_B=2448719505
+mem_heap_extra_B=780783
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=96
+#-----------
+time=61193937087
+mem_heap_B=2448719433
+mem_heap_extra_B=780567
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=97
+#-----------
+time=61198627127
+mem_heap_B=21048934
+mem_heap_extra_B=438162
+mem_stacks_B=0
+heap_tree=empty

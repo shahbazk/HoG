@@ -39,24 +39,23 @@ void HOG_SSP::construct() {
         else up[i] = trie.t[i].p;
     }
 
-    vector<int> subTreeLeft(subTreeCnt);
+    vector<int> subTreeLeft(subTreeCnt), modified;
     marked[root] = true; //root is implicitly marked
-    vector<int> modified;
+    int u,v;
     for(int i:trie.leaves) {
         marked[i] = true; //leaves are implicitly marked
-        int v = trie.get_link(i); // iterate over proper suffixes of i, that are prefix (may not be proper) of some string
+        v = trie.get_link(i); // iterate over proper suffixes of i, that are prefix (may not be proper) of some string
         while(v!=root) {
             if(subTreeLeft[down[v]] != 0) { //if the subtree of v (including v) contains a split node having subtrees left
                 marked[v] = true;
-                subTreeLeft[down[v]] = 0;
                 modified.push_back(down[v]);
-                int u = up[v];
-                while(true) {
-                    subTreeLeft[u]--; //remove subtree of u containing v
-                    modified.push_back(u);
-                    if((u==root) || (subTreeLeft[u] != 0)) break; // break if u is root or subtree of u has not been completely removed
+                subTreeLeft[down[v]] = 0;
+                u = v;
+                do {
                     u = up[u];
-                }
+                    subTreeLeft[u]--; //remove subtree of u containing v
+                } while((u!=root) && (subTreeLeft[u]==0));
+                modified.push_back(u); // add only last u to modified as all other up nodes are already in modified
             }
             v = trie.get_link(v);
         }
