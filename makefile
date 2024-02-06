@@ -28,7 +28,7 @@ $(BIN_DIR)/%.o : $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
 	$(CC) $(CPPFLAGS) $(CXXFLAGS) $(MODE_FLAG) $< -o $@
 
 run : $(TARGET)
-	./$(TARGET)
+	/usr/bin/time -f "%M" ./$(TARGET)
 
 clean :
 	rm -rf $(BIN_DIR)/*

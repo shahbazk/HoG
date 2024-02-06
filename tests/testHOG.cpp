@@ -58,6 +58,7 @@ pair<double, double> get_mean_and_sd(vector<double> &a) {
 }
 
 void stress_test_with(const vector<string>& v) {
+    // cout<<"Number of trials: " << TRIALS << endl;
     vector<double> aho_times(TRIALS), hog_times(TRIALS), tot_times(TRIALS);
     for(int i=0;i<TRIALS;i++) {
         HOG hog;
@@ -74,10 +75,11 @@ void stress_test_with(const vector<string>& v) {
     auto aho_data = get_mean_and_sd(aho_times);
     auto hog_data = get_mean_and_sd(hog_times);
     auto tot_data = get_mean_and_sd(tot_times);
-    cout<<fixed<<setprecision(6);
-    cout<<"Aho: "<<aho_data.first<<' '<<aho_data.second<<'\n';
-    cout<<"HOG: "<<hog_data.first<<' '<<hog_data.second<<'\n';
-    // cout<<tot_data.first<<' '<<tot_data.second<<' ';
+    // cout<<"Aho: "<<aho_data.first<<' '<<aho_data.second<<'\n';
+    // cout<<"HOG: "<<hog_data.first<<' '<<hog_data.second<<'\n';
+    cout<<fixed<<setprecision(6)<<tot_data.first<<' '<<tot_data.second<<' ';
+    // cout<<"Time taken by Aho-Corasick algorithm: " << aho_times[TRIALS/2] << "s\n";
+    // cout<<"Time taken by HOG algorithm: " << hog_times[TRIALS/2] << "s\n";
 }
 
 void random_strings_stress_test(int n, int p, int seed) {
@@ -119,6 +121,7 @@ void random_string_reads_stress_test(int n, int p, double overlap, int seed) {
 }
 
 void real_data_test() {
+    // cout<<"\nRunning on real datasets...\n";
     string data_path = "data/";
     // vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
     vector<string> filenames = {"trifoliata"};
