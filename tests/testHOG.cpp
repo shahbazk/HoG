@@ -17,6 +17,7 @@ typedef HOG_SK HOG;
 #endif
 
 const int TRIALS = 10;
+map<string, double> trial_results;
 
 //TODO : write bigger validity test comparing dumps from both algos
 void test_validity() {
@@ -27,61 +28,64 @@ void test_validity() {
     cout<<"All tests passed\n";
 }
 
-pair<double, double> test_with(const vector<string>& v, bool verbose = false) {
+void test_with(const vector<string>& v, bool verbose = false) {
     HOG hog;
-    if(verbose) {cout<<"Building Aho-Corasick automaton..."; cout.flush();}
+    if(verbose) {cout<<"Building Aho-Corasick automaton..." << endl;}
     timer ahocora_t;
     hog.add_strings(v);
     double aho_time = ahocora_t.end();
-    if(verbose) {cout<<"Elapsed time: " << aho_time; cout.flush();}
+    trial_results["aho_time"] = aho_time;
+    if(verbose) {cout<<"Elapsed time: " << aho_time << endl;}
     
-    if(verbose) {cout<<"Constructing HOG..."; cout.flush();}
+    if(verbose) {cout<<"Constructing HOG..." << endl;}
     timer hog_t;
     hog.construct();
     double hog_time = hog_t.end();
-    if(verbose) {cout<<"Elapsed time: " << hog_time; cout.flush();}
+    trial_results["hog_time"] = hog_time;
+    if(verbose) {cout<<"Elapsed time: " << hog_time << endl;}
+    
+    trial_results["tot_time"] = aho_time + hog_time;
 
     if(verbose) {
         int cnt = 0;
         for(auto b:hog.marked) cnt+=b;
         cout << "Size of Aho-Corasick trie: " << hog.marked.size()-1 
         << ", Size of HOG: " << cnt
-        << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1);
-        cout.flush();
+        << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1)
+        << endl;
     }
-    return {aho_time, hog_time};
+    
+    trial_results["aho_size"] = hog.marked.size()-1;
 }
 
-pair<double, double> get_mean_and_sd(vector<double> &a) {
+template<typename T>
+pair<T, T> get_mean_and_sd(vector<T> &a) {
     sort(a.begin(), a.end());
-    double sum = 0, sq_sum = 0, cnt=0;
+    T sum = 0, sq_sum = 0, cnt=0;
     for(int i=a.size()/10;i<(9*a.size()/10);i++) {
         sum += a[i];
         sq_sum += a[i]*a[i];
         cnt++;
     }
-    double avg = sum/cnt, sd = sqrt(sq_sum/cnt - avg*avg);
+    T avg = sum/cnt, sd = sqrt(sq_sum/cnt - avg*avg);
     return {avg, sd};
 }
 
-void stress_test_with(function<vector<string>()> generator) {
+void stress_test_with(function<vector<string>()> generator, bool verbose = false) {
     // cout<<"Number of trials: " << TRIALS << endl;
-    vector<double> aho_times(TRIALS), hog_times(TRIALS), tot_times(TRIALS);
+    map<string, vector<double>> all_results;
     for(int i=0;i<TRIALS;i++) {
         auto v = generator();
-        auto results = test_with(v);
-        aho_times[i] = results.first;
-        hog_times[i] = results.second;
-        tot_times[i] = aho_times[i] + hog_times[i];
+        test_with(v);
+        for(auto data_pair:trial_results) {
+            all_results[data_pair.first].push_back(data_pair.second);
+        }
     }
-    auto aho_data = get_mean_and_sd(aho_times);
-    auto hog_data = get_mean_and_sd(hog_times);
-    auto tot_data = get_mean_and_sd(tot_times);
-    // cout<<"Aho: "<<aho_data.first<<' '<<aho_data.second<<'\n';
-    // cout<<"HOG: "<<hog_data.first<<' '<<hog_data.second<<'\n';
-    cout<<fixed<<setprecision(6)<<tot_data.first<<','<<tot_data.second<<',';
-    // cout<<"Time taken by Aho-Corasick algorithm: " << aho_times[TRIALS/2] << "s\n";
-    // cout<<"Time taken by HOG algorithm: " << hog_times[TRIALS/2] << "s\n";
+    for(auto result:all_results) {
+        if(verbose) cout << '\n' << result.first << ':';
+        cout << fixed << setprecision(3) << get_mean_and_sd(result.second).first << ',';
+    }
+    if(verbose) cout << "\nmemory:";
 }
 
 // TODO : change to use real data as complete string and randomly positioned reads
@@ -148,9 +152,9 @@ void real_data_test() {
             fin>>v[i];
             total_length += v[i].length();
         }
-        cout<<"Number of strings = "<<v.size()<<'\n'<<"Sum of lengths = "<<total_length<<'\n';
+        cout<<"Number of strings : "<<v.size()<<'\n'<<"Sum of lengths : "<<total_length<<'\n';
 
-        stress_test_with([&](){return v;});
+        stress_test_with([&](){return v;}, true);
     }
 }
 
@@ -161,11 +165,11 @@ int main(int argc, char **argv) {
         // cout<<"\nUsing algo by SK...\n";
     #endif
     // int seed = chrono::system_clock::now().time_since_epoch().count();
-    int n = pow(10, stod(argv[1])/10), p = pow(10, stod(argv[2])/10),seed = 42;
+    // int n = pow(10, stod(argv[1])/10), p = pow(10, stod(argv[2])/10),seed = 42;
     // double o = stod(argv[3]);
     // test_validity();
-    random_strings_stress_test(n, p, seed);
+    // random_strings_stress_test(n, p, seed);
     // random_string_reads_stress_test(n, p, o, seed);
-    // real_data_test();
+    real_data_test();
     return 0;
 }
