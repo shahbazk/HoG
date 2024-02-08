@@ -29,25 +29,15 @@ int AhoCorasick::get_link(int v) {
     assert(v>0);
     #endif
     if (t[v].link == 0) {
-        if (t[v].p == 1)
+        if (t[v].p == 1) // if child of root
             t[v].link = 1;
-        else
-            t[v].link = go(get_link(t[v].p), t[v].pch);
+        else {
+            int x = get_link(t[v].p);
+            while(t[x].next[t[v].pch] == 0 && x != 1) {
+                x = get_link(x);
+            }
+            t[v].link = (x == 1 ? 1 : t[x].next[t[v].pch]);
+        }
     }
     return t[v].link;
-}
-
-int AhoCorasick::go(int v, char ch) {
-    #ifdef DDEBUG
-    assert(v>0);
-    assert((ch>='a') && (ch-'a'<alphabet));
-    #endif
-    int c = ch - 'a';
-    if (t[v].go[c] == 0) {
-        if (t[v].next[c] != 0)
-            t[v].go[c] = t[v].next[c];
-        else
-            t[v].go[c] = (v == 1 ? 1 : go(get_link(v), ch));
-    }
-    return t[v].go[c];
 }
