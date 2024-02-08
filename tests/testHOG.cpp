@@ -76,7 +76,13 @@ void stress_test_with(function<vector<string>()> generator, bool verbose = false
     map<string, vector<double>> all_results;
     for(int i=0;i<TRIALS;i++) {
         auto v = generator();
+        trial_results["data_memory"] = sizeof(vector<string>) + sizeof(string)*v.capacity();
+        for(auto &s:v) {
+            trial_results["data_memory"] += sizeof(char)*s.capacity();
+        }
+        trial_results["data_memory"] /= 1000;
         test_with(v);
+        trial_results["aho_memory"] /= 1000;
         for(auto data_pair:trial_results) {
             all_results[data_pair.first].push_back(data_pair.second);
         }
