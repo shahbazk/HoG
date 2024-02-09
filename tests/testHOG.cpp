@@ -16,6 +16,9 @@ typedef HOG_SK HOG;
 
 #endif
 
+const string data_path = "data/";
+const vector<string> filenames = {"trifoliata", "clementina", "elegans", "sinensis"};
+
 const int TRIALS = 10;
 map<string, double> trial_results;
 
@@ -137,29 +140,34 @@ void random_string_reads_stress_test(int n, int p, double overlap, int seed) {
     stress_test_with(generator);
 }
 
-void real_data_test() {
-    // cout<<"\nRunning on real datasets...\n";
-    string data_path = "data/";
-    // vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
-    vector<string> filenames = {"trifoliata"};
-    for(string fname:filenames) {
-        cout<<'\n'<<fname<<":\n";
-        fstream fin;
-        fin.open(data_path+fname, ios::in);
-        if(!fin) {
-            cout<<"couldn't open file: "<<fname<<endl;
-            continue;
-        }
-        long long n, total_length = 0;
-        fin>>n;
-        vector<string> v(n);
-        for(int i=0;i<n;i++) {
-            fin>>v[i];
-            total_length += v[i].length();
-        }
-        cout<<"Number of strings : "<<v.size()<<'\n'<<"Sum of lengths : "<<total_length<<'\n';
 
-        stress_test_with([&](){return v;}, true);
+void real_data_test_on(string fname) {
+    cout<<'\n'<<fname<<":\n";
+    fstream fin;
+    fin.open(data_path+fname, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<<fname<<endl;
+        return;
+    }
+    long long n, total_length = 0;
+    fin>>n;
+    vector<string> v(n);
+    for(int i=0;i<n;i++) {
+        fin>>v[i];
+        total_length += v[i].length();
+    }
+    cout<<"Number of strings : "<<v.size()<<'\n'<<"Sum of lengths : "<<total_length<<'\n';
+
+    stress_test_with([&](){return v;}, true);
+}
+void real_data_test(int file_index = -1) {
+    // cout<<"\nRunning on real datasets...\n";
+    if(file_index == -1) {
+        for(string fname:filenames) {
+            real_data_test_on(fname);
+        }
+    } else {
+        real_data_test_on(filenames[file_index]);
     }
 }
 
@@ -171,10 +179,11 @@ int main(int argc, char **argv) {
     #endif
     // int seed = chrono::system_clock::now().time_since_epoch().count();
     // int n = pow(10, stod(argv[1])/10), p = pow(10, stod(argv[2])/10),seed = 42;
+    int file_index = stoi(argv[1]);
     // double o = stod(argv[3]);
     // test_validity();
     // random_strings_stress_test(n, p, seed);
     // random_string_reads_stress_test(n, p, o, seed);
-    real_data_test();
+    real_data_test(file_index);
     return 0;
 }
