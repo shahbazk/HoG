@@ -45,17 +45,16 @@ void test_with(const vector<string>& v, bool verbose = false) {
     if(verbose) {cout<<"Elapsed time: " << hog_time << endl;}
     
     trial_results["tot_time"] = aho_time + hog_time;
-
+    int cnt = 0;
+    for(auto b:hog.marked) cnt+=b;
     if(verbose) {
-        int cnt = 0;
-        for(auto b:hog.marked) cnt+=b;
         cout << "Size of Aho-Corasick trie: " << hog.marked.size()-1 
         << ", Size of HOG: " << cnt
         << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1)
         << endl;
     }
-    
     trial_results["aho_size"] = hog.marked.size()-1;
+    trial_results["hog_size"] = cnt;
 }
 
 template<typename T>
