@@ -32,11 +32,11 @@ int AhoCorasick::get_link(int v) {
         if (t[v].p == 1) // if child of root
             t[v].link = 1;
         else {
-            int x = get_link(t[v].p);
-            while(t[x].next[t[v].pch] == 0 && x != 1) {
+            int x = get_link(t[v].p), c = t[v].pch-'a';
+            while(t[x].next[c] == 0 && x != 1) {
                 x = get_link(x);
             }
-            t[v].link = (x == 1 ? 1 : t[x].next[t[v].pch]);
+            t[v].link = (t[x].next[c] == 0 ? 1 : t[x].next[c]);
         }
     }
     return t[v].link;
