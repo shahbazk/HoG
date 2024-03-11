@@ -5,6 +5,11 @@
 
 #include <bits/stdc++.h>
 
+template<typename T, typename F>
+void __p(std::pair<T, F> a);
+template<typename T>
+void __p(std::vector<T> a);
+
 template<typename T>
 void __p(T a) {
 	std::cout<<a;
@@ -73,7 +78,7 @@ void __f(const char *names, Arg1 &&arg1, Args &&... args) {
 	__f(comma+1,args...);
 }
 
-#define trace(...) std::cout<<"Line:"<<__LINE__<<" ", __f(#__VA_ARGS__, __VA_ARGS__)
+#define trace(...) std::cout<<"File Name:"<< __FILE__ <<" "<<"Line:"<<__LINE__<<" ", __f(#__VA_ARGS__, __VA_ARGS__)
 #else
 #define trace(...)
 #define error(...)
