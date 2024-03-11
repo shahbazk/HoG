@@ -1,0 +1,10 @@
+
+# directories
+/.cache
+/.vscode
+/bin
+/data
+/log
+
+# files
+*.docx
