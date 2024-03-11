@@ -9,15 +9,26 @@ using namespace std;
 #include "HOG-SSP.h"
 typedef HOG_SSP HOG;
 
-#else
+#elif SK
 
 #include "HOG-SK.h"
 typedef HOG_SK HOG;
 
-#endif
+#elif BCER
 
-const string data_path = "data/";
-const vector<string> filenames = {"trifoliata", "clementina", "elegans", "sinensis"};
+#include "HOG-BCER.h"
+typedef HOG_BCER HOG;
+
+
+#elif EC
+
+#include "HOG-EC.h"
+typedef HOG_EC HOG;
+
+#else
+#include "HOG-SK.h"
+typedef HOG_SK HOG;
+#endif
 
 const int TRIALS = 10;
 map<string, double> trial_results;
@@ -34,11 +45,11 @@ void test_validity() {
 void test_with(const vector<string>& v, bool verbose = false) {
     HOG hog;
     if(verbose) {cout<<"Building Aho-Corasick automaton..." << endl;}
-    timer ahocora_t;
+    timer ehog_t;
     hog.add_strings(v);
-    double aho_time = ahocora_t.end();
-    trial_results["aho_time"] = aho_time;
-    if(verbose) {cout<<"Elapsed time: " << aho_time << endl;}
+    double ehog_time = ehog_t.end();
+    trial_results["ehog_time"] = ehog_time;
+    if(verbose) {cout<<"Elapsed time: " << ehog_time << endl;}
     
     if(verbose) {cout<<"Constructing HOG..." << endl;}
     timer hog_t;
@@ -47,17 +58,19 @@ void test_with(const vector<string>& v, bool verbose = false) {
     trial_results["hog_time"] = hog_time;
     if(verbose) {cout<<"Elapsed time: " << hog_time << endl;}
     
-    trial_results["tot_time"] = aho_time + hog_time;
+    trial_results["tot_time"] = ehog_time + hog_time;
+
     int cnt = 0;
     for(auto b:hog.marked) cnt+=b;
+    trial_results["ehog_size"] = hog.marked.size()-1;
+    trial_results["hog_size"] = cnt;
+
     if(verbose) {
-        cout << "Size of Aho-Corasick trie: " << hog.marked.size()-1 
+        cout << "Size of EHOG: " << hog.marked.size()-1 
         << ", Size of HOG: " << cnt
         << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1)
         << endl;
     }
-    trial_results["aho_size"] = hog.marked.size()-1;
-    trial_results["hog_size"] = cnt;
 }
 
 template<typename T>
@@ -174,8 +187,12 @@ void real_data_test(int file_index = -1) {
 int main(int argc, char **argv) {
     #ifdef SSP
         // cout<<"\nUsing algo by SSP...\n";
-    #else 
+    #elif SK
         // cout<<"\nUsing algo by SK...\n";
+    #elif BCER
+        // cout<<"\nUsing algo by BCER...\n";
+    #else
+        // cout<<"\nUsing algo by EC...\n";
     #endif
     // int seed = chrono::system_clock::now().time_since_epoch().count();
     // int n = pow(10, stod(argv[1])/10), p = pow(10, stod(argv[2])/10),seed = 42;
