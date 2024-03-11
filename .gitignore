@@ -3,6 +3,7 @@
 /.cache
 /.vscode
 /bin
+/build
 /data
 /log
 
