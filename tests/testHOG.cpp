@@ -2,7 +2,6 @@
 using namespace std;
 
 #include "timer.h"
-#include "trace.h"
 
 #ifdef SSP
 
@@ -30,7 +29,7 @@ typedef HOG_EC HOG;
 typedef HOG_SK HOG;
 #endif
 
-const int TRIALS = 10;
+const int TRIALS = 1;
 map<string, double> trial_results;
 
 //TODO : write bigger validity test comparing dumps from both algos
@@ -73,16 +72,15 @@ void test_with(const vector<string>& v, bool verbose = false) {
     }
 }
 
-template<typename T>
-pair<T, T> get_mean_and_sd(vector<T> &a) {
+pair<double, double> get_mean_and_sd(vector<double> &a) {
     sort(a.begin(), a.end());
-    T sum = 0, sq_sum = 0, cnt=0;
-    for(int i=a.size()/10;i<(9*a.size()/10);i++) {
+    double sum = 0, sq_sum = 0, cnt=0;
+    for(int i=0;i<(int)a.size();i++) {
         sum += a[i];
         sq_sum += a[i]*a[i];
         cnt++;
     }
-    T avg = sum/cnt, sd = sqrt(sq_sum/cnt - avg*avg);
+    double avg = sum/cnt, sd = sqrt(sq_sum/cnt - avg*avg);
     return {avg, sd};
 }
 
@@ -91,13 +89,7 @@ void stress_test_with(function<vector<string>()> generator, bool verbose = false
     map<string, vector<double>> all_results;
     for(int i=0;i<TRIALS;i++) {
         auto v = generator();
-        trial_results["data_memory"] = sizeof(vector<string>) + sizeof(string)*v.capacity();
-        for(auto &s:v) {
-            trial_results["data_memory"] += sizeof(char)*s.capacity();
-        }
-        trial_results["data_memory"] /= 1000;
         test_with(v);
-        trial_results["aho_memory"] /= 1000;
         for(auto data_pair:trial_results) {
             all_results[data_pair.first].push_back(data_pair.second);
         }
@@ -109,11 +101,10 @@ void stress_test_with(function<vector<string>()> generator, bool verbose = false
     if(verbose) cout << "\nmemory:";
 }
 
-// TODO : change to use real data as complete string and randomly positioned reads
 void random_strings_stress_test(int n, int p, int seed) {
     assert(p>=n);
     // cout << "\nTesting on randomly generated strings...\n" << "N = " << n << ", P = " << p << '\n';
-    cout << n << ',' << p << ',';
+    cout << n << ',' << p << ',';cout.flush();
     srand(seed);
 
     auto generator = [&]() {
@@ -129,6 +120,7 @@ void random_strings_stress_test(int n, int p, int seed) {
     stress_test_with(generator);
 }
 
+// TODO : change to use real data as complete string and randomly positioned reads
 void random_string_reads_stress_test(int n, int p, double overlap, int seed) {
     assert(p>=n);
     assert(0.0<overlap);
@@ -153,8 +145,9 @@ void random_string_reads_stress_test(int n, int p, double overlap, int seed) {
     stress_test_with(generator);
 }
 
+void real_data_test(string fname) {
+    string data_path = "data/";
 
-void real_data_test_on(string fname) {
     cout<<'\n'<<fname<<":\n";
     fstream fin;
     fin.open(data_path+fname, ios::in);
@@ -169,19 +162,9 @@ void real_data_test_on(string fname) {
         fin>>v[i];
         total_length += v[i].length();
     }
-    cout<<"Number of strings : "<<v.size()<<'\n'<<"Sum of lengths : "<<total_length<<'\n';
+    cout<<"Number of strings = "<<v.size()<<'\n'<<"Sum of lengths = "<<total_length<<'\n';
 
-    stress_test_with([&](){return v;}, true);
-}
-void real_data_test(int file_index = -1) {
-    // cout<<"\nRunning on real datasets...\n";
-    if(file_index == -1) {
-        for(string fname:filenames) {
-            real_data_test_on(fname);
-        }
-    } else {
-        real_data_test_on(filenames[file_index]);
-    }
+    stress_test_with([&](){return v;});
 }
 
 int main(int argc, char **argv) {
@@ -195,12 +178,12 @@ int main(int argc, char **argv) {
         // cout<<"\nUsing algo by EC...\n";
     #endif
     // int seed = chrono::system_clock::now().time_since_epoch().count();
-    // int n = pow(10, stod(argv[1])/10), p = pow(10, stod(argv[2])/10),seed = 42;
-    int file_index = stoi(argv[1]);
+    int n = stoi(argv[1]), p = stoi(argv[2]), seed = stoi(argv[3]);
     // double o = stod(argv[3]);
+    // std::string d_name = argv[1];
     // test_validity();
-    // random_strings_stress_test(n, p, seed);
+    random_strings_stress_test(n, p, seed);
     // random_string_reads_stress_test(n, p, o, seed);
-    real_data_test(file_index);
+    // real_data_test(argv[1]);
     return 0;
 }
