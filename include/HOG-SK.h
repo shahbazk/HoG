@@ -3,7 +3,7 @@
 
 #include <bits/stdc++.h>
 
-#include "Aho-Cora.h"
+#include "EHOG.h"
 
 struct HOG_SK {
     std::vector<bool> marked;
@@ -14,9 +14,10 @@ struct HOG_SK {
     void add_string(const std::string& s);
     void add_strings(const std::vector<std::string>& v);
     void construct();
+    void print_details();
 
     private:
-    AhoCorasick trie;
+    EHOG trie;
     std::vector<std::vector<int>> l; //list of string indexes that have the i'th node on their suffix path
     std::vector<std::stack<int>> s;
     std::vector<int> unmarked; // list of indices of stacks that have unmarked tops

@@ -3,7 +3,7 @@
 
 #include <bits/stdc++.h>
 
-#include "Aho-Cora.h"
+#include "EHOG.h"
 
 struct HOG_SSP {
     std::vector<bool> marked;
@@ -14,9 +14,10 @@ struct HOG_SSP {
     void add_string(const std::string& s);
     void add_strings(const std::vector<std::string>& v);
     void construct();
-
+    void print_details();
+    
     private:
-    AhoCorasick trie;
+    EHOG trie;
 };
 
 #endif
