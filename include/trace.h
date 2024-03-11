@@ -1,5 +1,4 @@
-#ifndef TRACE_H
-#define TRACE_H
+#pragma once
 
 #ifdef DEBUG
 
@@ -84,4 +83,3 @@ void __f(const char *names, Arg1 &&arg1, Args &&... args) {
 #define error(...)
 #endif
 
-#endif

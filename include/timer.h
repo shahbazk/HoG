@@ -1,5 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
+#pragma once
 
 #include<bits/stdc++.h>
 
@@ -13,4 +12,3 @@ struct timer {
     bool completed;
 };
 
-#endif

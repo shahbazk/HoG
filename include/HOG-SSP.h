@@ -1,5 +1,4 @@
-#ifndef HOG_SSP_H
-#define HOG_SSP_H
+#pragma once
 
 #include <bits/stdc++.h>
 
@@ -20,4 +19,3 @@ struct HOG_SSP {
     EHOG trie;
 };
 
-#endif

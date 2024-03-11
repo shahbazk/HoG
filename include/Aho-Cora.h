@@ -1,5 +1,4 @@
-#ifndef AHO_CORA_H
-#define AHO_CORA_H
+#pragma once
 
 #include <bits/stdc++.h>
 
@@ -26,6 +25,3 @@ struct AhoCorasick {
     int get_link(int v);
 };
 
-
-#endif
- 
