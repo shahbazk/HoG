@@ -1,48 +1,31 @@
 #include "HOG-SK.h"
 #include "trace.h"
+#include "trace.h"
 
 using namespace std;
 
 HOG_SK::HOG_SK() {}
 
-HOG_SK::HOG_SK(const vector<string>& v) {
-    add_strings(v);
-    construct();
-}
-
-void HOG_SK::add_string(const std::string& s) {
-    trie.trie.add_string(s);
-}
-
-void HOG_SK::add_strings(const vector<string>& v) {
-    int p = 0;
-    for(auto &s:v) p += s.length();
-    trie.trie.leaves.reserve(v.size());
-    trie.trie.t.reserve(p);
-    for(auto &s:v) add_string(s);
-    trie.construct();
-}
-
 void HOG_SK::construct() {
     //construct l
     int root = 1;
-    l.resize(trie.t.size()); //initialise l with empty lists
-    for(int i=0;i<(int)trie.leaves.size();i++) {
-        int curr = trie.get_link(trie.leaves[i]);
+    l.resize(t.size()); //initialise l with empty lists
+    for(int i=0;i<(int)leaves.size();i++) {
+        int curr = get_link(leaves[i]);
         while(curr != root) { // add to the list of each node on suffix path, except the leaf itself
             l[curr].push_back(i);
-            curr = trie.get_link(curr);
+            curr = get_link(curr);
         }
     }
-    marked.resize(trie.t.size(), false); // inH
+    marked.resize(t.size(), false); // inH
     marked[root] = true; //root is in HOG
-    s.resize(trie.leaves.size());
-    is_unmarked.resize(trie.leaves.size(), false);
+    s.resize(leaves.size());
+    is_unmarked.resize(leaves.size(), false);
     dfs(root);
 }
 
 void HOG_SK::dfs(int node) {
-    if(trie.t[node].is_leaf()) {
+    if(t[node].is_leaf()) {
         marked[node] = true; // leaves are implicitly in HOG
         for(int x:unmarked) { // iterate over all stacks with unmarked tops
             if(is_unmarked[x]) {
@@ -61,7 +44,7 @@ void HOG_SK::dfs(int node) {
             unmarked.push_back(x);
         }
     }
-    for(int child : trie.t[node].childs){
+    for(int child : t[node].childs){
         dfs(child);
     }
     // node visited for the last time
@@ -77,10 +60,14 @@ void HOG_SK::dfs(int node) {
         }
     }
 }
-void HOG_SK::print_details(){
-    std::cout << "Aho-Corasick Size: " << trie.trie.t.size() << "\n";
-    std::cout << "EHOG Size: " << trie.t.size() << "\n";
+void HOG_SK::print_details(bool verbose){
     int hsz = 0;
     for(bool a:marked)hsz+=a;
-    std::cout << "HOG Size: " << hsz << "\n";
+    if(verbose){
+        std::cout << "EHOG Size: " << t.size() << "\n";
+        std::cout << "HOG Size: " << hsz << "\n";
+    }
+    else{
+        std::cout << "," << t.size() << "," << hsz;
+    }
 }

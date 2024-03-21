@@ -1,8 +1,20 @@
 #include "EHOG.h"
-#include "trace.h"
 using namespace std;
 
 EHOG::EHOG() {}
+
+void EHOG::add_string(const std::string& s) {
+    trie.add_string(s);
+}
+
+void EHOG::add_strings(const vector<string>& v) {
+    int p = 0;
+    for(auto &s:v) p += s.length();
+    trie.leaves.reserve(v.size());
+    trie.t.reserve(p);
+    for(auto &s:v) add_string(s);
+    construct();
+}
 
 void EHOG::construct(){
     marked.resize(trie.t.size());
@@ -17,7 +29,7 @@ void EHOG::construct(){
     marked[1] = true;
     conversion.resize(trie.t.size());
     dfs(1, 0);
-    for(int i=1;i<t.size();i++) {
+    for(int i = 1;i<(int)t.size();i++) {
         t[i].link = conversion[trie.get_link(t[i].aho_index)];
     }
 }
@@ -46,4 +58,12 @@ void EHOG::dfs(int v, int par){
             }
         }
     }
+}
+void EHOG::dump(ofstream& out){
+    out<<t.size()<<" ";
+    for(EHOG_NODE &a:t){
+        a.dump(out);
+    }
+    out<<leaves.size()<<" ";
+    for(int a:leaves)out<<a<<" ";
 }

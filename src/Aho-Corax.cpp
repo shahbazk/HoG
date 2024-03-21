@@ -1,5 +1,4 @@
 #include "Aho-Corax.h"
-#include "trace.h"
 
 using namespace std;
 
@@ -18,7 +17,6 @@ void AhoCoraxsick::add_string(string const& s) {
         if (t[v].next[c] == 0) {
             t[v].next[c] = t.size();
             t.emplace_back(v, ch);
-            // t[t.size()-1].str_index = str_count-1;
             t[t.size()-1].length = t[v].length+1;
         }
         v = t[v].next[c];
@@ -50,7 +48,6 @@ int AhoCoraxsick::get_link(int v) {
     }
     return t[v].link;
 }
-
 
 std::vector<int> AhoCoraxsick::sorted_order(){
     std::vector<int> leaves_in_order;

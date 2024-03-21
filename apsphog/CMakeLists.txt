@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16.3)
+set(CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+# set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/lib)
+# message(${CMAKE_BINARY_DIR})
+# include_directories(./include)
+include_directories(apsphog PUBLIC ./include)
+add_library(apsphog SHARED ./src/Hog.cpp)

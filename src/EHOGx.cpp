@@ -1,8 +1,21 @@
 #include "EHOGx.h"
-#include "trace.h"
 using namespace std;
 
 EHOGx::EHOGx() {}
+
+void EHOGx::add_string(const std::string& s) {
+    trie.add_string(s);
+}
+
+void EHOGx::add_strings(const vector<string>& v) {
+    int p = 0;
+    for(auto &s:v) p += s.length();
+    trie.leaves.reserve(v.size());
+    trie.t.reserve(p);
+    for(auto &s:v) add_string(s);
+    construct();
+    build_rl();
+}
 
 void EHOGx::construct(){
     trie.sorted_order();
@@ -18,7 +31,7 @@ void EHOGx::construct(){
     marked[1] = true;
     conversion.resize(trie.t.size());
     dfs(1, 0);
-    for(int i=1;i<t.size();i++) {
+    for(int i = 1;i<(int)t.size();i++){
         t[i].link = conversion[trie.get_link(t[i].aho_index)];
     }
 }
@@ -41,6 +54,8 @@ void EHOGx::dfs(int v, int par){
         t[par].childs.push_back(eind);
         t.emplace_back(par);
         t[eind].aho_index = v;
+        t[eind].l = trie.t[v].l;
+        t[eind].r = trie.t[v].r;
         conversion[v] = eind;
         if(trie.t[v].is_leaf()){
             t[eind].output = true;
@@ -59,4 +74,13 @@ void EHOGx::dfs(int v, int par){
             }
         }
     }
+}
+
+void EHOGx::dump(ofstream& out){
+    out<<t.size()<<" ";
+    for(EHOGx_NODE &a:t){
+        a.dump(out);
+    }
+    out<<leaves.size()<<" ";
+    for(int a:leaves)out<<a<<" ";
 }
