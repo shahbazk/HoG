@@ -12,22 +12,9 @@ struct EHOG_NODE {
     inline EHOG_NODE(){}
     inline EHOG_NODE(int par) : p(par) {}
     inline bool is_leaf() {return output;}
-    void dump(std::ofstream& out){
-        out<<p<<" "<<link<<" "<<output<<" ";
-        out<<childs.size()<<" ";
-        for(int a:childs)out<<a<<" ";
-        // out<<"\n";
-    }
-    void inp(std::ifstream& in){
-        in>>p>>link>>output;
-        int numChild;
-        in>>numChild;
-        childs.resize(numChild);
-        for(int i = 0;i<numChild;i++){in>>childs[i];}
-    }
-    int memory_calculate(){
-        return childs.size()*sizeof(int);
-    }
+    void dump(std::ofstream& out);
+    void inp(std::ifstream& in);
+    int memory_calculate();
 };
 
 

@@ -41,3 +41,13 @@ void HOG_BCER::print_details(bool verbose){
         std::cout << "," << t.size() << "," << hsz;
     }
 }
+
+void HOG_BCER::inp(std::ifstream& in){
+    int treeSize, leavesSize;
+    in>>treeSize;
+    t.resize(treeSize);
+    for(int i = 0;i<treeSize;i++)t[i].inp(in);
+    in>>leavesSize;
+    leaves.resize(leavesSize);
+    for(int i = 0;i<leavesSize;i++)in>>leaves[i];
+}

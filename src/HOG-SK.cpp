@@ -60,6 +60,7 @@ void HOG_SK::dfs(int node) {
         }
     }
 }
+
 void HOG_SK::print_details(bool verbose){
     int hsz = 0;
     for(bool a:marked)hsz+=a;
@@ -70,4 +71,14 @@ void HOG_SK::print_details(bool verbose){
     else{
         std::cout << "," << t.size() << "," << hsz;
     }
+}
+
+void HOG_SK::inp(std::ifstream& in){
+    int treeSize, leavesSize;
+    in>>treeSize;
+    t.resize(treeSize);
+    for(int i = 0;i<treeSize;i++)t[i].inp(in);
+    in>>leavesSize;
+    leaves.resize(leavesSize);
+    for(int i = 0;i<leavesSize;i++)in>>leaves[i];
 }

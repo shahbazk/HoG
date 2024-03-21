@@ -1,6 +1,30 @@
 #include "EHOGx.h"
 using namespace std;
 
+void EHOGx_NODE::dump(std::ofstream& out){
+    out<<p<<" "<<link<<" "<<output<<" "<<l<<" "<<r<<" ";
+    out<<childs.size()<<" ";
+    for(int a:childs)out<<a<<" ";
+    out << rl.size()<<" ";
+    for(int a:rl)out << a << " ";
+}
+
+void EHOGx_NODE::inp(std::ifstream& in){
+    in>>p>>link>>output>>l>>r;
+    int numChild;
+    in>>numChild;
+    childs.resize(numChild);
+    for(int i = 0;i<numChild;i++){in>>childs[i];}
+    in >> numChild;
+    rl.resize(numChild);
+    for(int i = 0;i<numChild;i++)in>>rl[i];
+}
+
+int EHOGx_NODE::memory_calculate(){
+    return childs.size()*sizeof(int) + rl.size()*sizeof(int);
+}
+
+
 EHOGx::EHOGx() {}
 
 void EHOGx::add_string(const std::string& s) {
