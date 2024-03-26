@@ -8,14 +8,16 @@ struct AhoNode {
     int p; // index of parent
     int link = 0; // index of suffix link
     char pch; // character of parent edge
-    bool output = false; // is this node an exact match
     int strIndex = 0;
     int next[alphabet]= {0}; // direct transition from this node using a character
 
     inline AhoNode(int par, char ch) : p(par), pch(ch) {}
     AhoNode(std::ifstream &in);
     void file_output(std::ofstream &out);
-    inline bool is_leaf() {return output;}
+    inline bool is_leaf() { 
+        if(strIndex != 0)return true;
+        else return false;
+    }
 };
 
 struct AhoCorasick {
