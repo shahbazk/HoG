@@ -3,18 +3,12 @@
 #include <bits/stdc++.h>
 
 #include "EHOG.h"
+#include "HOG-BASE.h"
 
-struct HOG_SSP {
-    std::vector<bool> marked;
-    std::vector<EHOG_NODE> t;
-    std::vector<int> leaves;
-
-    HOG_SSP();
-    void construct();
-    void print_details(bool verbose);
-    void inp(std::ifstream& in);
+struct HOG_SSP : public HOG_BASE {
+    HOG_SSP(EHOG &ehog);
+    HOG_SSP(AhoCorasick &ahocora);
 
     private:
-    inline int get_link(int node) { return t[node].link; }
 };
 

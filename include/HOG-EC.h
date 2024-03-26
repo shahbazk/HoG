@@ -1,6 +1,7 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "EHOGx.h"
+#include "EHOG.h"
+#include "HOG-BASE.h"
 
 struct segtree{
     std::vector<int>nim, add;
@@ -47,24 +48,9 @@ struct segtree{
     }
 };
 
-struct HOG_EC{
+struct HOG_EC : public HOG_BASE{
 public:
-
-    // std::vector<bool>marked_ehog;
-    std::vector<bool>marked;
-    std::vector<EHOGx_NODE> t;
-    std::vector<int> leaves;
-    HOG_EC();
-    // HOG_EC(const std::vector<std::string>& v);
-
-    void construct();
-    void print_details(bool verbose);
-    void inp(std::ifstream& in);
+    HOG_EC(EHOG &ehog);
 private:
-
-    // AhoCorasick trie;
-    // EHOGx _etrie;
-    std::vector<std::string>dictionary;
-    void EHOG_construct();
-    inline int get_link(int node) { return t[node].link; }
+    std::vector<int>l, r;
 };
