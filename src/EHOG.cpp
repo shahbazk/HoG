@@ -3,7 +3,7 @@
 using namespace std;
 
 EHOG_NODE::EHOG_NODE(ifstream& in){
-    cin >> p >> link >> output >> aho_index >> strIndex;
+    cin >> p >> link >> aho_index >> strIndex;
     int childsSize;
     cin >> childsSize;
     childs.resize(childsSize);
@@ -11,7 +11,7 @@ EHOG_NODE::EHOG_NODE(ifstream& in){
 }
 
 void EHOG_NODE::file_output(ofstream &out){
-    cout << p << " " << link << " " << output << " " << aho_index << " " << strIndex << " ";
+    cout << p << " " << link << " " << aho_index << " " << strIndex << " ";
     cout << childs.size() << " ";
     for(int i = 0;i<childs.size();i++)cout << childs[i] << " ";
 }
@@ -38,7 +38,6 @@ EHOG::EHOG(AhoCorasick &ahotree){
             t[eind].strIndex = ahotree.t[v].strIndex;
             conversion[v] = eind;
             if(ahotree.t[v].is_leaf()){
-                t[eind].output = true;
                 leaves.push_back(eind);
             }
             for(int i = 0;i<alphabet;i++){

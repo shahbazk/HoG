@@ -3,12 +3,12 @@
 using namespace std;
 
 AhoNode::AhoNode(ifstream&in){
-    cin >> p  >> link >> pch >> output >> strIndex;
+    cin >> p  >> link >> pch >> strIndex;
     for(int i = 0;i<alphabet;i++)cin >> next[i];
 }
 
 void AhoNode::file_output(ofstream& out){
-    cout << p << " " << link << " " << pch << " " << output << " " << strIndex << " ";
+    cout << p << " " << link << " " << pch << " " << strIndex << " ";
     for(int i = 0;i<alphabet;i++){
         cout << next[i]<< " ";
     } 
@@ -60,8 +60,7 @@ void AhoCorasick::add_string(string const& s) {
         }
         v = t[v].next[c];
     }
-    if(!t[v].output) {
-        t[v].output = true;
+    if(t[v].strIndex == 0) {
         leaves.push_back(v);
         t[v].strIndex = leaves.size()-1;
     }
