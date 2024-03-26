@@ -1,6 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "EHOG.h"
+#include "Aho-Cora.h"
 
 struct HOG_SP {
     std::vector<bool> marked;
@@ -14,6 +14,6 @@ struct HOG_SP {
     void print_details();
 
     private:
-    std::vector<std::string> strings;
-    EHOG trie;
+    std::vector<std::string> input_strings;
+    AhoCorasick input_trie;
 };
