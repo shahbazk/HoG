@@ -1,69 +1,79 @@
 #include "EHOG.h"
+
 using namespace std;
 
-EHOG::EHOG() {}
-
-void EHOG::add_string(const std::string& s) {
-    trie.add_string(s);
+EHOG_NODE::EHOG_NODE(ifstream& in){
+    cin >> p >> link >> output >> aho_index >> strIndex;
+    int childsSize;
+    cin >> childsSize;
+    childs.resize(childsSize);
+    for(int i = 0;i<childsSize;i++)cin >> childs[i];
 }
 
-void EHOG::add_strings(const vector<string>& v) {
-    int p = 0;
-    for(auto &s:v) p += s.length();
-    trie.leaves.reserve(v.size());
-    trie.t.reserve(p);
-    for(auto &s:v) add_string(s);
-    construct();
+void EHOG_NODE::file_output(ofstream &out){
+    cout << p << " " << link << " " << output << " " << aho_index << " " << strIndex << " ";
+    cout << childs.size() << " ";
+    for(int i = 0;i<childs.size();i++)cout << childs[i] << " ";
 }
 
-void EHOG::construct(){
-    marked.resize(trie.t.size());
-    for(int v: trie.leaves){
+EHOG::EHOG(AhoCorasick &ahotree){
+    std::vector<bool>marked(ahotree.t.size());
+    for(int v:ahotree.leaves){
         int temp = v;
-        while(temp!=1){
+        while(temp != 1){
             marked[temp] = true;
-            temp = trie.get_link(temp);
+            temp = ahotree.get_link(temp);
         }
     }
-    t.emplace_back(-1); // garbage node   
+    t.emplace_back(-1); // garbage node
     marked[1] = true;
-    conversion.resize(trie.t.size());
-    dfs(1, 0);
+    std::vector<int>conversion(ahotree.t.size());
+    std::function<void(int,int)> dfs;
+    dfs = [&marked, &ahotree, &conversion, this, &dfs](int v, int par){
+        if(marked[v] == true){
+            int eind = t.size();
+            t[par].childs.push_back(eind);
+            t.emplace_back(par);
+            t[eind].aho_index = v;
+            t[eind].strIndex = ahotree.t[v].strIndex;
+            conversion[v] = eind;
+            if(ahotree.t[v].is_leaf()){
+                t[eind].output = true;
+                leaves.push_back(eind);
+            }
+            for(int i = 0;i<alphabet;i++){
+                if(ahotree.t[v].next[i] != 0){
+                    dfs(ahotree.t[v].next[i], eind);
+                }
+            }
+        }
+        else{
+            for(int i = 0;i<alphabet;i++){
+                if(ahotree.t[v].next[i] != 0){
+                    dfs(ahotree.t[v].next[i], par);
+                }
+            }
+        }
+    };
+    dfs(1,0);
     for(int i = 1;i<(int)t.size();i++) {
-        t[i].link = conversion[trie.get_link(t[i].aho_index)];
+        t[i].link = conversion[ahotree.get_link(t[i].aho_index)];
     }
 }
 
-void EHOG::dfs(int v, int par){
-    if(marked[v] == true){
-        int eind = t.size();
-        t[par].childs.push_back(eind);
-        t.emplace_back(par);
-        t[eind].aho_index = v;
-        conversion[v] = eind;
-        if(trie.t[v].is_leaf()){
-            t[eind].output = true;
-            leaves.push_back(eind);
-        }
-        for(int i = 0;i<alphabet;i++){
-            if(trie.t[v].next[i] != 0){
-                dfs(trie.t[v].next[i], eind);
-            }
-        }
-    }
-    else{
-        for(int i = 0;i<alphabet;i++){
-            if(trie.t[v].next[i] != 0){
-                dfs(trie.t[v].next[i], par);
-            }
-        }
-    }
+EHOG::EHOG(std::ifstream &in){
+    int treeSize;
+    cin >> treeSize;
+    for(int i = 0;i<treeSize;i++)t.emplace_back(in);
+    int leavesSize;
+    cin >> leavesSize;
+    leaves.resize(leavesSize);
+    for(int i = 0;i<leavesSize;i++)cin >> leaves[i];
 }
-void EHOG::dump(ofstream& out){
-    out<<t.size()<<" ";
-    for(EHOG_NODE &a:t){
-        a.dump(out);
-    }
-    out<<leaves.size()<<" ";
-    for(int a:leaves)out<<a<<" ";
+
+void EHOG::file_output(std::ofstream &out){
+    cout << t.size() << " ";
+    for(int i = 0;i<t.size();i++)t[i].file_output(out);
+    cout << leaves.size() << " ";
+    for(int i = 0;i<leaves.size();i++)cout << leaves[i];
 }
