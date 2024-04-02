@@ -20,7 +20,7 @@ AhoCorasick::AhoCorasick() {
     t[1].link = 1;
 }
 
-AhoCorasick::AhoCorasick(std::vector<std::string> &v){
+AhoCorasick::AhoCorasick(const std::vector<std::string> &v){
     t.emplace_back(-1, -1); //garbage node
     t.emplace_back(0, '$'); //root node
     t[1].link = 1;
@@ -45,9 +45,9 @@ AhoCorasick::AhoCorasick(std::ifstream &in){
 
 void AhoCorasick::file_output(std::ofstream &out){
     cout << t.size() << " ";
-    for(int i = 0;i<t.size();i++)t[i].file_output(out);
+    for(int i = 0;i<(int)t.size();i++)t[i].file_output(out);
     cout << leaves.size() << " ";
-    for(int i = 0;i<leaves.size();i++)cout << leaves[i] << " ";
+    for(int i = 0;i<(int)leaves.size();i++)cout << leaves[i] << " ";
 }
 
 void AhoCorasick::add_string(string const& s) {
@@ -60,7 +60,7 @@ void AhoCorasick::add_string(string const& s) {
         }
         v = t[v].next[c];
     }
-    if(t[v].strIndex == 0) {
+    if(t[v].strIndex == -1) {
         leaves.push_back(v);
         t[v].strIndex = leaves.size()-1;
     }

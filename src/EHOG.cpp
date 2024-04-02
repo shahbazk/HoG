@@ -13,7 +13,7 @@ EHOG_NODE::EHOG_NODE(ifstream& in){
 void EHOG_NODE::file_output(ofstream &out){
     cout << p << " " << link << " " << aho_index << " " << strIndex << " ";
     cout << childs.size() << " ";
-    for(int i = 0;i<childs.size();i++)cout << childs[i] << " ";
+    for(int i = 0;i<(int)childs.size();i++)cout << childs[i] << " ";
 }
 
 EHOG::EHOG(AhoCorasick &ahotree){
@@ -72,7 +72,7 @@ EHOG::EHOG(std::ifstream &in){
 
 void EHOG::file_output(std::ofstream &out){
     cout << t.size() << " ";
-    for(int i = 0;i<t.size();i++)t[i].file_output(out);
+    for(int i = 0;i<(int)t.size();i++)t[i].file_output(out);
     cout << leaves.size() << " ";
-    for(int i = 0;i<leaves.size();i++)cout << leaves[i];
+    for(int i = 0;i<(int)leaves.size();i++)cout << leaves[i];
 }

@@ -4,8 +4,8 @@
 using namespace std;
 
 HOG_EC::HOG_EC(EHOG &ehog) {
-    l.resize(ehog.t.size());
-    r.resize(ehog.t.size());
+    l.resize(ehog.t.size(), 1e9);
+    r.resize(ehog.t.size(), -1);
 
     int leaves_visited = 0;
     function<void(int)> dfs;
@@ -21,15 +21,15 @@ HOG_EC::HOG_EC(EHOG &ehog) {
             l[v] = min(l[v], l[child]);
         }
         for(int child:ehog.t[v].childs){
-            r[v] = min(r[v], r[child]);
+            r[v] = max(r[v], r[child]);
         }
     };
 
     dfs(1);
-
     int n = ehog.leaves.size();
     marked.resize(ehog.t.size());
     segtree S(n);
+    marked[1] = 1;
     for(int u:ehog.leaves){
         marked[u] = true;
         std::vector<pair<int,int>>oper;
