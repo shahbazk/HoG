@@ -51,6 +51,7 @@ struct segtree{
 struct HOG_EC : public HOG_BASE{
 public:
     HOG_EC(EHOG &ehog);
+    HOG_EC(AhoCorasick &aho);
 private:
     std::vector<int>l, r;
 };
