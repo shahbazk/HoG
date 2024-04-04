@@ -16,6 +16,10 @@ void EHOG_NODE::file_output(ofstream &out){
     for(int i = 0;i<(int)childs.size();i++)cout << childs[i] << " ";
 }
 
+long long EHOG_NODE::memory_required(){
+    return childs.capacity() * (sizeof(int));
+}
+
 EHOG::EHOG(AhoCorasick &ahotree){
     std::vector<bool>marked(ahotree.t.size());
     for(int v:ahotree.leaves){
@@ -75,4 +79,12 @@ void EHOG::file_output(std::ofstream &out){
     for(int i = 0;i<(int)t.size();i++)t[i].file_output(out);
     cout << leaves.size() << " ";
     for(int i = 0;i<(int)leaves.size();i++)cout << leaves[i];
+}
+
+long long EHOG::memory_required(){
+    long long mem = (t.capacity())*(sizeof(t)) + leaves.capacity()*(sizeof(int));
+    for(int i = 0;i<t.size();i++){
+        mem += t[i].memory_required();
+    }
+    return mem;
 }

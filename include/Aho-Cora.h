@@ -30,5 +30,6 @@ struct AhoCorasick {
     void add_string(std::string const& s);
     int get_link(int v);
     void file_output(std::ofstream& out);
+    long long memory_required();
 };
 

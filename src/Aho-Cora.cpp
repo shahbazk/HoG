@@ -83,3 +83,7 @@ int AhoCorasick::get_link(int v) {
     }
     return t[v].link;
 }
+
+long long AhoCorasick::memory_required(){
+    return (t.capacity())*(sizeof(t)) + leaves.capacity()*(sizeof(int));
+}

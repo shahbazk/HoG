@@ -17,7 +17,7 @@ struct EHOG_NODE {
         else return false;
     }
     void file_output(std::ofstream& out);
-    int memory_calculate();
+    long long memory_required();
 };
 
 
@@ -30,4 +30,5 @@ public:
     
     inline int get_link(int v) {return t[v].link;}
     void file_output(std::ofstream &out);
+    long long memory_required();
 };
