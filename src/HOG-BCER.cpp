@@ -22,7 +22,7 @@ void HOG_BCER::build_rl(EHOG &ehog){
 }
 
 vector<bool> HOG_BCER::mark_hog(int v, EHOG &ehog){
-    if(ehog.t[v].is_leaf()){
+    if(ehog.t[v].childs.size() == 0){
         vector<bool>C(ehog.leaves.size(), false);
         marked[v] = true;
         return C;
@@ -62,7 +62,11 @@ void HOG_BCER::build_rl(AhoCorasick &ahocora){
 }
 
 vector<bool> HOG_BCER::mark_hog(int v, AhoCorasick &ahocora){
-    if(ahocora.t[v].is_leaf()){
+    bool is_leaf = true;
+    for(int i = 0;i<alphabet;i++){
+        if(ahocora.t[v].next[i]!=0)is_leaf = false;
+    }
+    if(is_leaf){
         vector<bool>C(ahocora.leaves.size(), false);
         marked[v] = true;
         return C;

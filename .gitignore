@@ -6,6 +6,7 @@
 /build
 /data
 /log
+/dump
 
 # files
 *.docx

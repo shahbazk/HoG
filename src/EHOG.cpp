@@ -3,17 +3,21 @@
 using namespace std;
 
 EHOG_NODE::EHOG_NODE(ifstream& in){
-    cin >> p >> link >> aho_index >> strIndex;
+    in >> p >> link >> aho_index >> strIndex;
     int childsSize;
-    cin >> childsSize;
+    in >> childsSize;
     childs.resize(childsSize);
-    for(int i = 0;i<childsSize;i++)cin >> childs[i];
+    for(int i = 0;i<childsSize;i++)in >> childs[i];
 }
 
 void EHOG_NODE::file_output(ofstream &out){
-    cout << p << " " << link << " " << aho_index << " " << strIndex << " ";
-    cout << childs.size() << " ";
-    for(int i = 0;i<(int)childs.size();i++)cout << childs[i] << " ";
+    out << p << " " << link << " " << aho_index << " " << strIndex << " ";
+    out << childs.size() << " ";
+    for(int i = 0;i<(int)childs.size();i++)out << childs[i] << " ";
+}
+
+long long EHOG_NODE::memory_required(){
+    return childs.capacity() * (sizeof(int));
 }
 
 EHOG::EHOG(AhoCorasick &ahotree){
@@ -62,17 +66,25 @@ EHOG::EHOG(AhoCorasick &ahotree){
 
 EHOG::EHOG(std::ifstream &in){
     int treeSize;
-    cin >> treeSize;
+    in >> treeSize;
     for(int i = 0;i<treeSize;i++)t.emplace_back(in);
     int leavesSize;
-    cin >> leavesSize;
+    in >> leavesSize;
     leaves.resize(leavesSize);
-    for(int i = 0;i<leavesSize;i++)cin >> leaves[i];
+    for(int i = 0;i<leavesSize;i++)in >> leaves[i];
 }
 
 void EHOG::file_output(std::ofstream &out){
-    cout << t.size() << " ";
+    out << t.size() << " ";
     for(int i = 0;i<(int)t.size();i++)t[i].file_output(out);
-    cout << leaves.size() << " ";
-    for(int i = 0;i<(int)leaves.size();i++)cout << leaves[i];
+    out << leaves.size() << " ";
+    for(int i = 0;i<(int)leaves.size();i++)out << leaves[i] << " ";
+}
+
+long long EHOG::memory_required(){
+    long long mem = (t.capacity())*(sizeof(t)) + leaves.capacity()*(sizeof(int));
+    for(int i = 0;i<(int)t.size();i++){
+        mem += t[i].memory_required();
+    }
+    return mem;
 }
