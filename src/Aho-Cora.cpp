@@ -3,14 +3,14 @@
 using namespace std;
 
 AhoNode::AhoNode(ifstream&in){
-    cin >> p  >> link >> pch >> strIndex;
-    for(int i = 0;i<alphabet;i++)cin >> next[i];
+    in >> p  >> link >> pch >> strIndex;
+    for(int i = 0;i<alphabet;i++)in >> next[i];
 }
 
 void AhoNode::file_output(ofstream& out){
-    cout << p << " " << link << " " << pch << " " << strIndex << " ";
+    out << p << " " << link << " " << pch << " " << strIndex << " ";
     for(int i = 0;i<alphabet;i++){
-        cout << next[i]<< " ";
+        out << next[i]<< " ";
     } 
 }
 
@@ -35,19 +35,19 @@ AhoCorasick::AhoCorasick(const std::vector<std::string> &v){
 
 AhoCorasick::AhoCorasick(std::ifstream &in){
     int treeSize;
-    cin >> treeSize;
+    in >> treeSize;
     for(int i = 0;i<treeSize;i++)t.emplace_back(in);
     int leavesSize;
-    cin >> leavesSize;
+    in >> leavesSize;
     leaves.resize(leavesSize);
-    for(int i = 0;i<leavesSize;i++)cin >> leaves[i];
+    for(int i = 0;i<leavesSize;i++)in >> leaves[i];
 }
 
 void AhoCorasick::file_output(std::ofstream &out){
-    cout << t.size() << " ";
+    out << t.size() << " ";
     for(int i = 0;i<(int)t.size();i++)t[i].file_output(out);
-    cout << leaves.size() << " ";
-    for(int i = 0;i<(int)leaves.size();i++)cout << leaves[i] << " ";
+    out << leaves.size() << " ";
+    for(int i = 0;i<(int)leaves.size();i++)out << leaves[i] << " ";
 }
 
 void AhoCorasick::add_string(string const& s) {
