@@ -10,7 +10,7 @@ public:
 
 private:
     std::vector<bool> mark_hog(int v, EHOG &ehog);
-    vector<bool> mark_hog(int v, AhoCorasick &ahocora);
+    std::vector<bool> mark_hog(int v, AhoCorasick &ahocora);
     void build_rl(EHOG &ehog);
     void build_rl(AhoCorasick &ahocora);
     std::vector<std::vector<int>>rl;

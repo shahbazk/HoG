@@ -1,8 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
 class HOG_BASE{
 protected:
     HOG_BASE(){};

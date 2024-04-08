@@ -8,30 +8,25 @@ using namespace std;
 #include "HOG-SSP.h"
 typedef HOG_SSP HOG;
 #include "EHOG.h"
-typedef EHOG EHOG;
 #elif SK
 
 #include "HOG-SK.h"
 typedef HOG_SK HOG;
 #include "EHOG.h"
-typedef EHOG EHOG;
 #elif BCER
 
 #include "HOG-BCER.h"
 typedef HOG_BCER HOG;
 // #include "EHOGx.h";
-typedef EHOGx EHOG;
 #elif EC
 
 #include "HOG-EC.h"
 typedef HOG_EC HOG;
 // #include "EHOGx.h";
-typedef EHOGx EHOG;
 #else
 #include "HOG-SSP.h"
 typedef HOG_SSP HOG;
 #include "EHOG.h";
-typedef EHOG EHOG;
 #endif
 
 const int TRIALS = 1;
