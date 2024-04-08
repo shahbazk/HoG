@@ -29,19 +29,19 @@ typedef HOG_SSP HOG;
 #include "EHOG.h";
 #endif
 
-const int TRIALS = 1;
 map<string, double> trial_results;
 
-//TODO : write bigger validity test comparing dumps from both algos
+// TODO : write bigger validity test comparing dumps from both algos
 void test_validity() {
     cout << "\nTesting validity of algorithm\n";
     vector<string> v = {"aabaa", "aadbd", "dbdaa"};
-    HOG hog(v);
+    AhoCorasick ahocora(v);
+    HOG hog(ahocora);
     assert(hog.marked == vector<bool>({0,1,0,1,0,0,1,0,0,1,0,0,1,0,1}));
     cout<<"All tests passed\n";
 }
 
-void test_with(const vector<string>& v, bool verbose = false) {
+/* void test_with(const vector<string>& v, bool verbose = false) {
     HOG hog;
     if(verbose) {cout<<"Building Aho-Corasick automaton..." << endl;}
     timer ehog_t;
@@ -72,34 +72,6 @@ void test_with(const vector<string>& v, bool verbose = false) {
     }
 }
 
-pair<double, double> get_mean_and_sd(vector<double> &a) {
-    sort(a.begin(), a.end());
-    double sum = 0, sq_sum = 0, cnt=0;
-    for(int i=0;i<(int)a.size();i++) {
-        sum += a[i];
-        sq_sum += a[i]*a[i];
-        cnt++;
-    }
-    double avg = sum/cnt, sd = sqrt(sq_sum/cnt - avg*avg);
-    return {avg, sd};
-}
-
-void stress_test_with(function<vector<string>()> generator, bool verbose = false) {
-    // cout<<"Number of trials: " << TRIALS << endl;
-    map<string, vector<double>> all_results;
-    for(int i=0;i<TRIALS;i++) {
-        auto v = generator();
-        test_with(v);
-        for(auto data_pair:trial_results) {
-            all_results[data_pair.first].push_back(data_pair.second);
-        }
-    }
-    for(auto result:all_results) {
-        if(verbose) cout << '\n' << result.first << ':';
-        cout << fixed << setprecision(3) << get_mean_and_sd(result.second).first << ',';
-    }
-    if(verbose) cout << "\nmemory:";
-}
 
 void stress_test_with_ehog(const vector<string>& v, std::string filename) {
     vector<double> ehog_times(TRIALS), hog_times(TRIALS), tot_times(TRIALS);
@@ -169,77 +141,70 @@ void stress_test_with_hog(std::string filename) {
     // cout<<"ehog memory: "<<memehog<<"\n";
     // cout<<"hog: "<<hog_data.first<<' '<<hog_data.second<<std::endl;
     cout<<","<<memehog<<","<<hog_data.first<<','<<hog_data.second<<std::endl;
-}
-void random_strings_stress_test(int n, int p, int seed) {
-    assert(p>=n);
-    // cout << "\nTesting on randomly generated strings...\n" << "N = " << n << ", P = " << p << '\n';
-    cout << n << ',' << p << ',';cout.flush();
-    srand(seed);
+} */
 
-    auto generator = [&]() {
+
+class DatasetGenerator {
+
+    vector<string> generate_real_data(string datasetName){
+        string data_path = "data/";
+        fstream fin;
+        fin.open(data_path+datasetName, ios::in);
+        if(!fin) {
+            cout<<"couldn't open file: "<<datasetName<<endl;
+            return {};
+        }
+        long long n, total_length = 0;
+        fin>>n;
+        vector<string> v(n);
+        for(int i=0;i<n;i++) {
+            fin>>v[i];
+            total_length += v[i].length();
+        }
+
+        /* cout<<"Dataset Name = " << datasetName << "\n";
+        cout<<"Number of strings = "<<v.size()<<'\n'<<"Sum of lengths = "<<total_length<<'\n'; */
+
+        cout<<","<<datasetName<<","<<v.size()<<","<<total_length;
+
+        return v;
+    }
+
+    vector<string> generate_random_data(int n, int k, int seed) {
+        assert(k>=n);
+        // cout << "\nTesting on randomly generated strings...\n" << "N = " << n << ", K = " << k << '\n';
+        srand(seed);
+
+        cout << n << ',' << k << ',';cout.flush();
         vector<string> v(n);
         int j=0;
-        for(int i=0;i<p;i++,j++) {
+        for(int i=0;i<k;i++,j++) {
             if(j>=n) j-=n;
             v[j] += ('a'+rand()%alphabet);
         }
         return v;
-    };
+    }
 
-    stress_test_with(generator);
-}
+    vector<string> generate_random_read_data(int n, int k, int overlap, int seed) {
+        assert(k>=n);
+        assert(0.0<overlap);
+        assert(overlap<1.0);
+        int len = k/n;
+        int total_len = k*(1.0-overlap) + len*overlap;
+        // cout << "\nTesting on randomly generated reads on a randomly generated string...\n" << "N = " << n << ", P = " << p << ", o = " << overlap << '\n';
+        cout << n << ',' << k << ',' << overlap << ',';
+        srand(seed);
+        string complete_string = "";
+        for(int i=0;i<total_len;i++) complete_string += ('a' + rand()%alphabet);
 
-// TODO : change to use real data as complete string and randomly positioned reads
-void random_string_reads_stress_test(int n, int p, double overlap, int seed) {
-    assert(p>=n);
-    assert(0.0<overlap);
-    assert(overlap<1.0);
-    int len = p/n;
-    int total_len = p*(1.0-overlap) + len*overlap;
-    // cout << "\nTesting on randomly generated reads on a randomly generated string...\n" << "N = " << n << ", P = " << p << ", o = " << overlap << '\n';
-    cout << n << ',' << p << ',' << overlap << ',';
-    srand(seed);
-    string complete_string = "";
-    for(int i=0;i<total_len;i++) complete_string += ('a' + rand()%alphabet);
-
-    auto generator = [&]() {
         vector<string> v;
         // might miss a few ending characters
         for(double i=0;(int)i<=total_len-len;i+=(double)len*(1.0-overlap)) {
             v.push_back(complete_string.substr((int)i,len));
         }
         return v;
-    };
-
-    stress_test_with(generator);
-}
-
-void real_data_test(string fname) {
-    string data_path = "data/";
-
-    cout<<'\n'<<fname<<":\n";
-#ifdef EHOG_CONSTRUCTION
-    fstream fin;
-    fin.open(data_path+fname, ios::in);
-    if(!fin) {
-        cout<<"couldn't open file: "<<fname<<endl;
-        return;
     }
-    long long n, total_length = 0;
-    fin>>n;
-    vector<string> v(n);
-    for(int i=0;i<n;i++) {
-        fin>>v[i];
-        total_length += v[i].length();
-    }
-    // cout<<"Number of strings = "<<v.size()<<'\n'<<"Sum of lengths = "<<total_length<<'\n';
-    // stress_test_with([&](){return v;});
-        cout<<","<<v.size()<<","<<total_length;
-        stress_test_with_ehog(v,fname);
-#else
-        stress_test_with_hog(fname);
-#endif
-}
+};
 
 int main(int argc, char **argv) {
     #ifdef SSP
@@ -254,11 +219,11 @@ int main(int argc, char **argv) {
         // cout<<"\nUsing algo by SSP...\n";
     #endif
     // int seed = chrono::system_clock::now().time_since_epoch().count();
-    int n = stoi(argv[1]), p = stoi(argv[2]), seed = stoi(argv[3]);
+    // int n = stoi(argv[1]), p = stoi(argv[2]), seed = stoi(argv[3]);
     // double o = stod(argv[3]);
     // std::string d_name = argv[1];
-    // test_validity();
-    random_strings_stress_test(n, p, seed);
+    test_validity();
+    // random_strings_stress_test(n, p, seed);
     // random_string_reads_stress_test(n, p, o, seed);
     // real_data_test(argv[1]);
     return 0;
