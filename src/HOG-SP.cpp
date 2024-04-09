@@ -8,29 +8,30 @@ HOG_SP::HOG_SP(AhoCorasick &ahocora, const std::vector<std::string>& input_strin
 
     vector<vector<int>> pnode(n); // index of j'th prefix of i'th string in ACtrie
     vector<vector<int>> border(n);
-    vector<int> up(p);
+    vector<int> up(p, root);
 
     // calculate pnode array
     for (int i = 0; i < n; i++) {
-        pnode[i].resize(input_strings[i].length());
+        pnode[i].resize(input_strings[i].length()+1);
         int curr = root;
+        pnode[i][0] = root;
         for (int j = 0; j < input_strings[i].length(); j++) {
             curr = ahocora.t[curr].next[input_strings[i][j]-'a'];
-            pnode[i][j] = curr;
+            pnode[i][j+1] = curr;
         }
     }
 
     // calculate border array and up
     for(int i=0;i<n;i++) {
-        border[i].resize(input_strings[i].length(), 0);
+        border[i].resize(input_strings[i].length()+1, 0);
         int k=0;
         for(int j=1;j<input_strings[i].length();j++) {
-            while(k>0 && input_strings[i][k] != input_strings[i][j]) k = border[i][k-1];
+            while(k>0 && input_strings[i][k] != input_strings[i][j]) k = border[i][k];
             if(input_strings[i][k] == input_strings[i][j]) k++;
-            border[i][j] = k;
+            border[i][j+1] = k;
 
             // calculate up array
-            up[pnode[i][j]] = pnode[i][border[i][j]];
+            up[pnode[i][j+1]] = pnode[i][border[i][j+1]];
         }
     }
 
@@ -66,29 +67,30 @@ HOG_SP::HOG_SP(EHOG &ehog, AhoCorasick &ahocora, const std::vector<std::string>&
 
     vector<vector<int>> pnode(n); // index of j'th prefix of i'th string in ACtrie
     vector<vector<int>> border(n);
-    vector<int> aho_up(aho_size);
+    vector<int> aho_up(aho_size, root);
 
     // calculate pnode array
     for (int i = 0; i < n; i++) {
-        pnode[i].resize(input_strings[i].length());
+        pnode[i].resize(input_strings[i].length()+1);
         int curr = root;
+        pnode[i][0] = root;
         for (int j = 0; j < input_strings[i].length(); j++) {
             curr = ahocora.t[curr].next[input_strings[i][j]-'a'];
-            pnode[i][j] = curr;
+            pnode[i][j+1] = curr;
         }
     }
 
     // calculate border array and up
     for(int i=0;i<n;i++) {
-        border[i].resize(input_strings[i].length(), 0);
+        border[i].resize(input_strings[i].length()+1, 0);
         int k=0;
         for(int j=1;j<input_strings[i].length();j++) {
-            while(k>0 && input_strings[i][k] != input_strings[i][j]) k = border[i][k-1];
+            while(k>0 && input_strings[i][k] != input_strings[i][j]) k = border[i][k];
             if(input_strings[i][k] == input_strings[i][j]) k++;
-            border[i][j] = k;
+            border[i][j+1] = k;
 
             // calculate up array
-            aho_up[pnode[i][j]] = pnode[i][border[i][j]];
+            aho_up[pnode[i][j+1]] = pnode[i][border[i][j+1]];
         }
     }
 
