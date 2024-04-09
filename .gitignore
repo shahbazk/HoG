@@ -7,6 +7,7 @@
 /data
 /log
 /dump
+/output
 
 # files
 *.docx
