@@ -7,26 +7,32 @@ using namespace std;
 
 #include "HOG-SSP.h"
 typedef HOG_SSP HOG;
-#include "EHOG.h"
+
 #elif SK
 
 #include "HOG-SK.h"
 typedef HOG_SK HOG;
-#include "EHOG.h"
+
+#elif SP
+
+#include "HOG-SP.h"
+typedef HOG_SP HOG;
+
 #elif BCER
 
 #include "HOG-BCER.h"
 typedef HOG_BCER HOG;
-// #include "EHOGx.h";
+
 #elif EC
 
 #include "HOG-EC.h"
 typedef HOG_EC HOG;
-// #include "EHOGx.h";
+
 #else
+
 #include "HOG-SSP.h"
 typedef HOG_SSP HOG;
-#include "EHOG.h";
+
 #endif
 
 map<string, double> trial_results;
@@ -36,8 +42,22 @@ void test_validity() {
     cout << "\nTesting validity of algorithm\n";
     vector<string> v = {"aabaa", "aadbd", "dbdaa"};
     AhoCorasick ahocora(v);
-    HOG hog(ahocora);
-    assert(hog.marked == vector<bool>({0,1,0,1,0,0,1,0,0,1,0,0,1,0,1}));
+    EHOG ehog(ahocora);
+
+    #ifdef SP
+
+    HOG hog1(ahocora, v);
+    HOG hog2(ehog, ahocora, v);
+
+    #else
+
+    HOG hog1(ahocora);
+    HOG hog2(ehog);
+
+    #endif
+
+    assert(hog1.marked == vector<bool>({0,1,0,1,0,0,1,0,0,1,0,0,1,0,1}));
+    assert(hog2.marked == vector<bool>({0,1,0,1,1,1,0,1,1}));
     cout<<"All tests passed\n";
 }
 
@@ -211,6 +231,8 @@ int main(int argc, char **argv) {
         // cout<<"\nUsing algo by SSP...\n";
     #elif SK
         // cout<<"\nUsing algo by SK...\n";
+    #elif SP
+        // cout<<"\nUsing algo by SP...\n";
     #elif BCER
         // cout<<"\nUsing algo by BCER...\n";
     #elif EC
