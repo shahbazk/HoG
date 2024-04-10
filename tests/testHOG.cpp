@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-using namespace std;
 
 #include "timer.h"
 
@@ -34,6 +33,8 @@ typedef HOG_EC HOG;
 typedef HOG_SSP HOG;
 
 #endif
+
+using namespace std;
 
 class DatasetGenerator {
 
