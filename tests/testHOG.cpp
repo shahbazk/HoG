@@ -35,8 +35,6 @@ typedef HOG_SSP HOG;
 
 #endif
 
-map<string, double> trial_results;
-
 // TODO : write bigger validity test comparing dumps from both algos
 void test_validity() {
     cout << "\nTesting validity of algorithm\n";
@@ -61,112 +59,11 @@ void test_validity() {
     cout<<"All tests passed\n";
 }
 
-/* void test_with(const vector<string>& v, bool verbose = false) {
-    HOG hog;
-    if(verbose) {cout<<"Building Aho-Corasick automaton..." << endl;}
-    timer ehog_t;
-    hog.add_strings(v);
-    double ehog_time = ehog_t.end();
-    trial_results["ehog_time"] = ehog_time;
-    if(verbose) {cout<<"Elapsed time: " << ehog_time << endl;}
-    
-    if(verbose) {cout<<"Constructing HOG..." << endl;}
-    timer hog_t;
-    hog.construct();
-    double hog_time = hog_t.end();
-    trial_results["hog_time"] = hog_time;
-    if(verbose) {cout<<"Elapsed time: " << hog_time << endl;}
-    
-    trial_results["tot_time"] = ehog_time + hog_time;
-
-    int cnt = 0;
-    for(auto b:hog.marked) cnt+=b;
-    trial_results["ehog_size"] = hog.marked.size()-1;
-    trial_results["hog_size"] = cnt;
-
-    if(verbose) {
-        cout << "Size of EHOG: " << hog.marked.size()-1 
-        << ", Size of HOG: " << cnt
-        << ", Compression factor: "<< (double)cnt/(hog.marked.size()-1)
-        << endl;
-    }
-}
-
-
-void stress_test_with_ehog(const vector<string>& v, std::string filename) {
-    vector<double> ehog_times(TRIALS), hog_times(TRIALS), tot_times(TRIALS);
-    ofstream fout;
-#ifdef SSP
-    fout.open("./ehog_dump/"+filename+"_ehog_object", ios::out);
-#elif SK
-    fout.open("./ehog_dump/"+filename+"_ehog_object", ios::out);
-#elif EC
-    fout.open("./ehog_dump/"+filename+"_ehogx_object", ios::out);
-#else
-    fout.open("./ehog_dump/"+filename+"_ehogx_object", ios::out);
-#endif
-    
-    if(!fout) {
-        cout<<"couldn't open file: "<<filename<<endl;
-        return;
-    }
-    for(int i=0;i<TRIALS;i++) {
-        EHOG ehog;
-        timer ehog_t;
-        ehog.add_strings(v);
-        ehog_times[i] = ehog_t.end();
-        ehog.dump(fout);
-        // cout << ehog.t.size() << "\n";
-        // cout << ehog.leaves.size() << "\n";
-    }
-    auto ehog_data = get_mean_and_sd(ehog_times);
-    cout<<fixed<<setprecision(6);
-    // cout<<"EHOG: "<<ehog_data.first<<' '<<ehog_data.second<<std::endl;
-    cout<<","<<ehog_data.first<<','<<ehog_data.second<<std::endl;
-}
-// #else
-void stress_test_with_hog(std::string filename) {
-    vector<double> hog_times(TRIALS);
-    ifstream fin;
-#ifdef SSP
-    fin.open("./ehog_dump/"+filename+"_ehog_object", ios::in);
-#elif SK
-    fin.open("./ehog_dump/"+filename+"_ehog_object", ios::in);
-#elif EC
-    fin.open("./ehog_dump/"+filename+"_ehogx_object", ios::in);
-#else
-    fin.open("./ehog_dump/"+filename+"_ehogx_object", ios::in);
-#endif
-    
-    if(!fin) {
-        cout<<"couldn't open file: "<<filename<<endl;
-        return;
-    }
-    // cout << "here" << std::endl;
-    long long memehog;
-    for(int i=0;i<TRIALS;i++) {
-        HOG hog;
-        hog.inp(fin);
-        memehog = sizeof(EHOG_NODE)*(hog.t.size()) + sizeof(int)*(hog.leaves.size());
-        for(int i = 0;i<(int)hog.t.size();i++){
-            memehog+=hog.t[i].memory_calculate();
-        }
-        timer hog_t;
-        hog.construct();
-        hog_times[i] = hog_t.end();
-        if(i == TRIALS-1)hog.print_details(false);
-    }
-    auto hog_data = get_mean_and_sd(hog_times);
-    cout<<fixed<<setprecision(6);
-    // cout<<"ehog memory: "<<memehog<<"\n";
-    // cout<<"hog: "<<hog_data.first<<' '<<hog_data.second<<std::endl;
-    cout<<","<<memehog<<","<<hog_data.first<<','<<hog_data.second<<std::endl;
-} */
-
-
 class DatasetGenerator {
 
-    vector<string> generate_real_data(string datasetName){
+    public:
+
+    static vector<string> generate_real_data(string datasetName){
         string data_path = "data/";
         fstream fin;
         fin.open(data_path+datasetName, ios::in);
@@ -190,29 +87,29 @@ class DatasetGenerator {
         return v;
     }
 
-    vector<string> generate_random_data(int n, int k, int seed) {
-        assert(k>=n);
-        // cout << "\nTesting on randomly generated strings...\n" << "N = " << n << ", K = " << k << '\n';
+    static vector<string> generate_random_data(int n, int p, int seed) {
+        assert(p>=n);
+        // cout << "\nTesting on randomly generated strings...\n" << "N = " << n << ", P = " << p << '\n';
         srand(seed);
 
-        cout << n << ',' << k << ',';cout.flush();
+        cout << n << ',' << p << ','; cout.flush();
         vector<string> v(n);
         int j=0;
-        for(int i=0;i<k;i++,j++) {
+        for(int i=0;i<p;i++,j++) {
             if(j>=n) j-=n;
             v[j] += ('a'+rand()%alphabet);
         }
         return v;
     }
 
-    vector<string> generate_random_read_data(int n, int k, int overlap, int seed) {
-        assert(k>=n);
+    static vector<string> generate_random_read_data(int n, int p, int overlap, int seed) {
+        assert(p>=n);
         assert(0.0<overlap);
         assert(overlap<1.0);
-        int len = k/n;
-        int total_len = k*(1.0-overlap) + len*overlap;
+        int len = p/n;
+        int total_len = p*(1.0-overlap) + len*overlap;
         // cout << "\nTesting on randomly generated reads on a randomly generated string...\n" << "N = " << n << ", P = " << p << ", o = " << overlap << '\n';
-        cout << n << ',' << k << ',' << overlap << ',';
+        cout << n << ',' << p << ',' << overlap << ','; cout.flush();
         srand(seed);
         string complete_string = "";
         for(int i=0;i<total_len;i++) complete_string += ('a' + rand()%alphabet);
@@ -224,6 +121,50 @@ class DatasetGenerator {
         }
         return v;
     }
+
+    static void dump_data(const vector<string>& v, ofstream &fout) {
+        fout << v.size() << '\n';
+        for(auto &s : v) {
+            fout << s << '\n';
+        }
+    }
+
+    static vector<string> read_data(ifstream &fin) {
+        long long n;
+        fin >> n;
+        vector<string> v(n);
+        for(int i=0; i<n; i++) {
+            fin >> v[i];
+        }
+        return v;
+    }
+};
+
+class TestRunner {
+
+    public:
+    static double aho_construct_and_print(const vector<string> &v, const string output_file_name){
+        timer time_aho;
+        AhoCorasick aho(v);
+        double time_aho_build = time_aho.end();
+        cout << aho.t.size() << ',' << time_aho_build << ',';
+        ofstream fout;
+        fout.open("./dump/aho_dump/"+output_file_name);
+        aho.file_output(fout);
+        return time_aho_build;
+    }
+
+    static double ehog_construct_and_print(AhoCorasick &aho, const string output_file_name){
+        timer time_ehog;
+        EHOG ehog(aho);
+        double time_ehog_build = time_ehog.end();
+        cout << ehog.t.size() << ',' << time_ehog_build << ',';
+        ofstream fout;
+        fout.open("./dump/ehog_dump/" + output_file_name);
+        ehog.file_output(fout);
+        return time_ehog_build;
+    }
+
 };
 
 int main(int argc, char **argv) {
@@ -240,13 +181,130 @@ int main(int argc, char **argv) {
     #else
         // cout<<"\nUsing algo by SSP...\n";
     #endif
-    // int seed = chrono::system_clock::now().time_since_epoch().count();
+
+    // test_validity();
+
+
+    // string dataset_name = argv[1];
+    // string output_file_name = dataset_name;
+
+    int n = stoi(argv[1]), p = stoi(argv[2]), seed = stoi(argv[3]);
+    string output_file_name = "random/n_" + to_string(n) + "_p_" + to_string(p) + "_seed_" + to_string(seed);
+
     // int n = stoi(argv[1]), p = stoi(argv[2]), seed = stoi(argv[3]);
     // double o = stod(argv[3]);
-    // std::string d_name = argv[1];
-    test_validity();
-    // random_strings_stress_test(n, p, seed);
-    // random_string_reads_stress_test(n, p, o, seed);
-    // real_data_test(argv[1]);
+
+
+
+    #ifdef CONSTRUCT_AHO
+
+    // create dump directories
+    filesystem::create_directory("dump");
+    for(string dump_type: {"data_dump", "aho_dump", "ehog_dump"}) {
+        for(string test_type: {"real", "random"}) {
+            filesystem::create_directories("dump/" + dump_type + "/" + test_type);
+        }
+    }
+
+    // vector<string> dataset = DatasetGenerator::generate_real_data(dataset_name);
+    vector<string> dataset = DatasetGenerator::generate_random_data(n, p, seed);
+    // vector<string> dataset = DatasetGenerator::generate_random_read_data(n, p, o, seed);
+
+    ofstream fout;
+    fout.open("./dump/data_dump/" + output_file_name, ios::out);
+    DatasetGenerator::dump_data(dataset, fout);
+
+    TestRunner::aho_construct_and_print(dataset, output_file_name);
+
+    #elif CONSTRUCT_EHOG
+
+    string data_path = "./dump/aho_dump/" + output_file_name;
+    ifstream fin;
+    fin.open(data_path, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<< data_path <<endl;
+        return 0;
+    }
+    AhoCorasick ahocora(fin);
+    TestRunner::ehog_construct_and_print(ahocora, output_file_name);
+
+    #elif SP
+
+    string data_path = "./dump/data_dump/" + output_file_name;
+    ifstream fin;
+    fin.open(data_path, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<< data_path <<endl;
+        return 0;
+    }
+    auto dataset = DatasetGenerator::read_data(fin);
+    fin.close();
+
+    data_path = "./dump/aho_dump/" + output_file_name;
+    fin.open(data_path, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<< data_path <<endl;
+        return 0;
+    }
+    AhoCorasick ahocora(fin);
+    fin.close();
+
+    #ifdef VIA_EHOG
+
+    data_path = "./dump/ehog_dump/" + output_file_name;
+    fin.open(data_path, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<< data_path <<endl;
+        return 0;
+    }
+    EHOG ehog(fin);
+    fin.close();
+
+    timer hog_timer;
+    HOG hog(ehog, ahocora, dataset);
+    cout << hog_timer.end() << ',';
+
+    #else
+
+    timer hog_timer;
+    HOG hog(ahocora, dataset);
+    cout << hog_timer.end() << ',';
+
+    #endif // VIA_EHOG
+
+    #else
+
+    #ifdef VIA_EHOG
+
+    string data_path = "./dump/ehog_dump/" + output_file_name;
+    ifstream fin;
+    fin.open(data_path, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<< data_path <<endl;
+        return 0;
+    }
+    EHOG ehog(fin);
+    timer hog_timer;
+    HOG hog(ehog);
+    cout << hog_timer.end() << ',';
+
+    #else
+
+    string data_path = "./dump/aho_dump/" + output_file_name;
+    ifstream fin;
+    fin.open(data_path, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<< data_path <<endl;
+        return 0;
+    }
+    AhoCorasick ahocora(fin);
+    timer hog_timer;
+    HOG hog(ahocora);
+    cout << hog_timer.end() << ',';
+
+    #endif // VIA_EHOG
+
+    #endif
+
     return 0;
 }
