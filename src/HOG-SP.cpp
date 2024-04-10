@@ -15,7 +15,7 @@ HOG_SP::HOG_SP(AhoCorasick &ahocora, const std::vector<std::string>& input_strin
         pnode[i].resize(input_strings[i].length()+1);
         int curr = root;
         pnode[i][0] = root;
-        for (int j = 0; j < input_strings[i].length(); j++) {
+        for (int j = 0; j < (int)input_strings[i].length(); j++) {
             curr = ahocora.t[curr].next[input_strings[i][j]-'a'];
             pnode[i][j+1] = curr;
         }
@@ -25,7 +25,7 @@ HOG_SP::HOG_SP(AhoCorasick &ahocora, const std::vector<std::string>& input_strin
     for(int i=0;i<n;i++) {
         border[i].resize(input_strings[i].length()+1, 0);
         int k=0;
-        for(int j=1;j<input_strings[i].length();j++) {
+        for(int j=1;j<(int)input_strings[i].length();j++) {
             while(k>0 && input_strings[i][k] != input_strings[i][j]) k = border[i][k];
             if(input_strings[i][k] == input_strings[i][j]) k++;
             border[i][j+1] = k;
@@ -74,7 +74,7 @@ HOG_SP::HOG_SP(EHOG &ehog, AhoCorasick &ahocora, const std::vector<std::string>&
         pnode[i].resize(input_strings[i].length()+1);
         int curr = root;
         pnode[i][0] = root;
-        for (int j = 0; j < input_strings[i].length(); j++) {
+        for (int j = 0; j < (int)input_strings[i].length(); j++) {
             curr = ahocora.t[curr].next[input_strings[i][j]-'a'];
             pnode[i][j+1] = curr;
         }
@@ -84,7 +84,7 @@ HOG_SP::HOG_SP(EHOG &ehog, AhoCorasick &ahocora, const std::vector<std::string>&
     for(int i=0;i<n;i++) {
         border[i].resize(input_strings[i].length()+1, 0);
         int k=0;
-        for(int j=1;j<input_strings[i].length();j++) {
+        for(int j=1;j<(int)input_strings[i].length();j++) {
             while(k>0 && input_strings[i][k] != input_strings[i][j]) k = border[i][k];
             if(input_strings[i][k] == input_strings[i][j]) k++;
             border[i][j+1] = k;
