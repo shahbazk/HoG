@@ -35,30 +35,6 @@ typedef HOG_SSP HOG;
 
 #endif
 
-// TODO : write bigger validity test comparing dumps from both algos
-void test_validity() {
-    cout << "\nTesting validity of algorithm\n";
-    vector<string> v = {"aabaa", "aadbd", "dbdaa"};
-    AhoCorasick ahocora(v);
-    EHOG ehog(ahocora);
-
-    #ifdef SP
-
-    HOG hog1(ahocora, v);
-    HOG hog2(ehog, ahocora, v);
-
-    #else
-
-    HOG hog1(ahocora);
-    HOG hog2(ehog);
-
-    #endif
-
-    assert(hog1.marked == vector<bool>({0,1,0,1,0,0,1,0,0,1,0,0,1,0,1}));
-    assert(hog2.marked == vector<bool>({0,1,0,1,1,1,0,1,1}));
-    cout<<"All tests passed\n";
-}
-
 class DatasetGenerator {
 
     public:
@@ -71,10 +47,10 @@ class DatasetGenerator {
             cout<<"couldn't open file: "<<datasetName<<endl;
             return {};
         }
-        long long n, total_length = 0;
-        fin>>n;
-        vector<string> v(n);
-        for(int i=0;i<n;i++) {
+        long long k, total_length = 0;
+        fin>>k;
+        vector<string> v(k);
+        for(int i=0;i<k;i++) {
             fin>>v[i];
             total_length += v[i].length();
         }
@@ -87,29 +63,29 @@ class DatasetGenerator {
         return v;
     }
 
-    static vector<string> generate_random_data(int n, int p, int seed) {
-        assert(p>=n);
+    static vector<string> generate_random_data(int k, int n, int seed) {
+        assert(n>=k);
         // cout << "\nTesting on randomly generated strings...\n" << "N = " << n << ", P = " << p << '\n';
         srand(seed);
 
-        cout << n << ',' << p << ','; cout.flush();
-        vector<string> v(n);
+        cout << k << ',' << n << ','; cout.flush();
+        vector<string> v(k);
         int j=0;
-        for(int i=0;i<p;i++,j++) {
-            if(j>=n) j-=n;
+        for(int i=0;i<n;i++,j++) {
+            if(j>=k) j-=k;
             v[j] += ('a'+rand()%alphabet);
         }
         return v;
     }
 
-    static vector<string> generate_random_read_data(int n, int p, int overlap, int seed) {
-        assert(p>=n);
+    static vector<string> generate_random_read_data(int k, int n, int overlap, int seed) {
+        assert(n>=k);
         assert(0.0<overlap);
         assert(overlap<1.0);
-        int len = p/n;
-        int total_len = p*(1.0-overlap) + len*overlap;
+        int len = n/k;
+        int total_len = n*(1.0-overlap) + len*overlap;
         // cout << "\nTesting on randomly generated reads on a randomly generated string...\n" << "N = " << n << ", P = " << p << ", o = " << overlap << '\n';
-        cout << n << ',' << p << ',' << overlap << ','; cout.flush();
+        cout << k << ',' << n << ',' << overlap << ','; cout.flush();
         srand(seed);
         string complete_string = "";
         for(int i=0;i<total_len;i++) complete_string += ('a' + rand()%alphabet);
@@ -130,10 +106,10 @@ class DatasetGenerator {
     }
 
     static vector<string> read_data(ifstream &fin) {
-        long long n;
-        fin >> n;
-        vector<string> v(n);
-        for(int i=0; i<n; i++) {
+        long long k;
+        fin >> k;
+        vector<string> v(k);
+        for(int i=0; i<k; i++) {
             fin >> v[i];
         }
         return v;
@@ -182,16 +158,13 @@ int main(int argc, char **argv) {
         // cout<<"\nUsing algo by SSP...\n";
     #endif
 
-    // test_validity();
-
-
     // string dataset_name = argv[1];
     // string output_file_name = dataset_name;
 
-    int n = stoi(argv[1]), p = stoi(argv[2]), seed = stoi(argv[3]);
-    string output_file_name = "random/n_" + to_string(n) + "_p_" + to_string(p) + "_seed_" + to_string(seed);
+    int k = stoi(argv[1]), n = stoi(argv[2]), seed = stoi(argv[3]);
+    string output_file_name = "random/k_" + to_string(k) + "_n_" + to_string(n) + "_seed_" + to_string(seed);
 
-    // int n = stoi(argv[1]), p = stoi(argv[2]), seed = stoi(argv[3]);
+    // int k = stoi(argv[1]), n = stoi(argv[2]), seed = stoi(argv[3]);
     // double o = stod(argv[3]);
 
 
@@ -207,8 +180,8 @@ int main(int argc, char **argv) {
     }
 
     // vector<string> dataset = DatasetGenerator::generate_real_data(dataset_name);
-    vector<string> dataset = DatasetGenerator::generate_random_data(n, p, seed);
-    // vector<string> dataset = DatasetGenerator::generate_random_read_data(n, p, o, seed);
+    vector<string> dataset = DatasetGenerator::generate_random_data(k, n, seed);
+    // vector<string> dataset = DatasetGenerator::generate_random_read_data(k, n, o, seed);
 
     ofstream fout;
     fout.open("./dump/data/" + output_file_name, ios::out);
