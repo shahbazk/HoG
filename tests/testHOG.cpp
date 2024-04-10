@@ -149,7 +149,7 @@ class TestRunner {
         double time_aho_build = time_aho.end();
         cout << aho.t.size() << ',' << time_aho_build << ',';
         ofstream fout;
-        fout.open("./dump/aho_dump/"+output_file_name);
+        fout.open("./dump/aho/"+output_file_name);
         aho.file_output(fout);
         return time_aho_build;
     }
@@ -160,7 +160,7 @@ class TestRunner {
         double time_ehog_build = time_ehog.end();
         cout << ehog.t.size() << ',' << time_ehog_build << ',';
         ofstream fout;
-        fout.open("./dump/ehog_dump/" + output_file_name);
+        fout.open("./dump/ehog/" + output_file_name);
         ehog.file_output(fout);
         return time_ehog_build;
     }
@@ -200,7 +200,7 @@ int main(int argc, char **argv) {
 
     // create dump directories
     filesystem::create_directory("dump");
-    for(string dump_type: {"data_dump", "aho_dump", "ehog_dump"}) {
+    for(string dump_type: {"data", "aho", "ehog"}) {
         for(string test_type: {"real", "random"}) {
             filesystem::create_directories("dump/" + dump_type + "/" + test_type);
         }
@@ -211,14 +211,14 @@ int main(int argc, char **argv) {
     // vector<string> dataset = DatasetGenerator::generate_random_read_data(n, p, o, seed);
 
     ofstream fout;
-    fout.open("./dump/data_dump/" + output_file_name, ios::out);
+    fout.open("./dump/data/" + output_file_name, ios::out);
     DatasetGenerator::dump_data(dataset, fout);
 
     TestRunner::aho_construct_and_print(dataset, output_file_name);
 
     #elif CONSTRUCT_EHOG
 
-    string data_path = "./dump/aho_dump/" + output_file_name;
+    string data_path = "./dump/aho/" + output_file_name;
     ifstream fin;
     fin.open(data_path, ios::in);
     if(!fin) {
@@ -230,7 +230,7 @@ int main(int argc, char **argv) {
 
     #elif SP
 
-    string data_path = "./dump/data_dump/" + output_file_name;
+    string data_path = "./dump/data/" + output_file_name;
     ifstream fin;
     fin.open(data_path, ios::in);
     if(!fin) {
@@ -240,7 +240,7 @@ int main(int argc, char **argv) {
     auto dataset = DatasetGenerator::read_data(fin);
     fin.close();
 
-    data_path = "./dump/aho_dump/" + output_file_name;
+    data_path = "./dump/aho/" + output_file_name;
     fin.open(data_path, ios::in);
     if(!fin) {
         cout<<"couldn't open file: "<< data_path <<endl;
@@ -251,7 +251,7 @@ int main(int argc, char **argv) {
 
     #ifdef VIA_EHOG
 
-    data_path = "./dump/ehog_dump/" + output_file_name;
+    data_path = "./dump/ehog/" + output_file_name;
     fin.open(data_path, ios::in);
     if(!fin) {
         cout<<"couldn't open file: "<< data_path <<endl;
@@ -276,7 +276,7 @@ int main(int argc, char **argv) {
 
     #ifdef VIA_EHOG
 
-    string data_path = "./dump/ehog_dump/" + output_file_name;
+    string data_path = "./dump/ehog/" + output_file_name;
     ifstream fin;
     fin.open(data_path, ios::in);
     if(!fin) {
@@ -290,7 +290,7 @@ int main(int argc, char **argv) {
 
     #else
 
-    string data_path = "./dump/aho_dump/" + output_file_name;
+    string data_path = "./dump/aho/" + output_file_name;
     ifstream fin;
     fin.open(data_path, ios::in);
     if(!fin) {
