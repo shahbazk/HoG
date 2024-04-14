@@ -1,7 +1,11 @@
 #pragma once
 
 #include <bits/stdc++.h>
+#ifdef MEMORY_READING
 
+#include "memprofile.h"
+
+#endif
 const int alphabet = 4;
 
 struct AhoNode {

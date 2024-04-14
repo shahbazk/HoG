@@ -3,14 +3,16 @@ project(testHOG)
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_EXE_LINKER_FLAGS -ldl)
 
 set(EXECUTABLE_OUTPUT_PATH ${testHOG_SOURCE_DIR}/bin)
 
 include_directories(./include)
+include_directories(./malloc_count)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -DDEBUG")
 
-add_library(COMMON_LIBRARY ./src/Aho-Cora.cpp ./src/EHOG.cpp ./src/timer.cpp)
+add_library(COMMON_LIBRARY ./src/Aho-Cora.cpp ./src/EHOG.cpp ./src/timer.cpp ./malloc_count/malloc_count.c)
 
 # change according to algorithm being tested
 add_executable(TEST ./src/HOG-SSP.cpp ./tests/validateHOG.cpp)

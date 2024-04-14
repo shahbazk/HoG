@@ -60,6 +60,10 @@ void test_validity() {
 
 
 int main() {
+    
+#ifdef MEMORY_READING
+    MemProfile("memprofile.txt", 0.1, 1024);
+#endif
     test_validity();
     return 0;
 }

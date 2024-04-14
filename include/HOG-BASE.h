@@ -1,5 +1,10 @@
 #pragma once
 #include <bits/stdc++.h>
+#ifdef MEMORY_READING
+
+#include "memprofile.h"
+
+#endif
 
 class HOG_BASE{
 protected:
