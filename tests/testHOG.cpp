@@ -37,6 +37,20 @@ typedef HOG_SSP HOG;
 
 using namespace std;
 
+void safe_open(ifstream& fin, string filename) {
+    fin.open(filename, ios::in);
+    if(!fin) {
+        cout<<"couldn't open file: "<< filename <<endl;
+    }
+}
+
+void safe_open(ofstream& fout, string filename) {
+    fout.open(filename, ios::out);
+    if(!fout) {
+        cout<<"couldn't open file: "<< filename <<endl;
+    }
+}
+
 class TestRunner {
 
     public:
@@ -46,7 +60,7 @@ class TestRunner {
         double time_aho_build = time_aho.end();
         cout << aho.t.size() << ',' << time_aho_build << ',';
         ofstream fout;
-        fout.open("./dump/aho/"+output_file_name);
+        safe_open(fout, "./dump/aho/"+output_file_name);
         aho.file_output(fout);
         return time_aho_build;
     }
@@ -57,7 +71,7 @@ class TestRunner {
         double time_ehog_build = time_ehog.end();
         cout << ehog.t.size() << ',' << time_ehog_build << ',';
         ofstream fout;
-        fout.open("./dump/ehog/" + output_file_name);
+        safe_open(fout, "./dump/ehog/" + output_file_name);
         ehog.file_output(fout);
         return time_ehog_build;
     }
@@ -105,52 +119,33 @@ int main(int argc, char **argv) {
     // vector<string> dataset = DatasetGenerator::generate_random_read_data(k, n, o, seed);
 
     ofstream fout;
-    fout.open("./dump/data/" + output_file_name, ios::out);
+    safe_open(fout, "./dump/data/" + output_file_name);
     DatasetGenerator::dump_data(dataset, fout);
 
     TestRunner::aho_construct_and_print(dataset, output_file_name);
 
     #elif CONSTRUCT_EHOG
 
-    string data_path = "./dump/aho/" + output_file_name;
     ifstream fin;
-    fin.open(data_path, ios::in);
-    if(!fin) {
-        cout<<"couldn't open file: "<< data_path <<endl;
-        return 0;
-    }
+    safe_open(fin, "./dump/aho/" + output_file_name);
     AhoCorasick ahocora(fin);
+    fin.close();
     TestRunner::ehog_construct_and_print(ahocora, output_file_name);
 
     #elif SP
 
-    string data_path = "./dump/data/" + output_file_name;
     ifstream fin;
-    fin.open(data_path, ios::in);
-    if(!fin) {
-        cout<<"couldn't open file: "<< data_path <<endl;
-        return 0;
-    }
+    safe_open(fin, "./dump/data/" + output_file_name);
     auto dataset = DatasetGenerator::read_data(fin);
     fin.close();
 
-    data_path = "./dump/aho/" + output_file_name;
-    fin.open(data_path, ios::in);
-    if(!fin) {
-        cout<<"couldn't open file: "<< data_path <<endl;
-        return 0;
-    }
+    safe_open(fin, "./dump/aho/" + output_file_name);
     AhoCorasick ahocora(fin);
     fin.close();
 
     #ifdef VIA_EHOG
 
-    data_path = "./dump/ehog/" + output_file_name;
-    fin.open(data_path, ios::in);
-    if(!fin) {
-        cout<<"couldn't open file: "<< data_path <<endl;
-        return 0;
-    }
+    safe_open(fin, "./dump/ehog/" + output_file_name);
     EHOG ehog(fin);
     fin.close();
 
@@ -170,28 +165,20 @@ int main(int argc, char **argv) {
 
     #ifdef VIA_EHOG
 
-    string data_path = "./dump/ehog/" + output_file_name;
     ifstream fin;
-    fin.open(data_path, ios::in);
-    if(!fin) {
-        cout<<"couldn't open file: "<< data_path <<endl;
-        return 0;
-    }
+    safe_open(fin, "./dump/ehog/" + output_file_name);
     EHOG ehog(fin);
+
     timer hog_timer;
     HOG hog(ehog);
     cout << hog_timer.end() << ',';
 
     #else
 
-    string data_path = "./dump/aho/" + output_file_name;
     ifstream fin;
-    fin.open(data_path, ios::in);
-    if(!fin) {
-        cout<<"couldn't open file: "<< data_path <<endl;
-        return 0;
-    }
+    safe_open(fin, "./dump/aho/" + output_file_name);
     AhoCorasick ahocora(fin);
+
     timer hog_timer;
     HOG hog(ahocora);
     cout << hog_timer.end() << ',';
