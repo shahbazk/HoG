@@ -31,7 +31,7 @@ vector<string> DatasetGenerator::generate_random_data(int k, int n, int seed) {
     assert(n >= k);
     // cout << "\nTesting on randomly generated strings...\n" << "k = " << k <<
     // ", n = " << n << '\n';
-    srand(seed);
+    srand(k+n+seed);
 
     cout << k << ',' << n << ',';
     cout.flush();
