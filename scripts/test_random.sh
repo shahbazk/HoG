@@ -1,13 +1,13 @@
+bash scripts/build.sh
+
+mkdir tmp
+dump_path="tmp/dump"
+
 format="k,n,aho_size,aho_time,aho_mem,ehog_size,ehog_time,ehog_mem,"
 for algo in "SSP" "SK" "SP" "EC" "BCER"; do
     format="$format${algo}_time,${algo}_mem,"
 done
 echo "format is $format"
-
-bash scripts/build.sh
-
-mkdir tmp
-dump_path="tmp/dump"
 
 trials=100
 
