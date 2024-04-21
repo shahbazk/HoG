@@ -9,7 +9,7 @@ for algo in "SSP" "SK" "SP" "EC" "BCER"; do
 done
 echo "format is $format"
 
-trials=100
+trials=20
 
 echo "fixed k"
 output_path="plots/random_fixed_k"
@@ -39,7 +39,7 @@ for n in ${tests[@]};do
         echo -n ',' >> $output_path
     done
 
-    for algo in "SSP" "SK" "SP" "EC" "BCER"; do
+    for algo in "SSP" "SK" "SP" "EC"; do
         echo $algo
         echo -n "" > $dump_path
         timed_out=false
