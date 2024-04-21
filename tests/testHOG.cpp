@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     // string output_file_name = dataset_name;
 
     int k = stoi(argv[1]), n = stoi(argv[2]), seed = stoi(argv[3]);
-    string output_file_name = "random/k_" + to_string(k) + "_n_" + to_string(n) + "_seed_" + to_string(seed);
+    string output_file_name = "random";
 
     // int k = stoi(argv[1]), n = stoi(argv[2]), seed = stoi(argv[3]);
     // double o = stod(argv[3]);
@@ -109,9 +109,7 @@ int main(int argc, char **argv) {
     // create dump directories
     filesystem::create_directory("dump");
     for(string dump_type: {"data", "aho", "ehog"}) {
-        for(string test_type: {"real", "random"}) {
-            filesystem::create_directories("dump/" + dump_type + "/" + test_type);
-        }
+        filesystem::create_directories("dump/" + dump_type);
     }
 
     // vector<string> dataset = DatasetGenerator::generate_real_data(dataset_name);

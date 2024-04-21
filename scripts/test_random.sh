@@ -1,6 +1,6 @@
 bash scripts/build.sh
 
-mkdir tmp
+mkdir -p tmp
 dump_path="tmp/dump"
 
 format="k,n,aho_size,aho_time,aho_mem,ehog_size,ehog_time,ehog_mem,"
@@ -52,8 +52,7 @@ for n in ${tests[@]};do
         done
         if [ "$timed_out" == true ]; then
             echo -n "timeout,0.000," >> $output_path
-            break
-        else 
+        else
             for i in {1..2}; do
                 cat $dump_path | echo -n $(awk -v N=$i -v FS="," '{ sum += $N } END { if (NR > 0) printf("%.3f" ,sum / NR) }') >> $output_path
                 echo -n ',' >> $output_path
@@ -104,8 +103,7 @@ for k in ${tests[@]};do
         done
         if [ "$timed_out" == true ]; then
             echo -n "timeout,0.000," >> $output_path
-            break
-        else 
+        else
             for i in {1..2}; do
                 cat $dump_path | echo -n $(awk -v N=$i -v FS="," '{ sum += $N } END { if (NR > 0) printf("%.3f" ,sum / NR) }') >> $output_path
                 echo -n ',' >> $output_path
