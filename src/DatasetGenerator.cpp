@@ -31,7 +31,7 @@ vector<string> DatasetGenerator::generate_random_data(int k, int n, int seed) {
     assert(n >= k);
     // cout << "\nTesting on randomly generated strings...\n" << "k = " << k <<
     // ", n = " << n << '\n';
-    srand(k+n+seed);
+    srand(k + n + seed);
 
     cout << k << ',' << n << ',';
     cout.flush();
@@ -45,29 +45,27 @@ vector<string> DatasetGenerator::generate_random_data(int k, int n, int seed) {
     return v;
 }
 
-vector<string> DatasetGenerator::generate_random_read_data(int k, int n,
-                                                           int overlap,
+vector<string> DatasetGenerator::generate_random_read_data(int complete_len,
+                                                           int snapshot_len,
+                                                           int coverage,
                                                            int seed) {
-    assert(n >= k);
-    assert(0.0 < overlap);
-    assert(overlap < 1.0);
-    int len = n / k;
-    int total_len = n * (1.0 - overlap) + len * overlap;
+    assert(snapshot_len <= complete_len);
+    int n = complete_len * coverage, k = n / snapshot_len;
     // cout << "\nTesting on randomly generated reads on a randomly generated
     // string...\n" << "k = " << k << ", n = " << n << ", o = " << overlap <<
     // '\n';
-    cout << k << ',' << n << ',' << overlap << ',';
+    cout << complete_len << ',' << snapshot_len << ',' << coverage << ',' << k << ',' << n << ',';
     cout.flush();
-    srand(seed);
+    srand(complete_len + snapshot_len + coverage + seed);
     string complete_string = "";
-    for (int i = 0; i < total_len; i++)
+    for (int i = 0; i < complete_len; i++)
         complete_string += ('a' + rand() % alphabet);
 
     vector<string> v;
     // might miss a few ending characters
-    for (double i = 0; (int)i <= total_len - len;
-         i += (double)len * (1.0 - overlap)) {
-        v.push_back(complete_string.substr((int)i, len));
+    for (int i = 0; i < k; i++) {
+        v.push_back(complete_string.substr(
+            rand() % (complete_len - snapshot_len + 1), snapshot_len));
     }
     return v;
 }

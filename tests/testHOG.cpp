@@ -96,11 +96,11 @@ int main(int argc, char **argv) {
     // string dataset_name = argv[1];
     // string output_file_name = dataset_name;
 
-    int k = stoi(argv[1]), n = stoi(argv[2]), seed = stoi(argv[3]);
-    string output_file_name = "random/" + to_string(seed);
-
     // int k = stoi(argv[1]), n = stoi(argv[2]), seed = stoi(argv[3]);
-    // double o = stod(argv[3]);
+    // string output_file_name = "random/" + to_string(seed);
+
+    int complete_len = stoi(argv[1]), snapshot_len = stoi(argv[2]), coverage = stoi(argv[3]), seed = stoi(argv[4]);
+    string output_file_name = "read_random/" + to_string(seed);
 
 
 
@@ -115,8 +115,8 @@ int main(int argc, char **argv) {
     }
 
     // vector<string> dataset = DatasetGenerator::generate_real_data(dataset_name);
-    vector<string> dataset = DatasetGenerator::generate_random_data(k, n, seed);
-    // vector<string> dataset = DatasetGenerator::generate_random_read_data(k, n, o, seed);
+    // vector<string> dataset = DatasetGenerator::generate_random_data(k, n, seed);
+    vector<string> dataset = DatasetGenerator::generate_random_read_data(complete_len, snapshot_len, coverage, seed);
 
     ofstream fout;
     safe_open(fout, "./dump/data/" + output_file_name);
