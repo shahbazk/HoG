@@ -40,14 +40,16 @@ using namespace std;
 void safe_open(ifstream& fin, string filename) {
     fin.open(filename, ios::in);
     if(!fin) {
-        cout<<"couldn't open file: "<< filename <<endl;
+        cerr<<"couldn't open file: "<< filename <<endl;
+        exit(-1);
     }
 }
 
 void safe_open(ofstream& fout, string filename) {
     fout.open(filename, ios::out);
     if(!fout) {
-        cout<<"couldn't open file: "<< filename <<endl;
+        cerr<<"couldn't open file: "<< filename <<endl;
+        exit(-1);
     }
 }
 
@@ -109,7 +111,7 @@ int main(int argc, char **argv) {
     // create dump directories
     filesystem::create_directory("dump");
     for(string dump_type: {"data", "aho", "ehog"}) {
-        for(string test_type: {"random"}) {
+        for(string test_type: {"random", "read_random"}) {
             filesystem::create_directories("dump/" + dump_type + '/' + test_type);
         }
     }
