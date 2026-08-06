@@ -2,6 +2,7 @@
 #include<cstdio>
 #include<cstring>
 #include<string>
+#include<climits>
 
 using namespace std;
 
@@ -18,8 +19,8 @@ vector<vector<double>> times;
 int fileC;
 
 
-/*
-void test_validity_queries(){
+
+/*void test_validity_queries(){
     cout << "\nTesting validity of queries\n";
     vector<string> v = {"aabaa", "dbdaa", "aadbd"};
     // vector<string> v = {"aab", "aabcd", "bcd"};
@@ -64,9 +65,10 @@ void test_validity_queries(){
     assert((hg.count(0,1) == 2));
     assert((hg.count(1,1) == 3));
     assert((hg.count(2,1) == 2));
+    
     cout<<"All tests passed\n";
-}
-*/
+}*/
+
 
 pair<double, double> get_mean_and_sd(vector<double> &a) {
     sort(a.begin(), a.end());
@@ -250,27 +252,31 @@ int KMPSearch(const vector<vector<int> >& lps, const vector<string>& v, int pat,
 	int M = v[pat].length();
 	int N = v[txt].length();
 
-	int result=0;
+//	int result=0;
     
     	int i = 0; // index for txt
     	int j = 0; // index for pat
     	
-	while ((N - i) >= (M - j)) {
+    	if(M<N)
+    	     i= N - M;
+    	
+//	while ((N - i) >= (M - j)) {
+	while (i < N) {
         	if (v[pat][j] == v[txt][i]) {
             		j++;
             		i++;
         	}
 
         	if (j == M) {
-            		result=M;
+  //          		result=M;
             		j = lps[pat][j - 1];
         	}
 
         	// Mismatch after j matches
         	else if (i < N && v[pat][j] != v[txt][i]) {
 
-		    if(result<j-1)
-		    	result=j-1;		
+	//	    if(result<j-1)
+	//	    	result=j-1;		
 
             // Do not match lps[0..lps[pat][j-1]] characters,
             // they will match anyway
@@ -280,9 +286,28 @@ int KMPSearch(const vector<vector<int> >& lps, const vector<string>& v, int pat,
 	                i = i + 1;
         	}
     }
-    return result;
+    return j;
+//    return result;
 }
 
+
+
+void test_validity_queries(){
+    cout << "\nTesting validity of queries\n";
+    vector<vector<int> > lps;
+    vector<string> v = {"aabaa", "dbdaa", "aadbd", "aaa" , "a" , "dbd", "d"};
+    KMPinit(lps,v);
+    cout<<"Tests Begin \n";
+    
+    for(int i=0;i<v.size();i++){
+    	for(int j=0;j<v.size();j++){
+    		cout<<"Overlap of "<< v[i]<< " and " << v[j] << " is " << KMPSearch(lps,v,i,j)<< endl;
+    	}
+    }
+    	
+    // vector<string> v = {"aab", "aabcd", "bcd"};
+    cout<<"All tests passed\n";
+}
 
 
 void stress_test_with(const vector<vector<int> >& lps, const vector<string>& v, int seed) {
@@ -435,15 +460,18 @@ void real_data_test() {
         }
  
   	
-        long long n, total_length = 0;
+        long long n, total_length = 0, smax=0, smin=LLONG_MAX;
         fin>>n;
         vector<string> v(n);
         for(int i=0;i<n;i++) {
             fin>>v[i];
             total_length += v[i].length();
+            if(v[i].length()<smin) smin= v[i].length();
+            if(v[i].length()>smax) smax= v[i].length();
         }
 
         cout<<"Number of strings = "<<v.size()<<'\n'<<"Sum of lengths = "<<total_length<<'\n';
+        cout<<"Minlength = "<<smin<<'\n'<<"Maxlength = "<<smax<<'\n';
 	names[fileC] = {fname,{v.size(),total_length}};
         
     	timer t1;
@@ -461,7 +489,7 @@ void real_data_test() {
 }
 
 int main(){
- //   test_validity_queries();
+//   test_validity_queries();
     real_data_test();
  
 double HOG[12][5] ={ 0.010 , 95.375 , 34.238 , 8.434 , 10.783,
