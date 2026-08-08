@@ -216,13 +216,13 @@ void stress_test_with_count(const vector<string>& v, int seed) {
 // Modified from GeeksForGeeks
 void KMPinit(vector<vector<int> >& lps, const vector<string>& v){
 	lps.resize(v.size());
-	for(int j=0;j<v.size();j++){
+	for(unsigned int j=0;j<v.size();j++){
 		lps[j].resize(v[j].length());
 
 	       int len = 0;     // Length of the previous longest prefix suffix
 	       lps[j][0] = 0;   // lps[0] is always 0
 
-		int i = 1;     // loop calculates lps[i] for i = 1 to M-1
+		unsigned int i = 1;     // loop calculates lps[i] for i = 1 to M-1
     		while (i < v[j].length()) {
         		if (v[j][i] == v[j][len]) {
  				len++;
@@ -299,8 +299,8 @@ void test_validity_queries(){
     KMPinit(lps,v);
     cout<<"Tests Begin \n";
     
-    for(int i=0;i<v.size();i++){
-    	for(int j=0;j<v.size();j++){
+    for(unsigned int i=0;i<v.size();i++){
+    	for(unsigned int j=0;j<v.size();j++){
     		cout<<"Overlap of "<< v[i]<< " and " << v[j] << " is " << KMPSearch(lps,v,i,j)<< endl;
     	}
     }
@@ -311,7 +311,7 @@ void test_validity_queries(){
 
 
 void stress_test_with(const vector<vector<int> >& lps, const vector<string>& v, int seed) {
-    int result;
+     [[maybe_unused]]	int result;
     srand(seed);
     vector<pair<int,int>>queries(TRIALS);
     for(int i = 0;i<TRIALS;i++){
@@ -324,7 +324,7 @@ void stress_test_with(const vector<vector<int> >& lps, const vector<string>& v, 
     }
     timer q_time;
     for(int i = 0;i<TRIALS;i++){
- 	result=KMPSearch(lps,v,queries[i].second,queries[i].first);
+           result=KMPSearch(lps,v,queries[i].second,queries[i].first);
 //        hg.suffix_prefix_length(queries[i].first, queries[i].second);
     }
     double tot_time = q_time.end();
@@ -343,7 +343,7 @@ void stress_test_with_all(const vector<vector<int> >& lps, const vector<string>&
     }
     timer q_time;
     for(int i = 0;i<TRIALS/FAC;i++){
-	    for(int j = 0;j<v.size();j++)
+	    for(unsigned int j = 0;j<v.size();j++)
 	 	result[j]=KMPSearch(lps,v,j,queries[i]);
     }
     double tot_time = q_time.end();
@@ -365,9 +365,9 @@ void stress_test_with_top(const vector<vector<int> >& lps, const vector<string>&
     }
     timer q_time;
     for(int i = 0;i<TRIALS/FAC;i++){
-	    for(int j = 0;j<v.size();j++){
+	    for(unsigned int j = 0;j<v.size();j++){
 	 	result.push(KMPSearch(lps,v,j,queries[i].first));
-	    	if(j>queries[i].second) result.pop();
+	    	if(j>(unsigned int) queries[i].second) result.pop();
 	    }
     }
     double tot_time = q_time.end();
@@ -389,7 +389,7 @@ void stress_test_with_report(const vector<vector<int> >& lps, const vector<strin
     timer q_time;
     for(int i = 0;i<TRIALS/FAC;i++){
     	    result.clear();
-	    for(int j = 0;j<v.size();j++){
+	    for(unsigned int j = 0;j<v.size();j++){
 	 	if(KMPSearch(lps,v,j,queries[i].first)>queries[i].second)
 	 		result.push_back(j);
 	    }
@@ -412,7 +412,7 @@ void stress_test_with_count(const vector<vector<int> >& lps, const vector<string
     timer q_time;
     for(int i = 0;i<TRIALS/FAC;i++){
     	    result=0;
-	    for(int j = 0;j<v.size();j++){
+	    for(unsigned int j = 0;j<v.size();j++){
 	 	if(KMPSearch(lps,v,j,queries[i].first)>queries[i].second)
 	 		result++;
 	    }
@@ -429,7 +429,7 @@ void real_data_test() {
     
     vector<vector<int> > lps;
 
-    string data_path = "../data/";
+    string data_path = "data/";
 //     vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
     // vector<string> filenames = {"trifoliata"};
     vector<string> filenames = { "A_hydrophila_HiSeq",
@@ -460,10 +460,10 @@ void real_data_test() {
         }
  
   	
-        long long n, total_length = 0, smax=0, smin=LLONG_MAX;
+        unsigned long long n, total_length = 0, smax=0, smin=ULLONG_MAX;
         fin>>n;
         vector<string> v(n);
-        for(int i=0;i<n;i++) {
+        for(unsigned int i=0;i<n;i++) {
             fin>>v[i];
             total_length += v[i].length();
             if(v[i].length()<smin) smin= v[i].length();
