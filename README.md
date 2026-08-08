@@ -17,7 +17,7 @@ src/            Implementations + DatasetGenerator + timer
 tests/          Test / benchmark drivers
   testHOG.cpp         construction benchmark (built by CMake into several binaries)
   validateHOG.cpp     correctness checks for construction
-  testQueries.cpp     HOG query benchmark  (+ validity assertions)
+  testQueriesHOG.cpp  HOG-only query benchmark (+ validity assertions)
   testQueriesKMP.cpp  HOG-vs-KMP query benchmark; emits LaTeX tables
 apsphog/        Standalone all-pairs-suffix-prefix HOG library (separate CMake project)
 scripts/        build + experiment-runner + gnuplot plotting scripts
@@ -37,6 +37,7 @@ The `data/`, `bin/`, `build/`, `dump/`, `tmp/`, and `plots/` output paths are gi
 - **GNU `time`** (`/usr/bin/time`, not the shell builtin) — the runner scripts use its `-f`/`--output` flags for memory and CPU measurement. On Debian/Ubuntu: `sudo apt install time`.
 - **gnuplot** — for regenerating the figures in `graphs/`.
 - **`malloc_count`** — the top-level `CMakeLists.txt` links `./malloc_count/malloc_count.c` and adds `./malloc_count` to the include path, but this directory is **not** vendored in the repo. Before building, place Timo Bingmann's `malloc_count` (`malloc_count.c` / `malloc_count.h`) into a `malloc_count/` directory at the repo root. See <https://github.com/bingmann/malloc_count>.
+- **Datasets** (for the real-data experiments) — not included in the repo. Plant EST datasets are at <http://www.citrusgenomedb.org/> and <http://www.uni-ulm.de/in/theo/research/seqana>; bacterial organism datasets are at <http://ccb.jhu.edu/gage_b/datasets/index.html>. See [Providing datasets](#providing-datasets) for the expected file format and placement.
 
 ---
 
@@ -75,7 +76,7 @@ The `*EHOG` variants read the pre-built EHOG; the plain variants read the Aho–
 
 ### Real genome assemblies
 
-Real-data drivers look for files under **`data/`** (relative to the working directory; the query driver looks under `../data/` — see below). Each dataset file is plain text:
+Real-data drivers look for files under **`data/`** at the repository root (run all drivers from there). Each dataset file is plain text:
 
 ```
 <k>
@@ -94,6 +95,24 @@ S_aureus_HiSeq       V_cholerae_HiSeq   V_cholerae_MiSeq   X_axonopodis_HiSeq
 ```
 
 (plus the plant assemblies `clementina`, `sinensis`, `trifoliata`, `elegans` used in some scripts).
+
+**Downloading the datasets.** The plant EST datasets are available at <http://www.citrusgenomedb.org/> and <http://www.uni-ulm.de/in/theo/research/seqana>; the bacterial organism datasets are available at <http://ccb.jhu.edu/gage_b/datasets/index.html>.
+
+**Converting raw FASTA to the dataset format.** The downloads are FASTA, which differs from the format above in two ways: it carries `>header` lines and wraps sequences across lines, and it uses the nucleotide alphabet `A/C/G/T`. The trie indexes characters as `ch - 'a'` over a 4-letter alphabet, so sequences must be remapped to `a/b/c/d`. Two helpers handle this:
+
+- `scripts/fasta_to_dataset.py` — converts one or more FASTA files into a single dataset file (drops headers, concatenates each record's sequence, remaps `A→a, C→b, G→c, T→d`, writes the `<k>` count format). Records with ambiguity codes (`N`, IUPAC) are skipped by default, or kept minus those characters with `--keep-ambiguous`.
+
+  ```bash
+  python3 scripts/fasta_to_dataset.py raw/A_hydrophila.fasta -o data/A_hydrophila_HiSeq
+  ```
+
+- `scripts/convert_all.sh` — batch-converts a directory of raw FASTA (default `raw/`) into `data/` using the canonical dataset names. Edit the `MAP` in the script so each dataset name points at the raw file(s) you downloaded, then:
+
+  ```bash
+  bash scripts/convert_all.sh          # raw/ -> data/
+  ```
+
+  Missing raw files are skipped with a message, so you can convert whatever subset you have.
 
 ### Synthetic data
 
@@ -135,28 +154,30 @@ Both `test_*.sh` scripts call `scripts/build.sh` first, so a clean checkout can 
 
 ---
 
-## Running the query benchmark (HOG vs KMP)
+## Running the query benchmarks
 
-The query drivers are **not** part of the CMake build; compile them directly. They pull in the standalone-query header `HOG-SKx.h` and read datasets from `../data/`, so run them from inside `tests/`:
+Two query benchmarks are built by CMake, both reading datasets from `data/` (repo root). Run either from the repository root.
 
-```bash
-cd tests
-g++ -O3 -std=c++20 -I../include testQueriesKMP.cpp -o testQueriesKMP
-./testQueriesKMP        # expects datasets in ../data/
-```
-
-`testQueriesKMP` runs the five query types (*OneToOne*, *OneToAll*, *Top*, *Count*, *Report*) for both HOG and a KMP baseline over each dataset, and prints **ready-to-paste LaTeX tables** to stdout — absolute HOG times, absolute KMP times, and the KMP/HOG relative ratios. Redirect to capture:
+**HOG vs KMP** (`KMPvsHOG`, from `tests/testQueriesKMP.cpp`) runs the five query types (*OneToOne*, *OneToAll*, *Top*, *Count*, *Report*) for both HOG and a KMP baseline over each dataset, and prints **ready-to-paste LaTeX tables** to stdout — absolute HOG times, absolute KMP times, and the KMP/HOG relative ratios:
 
 ```bash
-./testQueriesKMP > queries_tables.tex
+bash scripts/test_Queries_KMP.sh      # → queries_tables.tex
 ```
 
-For a correctness check on a tiny hand-verified instance, `testQueries.cpp` runs `test_validity_queries()` (assertions on a 3-string example) before the real-data benchmark:
+**HOG-only** (`HOGQueries`, from `tests/testQueriesHOG.cpp`) uses the query-oriented "x" stack (`HOG-SKx` + `Aho-Corax` → apsphog `Hog`). It first runs `test_validity_queries()` — assertions on a hand-verified 3-string example — then benchmarks the five query types over the datasets in `data/`:
 
 ```bash
-g++ -O3 -std=c++20 -I../include testQueries.cpp -o testQueries
-./testQueries
+bash scripts/test_Queries_HOG.sh
 ```
+
+To run either directly instead of via its script:
+
+```bash
+bash scripts/build.sh                          # builds both, plus everything else
+./bin/KMPvsHOG > queries_tables.tex            # or: ./bin/HOGQueries
+```
+
+The dataset list and the `data/` path are hard-coded near the top of each driver (the `filenames` vector and `data_path`), not passed as arguments — edit them there to benchmark a different set.
 
 ---
 
@@ -193,22 +214,27 @@ cmake -B build && cmake --build build
 ```bash
 # 0. one-time setup
 git clone https://github.com/shahbazk/HoG.git && cd HoG
-#    place malloc_count/ at repo root; place datasets in data/
+#    place malloc_count/ at repo root (see Prerequisites)
 
-# 1. build construction benchmarks
+# 1. build everything (construction + apsphog + both query benchmarks)
 bash scripts/build.sh
 
-# 2. synthetic construction sweeps → plots/
+# 2. datasets: download raw FASTA, then convert into data/
+#    (edit the MAP in convert_all.sh to point at your raw files first)
+bash scripts/convert_all.sh
+
+# 3. synthetic construction sweeps → plots/
 bash scripts/test_random.sh
 bash scripts/test_read_random.sh
 
-# 3. real-data construction runs → dump/   (edit dataset list first)
+# 4. real-data construction runs → dump/   (edit dataset list first)
 bash scripts/script_combined.sh
 
-# 4. query benchmark → LaTeX tables
-cd tests && g++ -O3 -std=c++20 -I../include testQueriesKMP.cpp -o testQueriesKMP && ./testQueriesKMP > ../queries_tables.tex && cd ..
+# 5. query benchmarks
+bash scripts/test_Queries_KMP.sh    # HOG vs KMP → queries_tables.tex
+bash scripts/test_Queries_HOG.sh    # HOG-only, with validity check
 
-# 5. figures
+# 6. figures
 gnuplot scripts/plot_fixed_n_time
 gnuplot scripts/plot_fixed_k_time
 gnuplot scripts/plot_read_random_M
@@ -218,7 +244,7 @@ gnuplot scripts/plot_read_random_M
 
 ## Notes & troubleshooting
 
-- **`couldn't open file: <name>`** — the dataset isn't where the driver expects it: `data/` for the construction drivers, `../data/` for the query drivers (run those from `tests/`).
+- **`couldn't open file: <name>`** — the dataset isn't in `data/` at the repo root, or you ran the binary from another directory. All drivers use a `data/` path relative to the working directory, so run them from the repository root.
 - **Link error on `malloc_count`** — the `malloc_count/` directory is missing; see Prerequisites.
 - **`/usr/bin/time: No such file`** — install the standalone `time` package; the shell builtin won't accept the `-f`/`--output` flags the scripts rely on.
 - **Everything reports `timeout`** — the slower baselines exceed the 30 s per-run cap on large inputs; raise the `timeout` value in the relevant `scripts/test_*.sh` if you need those cells.
