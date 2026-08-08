@@ -197,7 +197,7 @@ void stress_test_with_count(const vector<string>& v, int seed) {
     std::cout << "Time Taken for count " << TRIALS/1000 << "queries is " << tot_time << "\n";
 }
 void real_data_test() {
-    string data_path = "../data/parsed_data/";
+    string data_path = "data/";
     // vector<string> filenames = {"clementina", "sinensis", "trifoliata", "elegans"};
     // vector<string> filenames = {"trifoliata"};
     vector<string> filenames = { "A_hydrophila_HiSeq",
