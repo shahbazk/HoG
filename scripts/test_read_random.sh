@@ -25,7 +25,7 @@ for complete_len in ${complete_len_tests[@]}; do
 			echo "AHO"
 			echo -n "" >$dump_path
 			for ((t = 0; t < $trials; t++)); do
-				/usr/bin/time -f "%M" --output=$dump_path -a ./bin/AHO $complete_len $snapshot_len $coverage $t >>$dump_path
+				/usr/bin/time -f "%M" --output=$dump_path -a ./bin/AHO_RR $complete_len $snapshot_len $coverage $t >>$dump_path
 			done
 			for i in {1..8}; do
 				cat $dump_path | echo -n $(awk -v N=$i -v FS="," '{ sum += $N } END { if (NR > 0) printf("%.3f" ,sum / NR) }') >>$output_path
@@ -35,7 +35,7 @@ for complete_len in ${complete_len_tests[@]}; do
 			echo "EHOG"
 			echo -n "" >$dump_path
 			for ((t = 0; t < $trials; t++)); do
-				/usr/bin/time -f "%M" --output=$dump_path -a ./bin/EHOG $complete_len $snapshot_len $coverage $t >>$dump_path
+				/usr/bin/time -f "%M" --output=$dump_path -a ./bin/EHOG_RR $complete_len $snapshot_len $coverage $t >>$dump_path
 			done
 			for i in {1..3}; do
 				cat $dump_path | echo -n $(awk -v N=$i -v FS="," '{ sum += $N } END { if (NR > 0) printf("%.3f" ,sum / NR) }') >>$output_path
@@ -47,7 +47,7 @@ for complete_len in ${complete_len_tests[@]}; do
 				echo -n "" >$dump_path
 				timed_out=false
 				for ((t = 0; t < $trials; t++)); do
-					timeout 30 /usr/bin/time -f "%M" --output=$dump_path -a ./bin/${algo}EHOG $complete_len $snapshot_len $coverage $t >>$dump_path
+					timeout 30 /usr/bin/time -f "%M" --output=$dump_path -a ./bin/${algo}EHOG_RR $complete_len $snapshot_len $coverage $t >>$dump_path
 					if [ $? -gt 0 ]; then
 						timed_out=true
 						break
